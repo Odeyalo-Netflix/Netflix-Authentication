@@ -7,7 +7,7 @@ import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.RefreshTokenException;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
-import com.odeyalo.analog.auth.service.facade.JwtWithRefreshTokenResponseDTOBuilderFacadeImpl;
+import com.odeyalo.analog.auth.service.facade.JwtWithRefreshTokenResponseDTOBuilderImpl;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenGenerator;
 import com.odeyalo.analog.auth.service.refresh.UUIDRefreshTokenGenerator;
 import com.odeyalo.analog.auth.utils.TestUtils;
@@ -25,13 +25,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = "classpath:application-test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JwtWithRefreshTokenResponseDTOBuilderFacadeImplTest {
+class JwtWithRefreshTokenResponseDTOBuilderImplTest {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private JwtWithRefreshTokenResponseDTOBuilderFacadeImpl builderFacade;
+    private JwtWithRefreshTokenResponseDTOBuilderImpl responseDTOBuilder;
 
     private final RefreshTokenGenerator generator = new UUIDRefreshTokenGenerator();
     private String existedRefreshToken;
@@ -56,7 +56,7 @@ class JwtWithRefreshTokenResponseDTOBuilderFacadeImplTest {
     @Test
     @DisplayName("generate by existed refresh token")
     void generateResponseDTByExistedToken() {
-        RefreshTokenResponseDTO dto = this.builderFacade.generateResponseDTO(this.existedRefreshToken);
+        RefreshTokenResponseDTO dto = this.responseDTOBuilder.generateResponseDTO(this.existedRefreshToken);
         assertNotNull(dto);
         assertNotNull(dto.getJwtToken());
         assertNotNull(dto.getRefreshToken());
@@ -65,7 +65,7 @@ class JwtWithRefreshTokenResponseDTOBuilderFacadeImplTest {
     @Test
     @DisplayName("generate by not existed refresh token")
     void generateResponseDTByNotExistedToken() {
-        assertThrows(RefreshTokenException.class, () -> this.builderFacade.generateResponseDTO(NOT_EXISTED_REFRESH_TOKEN));
+        assertThrows(RefreshTokenException.class, () -> this.responseDTOBuilder.generateResponseDTO(NOT_EXISTED_REFRESH_TOKEN));
     }
 
     @AfterAll

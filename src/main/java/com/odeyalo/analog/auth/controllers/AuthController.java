@@ -7,7 +7,7 @@ import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.dto.response.RefreshTokenResponseDTO;
 import com.odeyalo.analog.auth.service.facade.UsernamePasswordLoginHandlerFacade;
 import com.odeyalo.analog.auth.service.facade.UsernamePasswordRegisterHandlerFacade;
-import com.odeyalo.analog.auth.service.facade.JwtWithRefreshTokenResponseDTOBuilderFacade;
+import com.odeyalo.analog.auth.service.facade.JwtWithRefreshTokenResponseDTOBuilder;
 import com.odeyalo.analog.auth.service.support.UserConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +23,12 @@ public class AuthController {
     private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
     private final UsernamePasswordRegisterHandlerFacade registerHandler;
     private final UsernamePasswordLoginHandlerFacade loginHandler;
-    private final JwtWithRefreshTokenResponseDTOBuilderFacade jwtWithRefreshTokenResponseDTOBuilderFacade;
+    private final JwtWithRefreshTokenResponseDTOBuilder jwtWithRefreshTokenResponseDTOBuilder;
 
-    public AuthController(UsernamePasswordRegisterHandlerFacade registerHandler, UsernamePasswordLoginHandlerFacade loginHandler, JwtWithRefreshTokenResponseDTOBuilderFacade jwtWithRefreshTokenResponseDTOBuilderFacade) {
+    public AuthController(UsernamePasswordRegisterHandlerFacade registerHandler, UsernamePasswordLoginHandlerFacade loginHandler, JwtWithRefreshTokenResponseDTOBuilder jwtWithRefreshTokenResponseDTOBuilder) {
         this.registerHandler = registerHandler;
         this.loginHandler = loginHandler;
-        this.jwtWithRefreshTokenResponseDTOBuilderFacade = jwtWithRefreshTokenResponseDTOBuilderFacade;
+        this.jwtWithRefreshTokenResponseDTOBuilder = jwtWithRefreshTokenResponseDTOBuilder;
     }
 
     @PostMapping("/auth")
@@ -45,7 +45,7 @@ public class AuthController {
 
     @PostMapping("/refreshToken")
     public ResponseEntity<?> refresh(@RequestBody RefreshTokenRequest tokenRequest) {
-        RefreshTokenResponseDTO dto = this.jwtWithRefreshTokenResponseDTOBuilderFacade.generateResponseDTO(tokenRequest.getRefreshToken());
+        RefreshTokenResponseDTO dto = this.jwtWithRefreshTokenResponseDTOBuilder.generateResponseDTO(tokenRequest.getRefreshToken());
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

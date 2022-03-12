@@ -1,5 +1,6 @@
 package com.odeyalo.analog.auth.entity;
 
+import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
 
 import javax.persistence.*;
@@ -19,9 +20,12 @@ public class User {
     @Column(length = 3000)
     private String password;
     private boolean isUserBanned;
-    @Enumerated(value = EnumType.ORDINAL)
+    @Enumerated(value = EnumType.STRING)
+    private AuthProvider authProvider;
+    @Enumerated(value = EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
     private Set<Role> roles;
+    private String image;
 
 
     public Integer getId() {
@@ -76,13 +80,35 @@ public class User {
         return new UserBuilder();
     }
 
+    public AuthProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(AuthProvider authProvider) {
+        this.authProvider = authProvider;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public static final class UserBuilder {
         private Integer id;
         private String email;
         private String nickname;
         private String password;
         private boolean banned;
+        private AuthProvider authProvider;
         private final Set<Role> roles = new LinkedHashSet<>();
+        private String image;
 
         public UserBuilder() {
         }
@@ -112,8 +138,17 @@ public class User {
             this.banned = banned;
             return this;
         }
+        public UserBuilder authProvider(AuthProvider authProvider) {
+            this.authProvider = authProvider;
+            return this;
+        }
 
-        public UserBuilder roles(Role role) {
+        public UserBuilder image(String image) {
+            this.image = image;
+            return this;
+        }
+
+        public UserBuilder role(Role role) {
             this.roles.add(role);
             return this;
         }
@@ -125,6 +160,8 @@ public class User {
             user.setNickname(nickname);
             user.setPassword(password);
             user.setUserBanned(banned);
+            user.setAuthProvider(authProvider);
+            user.setImage(image);
             user.setRoles(roles);
             return user;
         }

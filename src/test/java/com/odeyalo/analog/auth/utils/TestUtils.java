@@ -22,7 +22,7 @@ public class TestUtils {
                 .password(password)
                 .nickname(nickname)
                 .banned(false)
-                .roles(role)
+                .role(role)
                 .build();
     }
 

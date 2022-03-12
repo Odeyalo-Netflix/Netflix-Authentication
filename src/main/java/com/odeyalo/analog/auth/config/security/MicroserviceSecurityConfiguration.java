@@ -2,8 +2,11 @@ package com.odeyalo.analog.auth.config.security;
 
 import com.odeyalo.analog.auth.config.security.filter.JwtTokenFilter;
 import com.odeyalo.analog.auth.config.security.jwt.JwtTokenAuthenticationEntrypoint;
+import com.odeyalo.analog.auth.service.oauth2.CustomOauth2UserService;
+import com.odeyalo.analog.auth.service.oauth2.DefaultAuthenticationFailureHandler;
+import com.odeyalo.analog.auth.service.oauth2.DefaultAuthenticationSuccessHandler;
+import com.odeyalo.analog.auth.service.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.odeyalo.analog.auth.service.support.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +14,7 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,19 +27,35 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        securedEnabled = true,
+        jsr250Enabled = true,
+        prePostEnabled = true)
 public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String EUREKA_ADMIN_ENTRYPOINT = "/";
-    private static final String AUTH_ENTRYPOINT = "/auth";
-    private static final String LOGIN_ENTRYPOINT = "/login";
-    private static final String REFRESH_TOKEN_ENTRYPOINT = "/refreshToken";
+    private static final String AUTH_ENTRYPOINT = "/api/v1/auth";
+    private static final String LOGIN_ENTRYPOINT = "/api/v1/login";
+    private static final String OAUTH2_LOGIN_ENTRYPOINT = "/oauth2/callback/**";
+    private static final String REFRESH_TOKEN_ENTRYPOINT = "/api/v1/refreshToken";
 
     private final JwtTokenFilter jwtTokenFilter;
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-
-    public MicroserviceSecurityConfiguration(JwtTokenFilter jwtTokenFilter) {
+    private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOauth2UserService oAuth2UserService;
+    private final DefaultAuthenticationSuccessHandler successHandler;
+    private final DefaultAuthenticationFailureHandler failureHandler;
+    private final HttpCookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository;
+    public MicroserviceSecurityConfiguration(JwtTokenFilter jwtTokenFilter,
+                                             CustomUserDetailsService customUserDetailsService,
+                                             CustomOauth2UserService oAuth2UserService,
+                                             DefaultAuthenticationSuccessHandler successHandler,
+                                             DefaultAuthenticationFailureHandler failureHandler, HttpCookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository) {
         this.jwtTokenFilter = jwtTokenFilter;
+        this.customUserDetailsService = customUserDetailsService;
+        this.oAuth2UserService = oAuth2UserService;
+        this.successHandler = successHandler;
+        this.failureHandler = failureHandler;
+        this.cookieOAuth2AuthorizationRequestRepository = cookieOAuth2AuthorizationRequestRepository;
     }
 
     @Override
@@ -48,15 +68,32 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
         http.csrf()
                 .disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                    .and()
                 .authorizeRequests()
                 .antMatchers(EUREKA_ADMIN_ENTRYPOINT).hasRole("ADMIN")
-                .antMatchers(AUTH_ENTRYPOINT, LOGIN_ENTRYPOINT, REFRESH_TOKEN_ENTRYPOINT).permitAll()
+                .antMatchers(AUTH_ENTRYPOINT,
+                        LOGIN_ENTRYPOINT,
+                        REFRESH_TOKEN_ENTRYPOINT,
+                        OAUTH2_LOGIN_ENTRYPOINT).permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(this.jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                    .and()
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
-                .authenticationEntryPoint(new JwtTokenAuthenticationEntrypoint());
+                .authenticationEntryPoint(new JwtTokenAuthenticationEntrypoint())
+                    .and()
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize/**")
+                .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository)
+                    .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                    .and()
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
+                    .and()
+                .successHandler(successHandler)
+                .failureHandler(failureHandler);
     }
 
     @Override
@@ -83,7 +120,6 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
     }
 
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -96,23 +132,4 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password("password").roles("USER")
-//                .and()
-//                .withUser("admin").password("password").roles("ADMIN");
-//    }
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder(12);
-//    }
-//
-//    @Bean
-//    public AuthenticationManager customAuthenticationManager() throws Exception {
-//        return authenticationManager();
-//    }
 }

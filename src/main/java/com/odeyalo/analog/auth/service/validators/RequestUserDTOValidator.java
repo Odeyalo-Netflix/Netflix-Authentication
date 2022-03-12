@@ -9,5 +9,5 @@ import org.springframework.stereotype.Component;
 import java.util.logging.FileHandler;
 
 public interface RequestUserDTOValidator {
-   void validate(String email, String nickname, String password);
+   void validate(String email, String nickname, String password) throws ValidationException;
 }

@@ -7,13 +7,10 @@ import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.validators.RequestUserDTOValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
-import static java.lang.String.format;
 
 @Service
 public class UsernamePasswordLoginHandler implements LoginHandler {
@@ -32,8 +29,9 @@ public class UsernamePasswordLoginHandler implements LoginHandler {
 
     @Override
     public User login(User user) throws LoginException {
+        this.validator.validate(user.getEmail(), user.getNickname(), user.getPassword());
         Optional<User> optional = this.userRepository.findUserByNickname(user.getNickname());
-        if (!optional.isPresent() || !passwordEncoder.matches(user.getPassword(), optional.get().getPassword())) {
+        if (!optional.isPresent() || !passwordEncoder.matches(user.getPassword(), user.getPassword())) {
             this.logger.info("Error in auth process: Wrong nickname or password");
             throw new UserNotExistException("Wrong nickname or password");
         }

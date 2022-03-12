@@ -1,6 +1,7 @@
 package com.odeyalo.analog.auth.service.register;
 
 import com.odeyalo.analog.auth.entity.User;
+import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.EmailExistException;
 import com.odeyalo.analog.auth.exceptions.NicknameExistException;
@@ -39,7 +40,7 @@ public class UsernamePasswordRegisterHandler implements RegisterHandler {
     }
 
     @Override
-    public void register(User user) throws AuthException {
+    public User register(User user) throws AuthException {
         this.validator.validate(user.getEmail(), user.getNickname(), user.getPassword());
         if (this.userEmailChecker.check(user.getEmail())) {
             this.logger.error(format("User with email: %s already exist", user.getEmail()));
@@ -50,7 +51,13 @@ public class UsernamePasswordRegisterHandler implements RegisterHandler {
             throw new NicknameExistException(format("User with nickname: %s already exist", user.getNickname()));
         }
         user.setPassword(this.encoder.encode(user.getPassword()));
+        user.setAuthProvider(AuthProvider.LOCAL);
         user.setRoles(Collections.singleton(Role.USER));
-        this.userRepository.save(user);
+        return this.userRepository.save(user);
+    }
+
+    @Override
+    public AuthProvider getAuthProvider() {
+        return AuthProvider.LOCAL;
     }
 }

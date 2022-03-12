@@ -48,9 +48,9 @@ class AuthControllerTest {
     @Autowired
     private RefreshTokenGenerator generator;
 
-    private static final String AUTH_ENTRYPOINT = "/auth";
-    private static final String LOGIN_ENTRYPOINT = "/login";
-    private static final String REFRESH_TOKEN_ENTRYPOINT = "/refreshToken";
+    private static final String AUTH_ENTRYPOINT = "/api/v1/auth";
+    private static final String LOGIN_ENTRYPOINT = "/api/v1/login";
+    private static final String REFRESH_TOKEN_ENTRYPOINT = "/api/v1/refreshToken";
 
     private static final String USER_EMAIL = "email@gmail.com";
     private static final String USER_NICKNAME = "nickname";

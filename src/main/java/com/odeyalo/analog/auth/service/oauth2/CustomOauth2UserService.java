@@ -1,11 +1,10 @@
 package com.odeyalo.analog.auth.service.oauth2;
 
 import com.odeyalo.analog.auth.entity.User;
-import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.oauth2.support.OAuth2UserInfoFactory;
 import com.odeyalo.analog.auth.service.oauth2.support.info.Oauth2UserInfo;
-import com.odeyalo.analog.auth.service.register.RegisterHandlerFactory;
+import com.odeyalo.analog.auth.service.register.Oauth2RegisterHandlerFactory;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -61,6 +60,6 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
     }
 
     private User registerNewUser(Oauth2UserInfo oauth2UserInfo) throws AuthException {
-        return RegisterHandlerFactory.getOauth2RegisterHandler(oauth2UserInfo).register(oauth2UserInfo);
+        return Oauth2RegisterHandlerFactory.getOauth2RegisterHandler(oauth2UserInfo).register(oauth2UserInfo);
     }
 }

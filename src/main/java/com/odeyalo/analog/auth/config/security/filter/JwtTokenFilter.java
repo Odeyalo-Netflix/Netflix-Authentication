@@ -32,7 +32,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwtToken = this.getJwtToken(request);
-        this.LOGGER.info("JWT TOKEN: {}", jwtToken);
+        String pathInfo = request.getServletPath();
+        this.LOGGER.info("JWT TOKEN: {}, pathInfo: {}", jwtToken, pathInfo);
         try {
             if (jwtToken != null && this.provider.validateToken(jwtToken)) {
                 String nickname = this.provider.getNicknameFromJwtToken(jwtToken);

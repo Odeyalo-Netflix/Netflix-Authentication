@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.controllers;
 
-import com.odeyalo.analog.auth.dto.LoginUserDto;
+import com.odeyalo.analog.auth.dto.LoginUserDTO;
 import com.odeyalo.analog.auth.dto.RegisterUserDTO;
 import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
@@ -38,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginUserDto userDto) {
+    public ResponseEntity<?> login(@RequestBody LoginUserDTO userDto) {
         JwtTokenResponseDTO jwtTokenResponseDTO = this.loginHandler.login(UserConverter.convertToUser(userDto));
         return new ResponseEntity<>(jwtTokenResponseDTO, HttpStatus.OK);
     }

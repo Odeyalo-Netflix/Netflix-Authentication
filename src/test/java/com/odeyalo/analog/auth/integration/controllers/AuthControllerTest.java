@@ -1,7 +1,7 @@
 package com.odeyalo.analog.auth.integration.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odeyalo.analog.auth.dto.LoginUserDto;
+import com.odeyalo.analog.auth.dto.LoginUserDTO;
 import com.odeyalo.analog.auth.dto.RegisterUserDTO;
 import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.entity.RefreshToken;
@@ -148,7 +148,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("login existed user")
     void loginWithExistedUser() throws Exception {
-        LoginUserDto loginUserDto = new LoginUserDto(EXISTED_USER_NICKNAME, EXISTED_USER_PASSWORD);
+        LoginUserDTO loginUserDto = new LoginUserDTO(EXISTED_USER_NICKNAME, EXISTED_USER_PASSWORD);
         String value = this.mapper.writeValueAsString(loginUserDto);
         this.mockMvc.perform(post(LOGIN_ENTRYPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -164,7 +164,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("login existed user but with wrong password and expect 400")
     void loginWithExistedUserButWithWrongPassword() throws Exception {
-        LoginUserDto loginUserDto = new LoginUserDto(EXISTED_USER_NICKNAME, WRONG_PASSWORD);
+        LoginUserDTO loginUserDto = new LoginUserDTO(EXISTED_USER_NICKNAME, WRONG_PASSWORD);
         String value = this.mapper.writeValueAsString(loginUserDto);
         this.mockMvc.perform(post(LOGIN_ENTRYPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -175,7 +175,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("login not existed user and expect 400")
     void loginNotExistedUser() throws Exception {
-        LoginUserDto loginUserDto = new LoginUserDto(WRONG_NICKNAME, WRONG_PASSWORD);
+        LoginUserDTO loginUserDto = new LoginUserDTO(WRONG_NICKNAME, WRONG_PASSWORD);
         String value = this.mapper.writeValueAsString(loginUserDto);
         this.mockMvc.perform(post(LOGIN_ENTRYPOINT)
                 .contentType(MediaType.APPLICATION_JSON)

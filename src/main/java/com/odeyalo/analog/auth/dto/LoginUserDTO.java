@@ -1,10 +1,10 @@
 package com.odeyalo.analog.auth.dto;
 
-public class LoginUserDto {
+public class LoginUserDTO {
     private String nickname;
     private String password;
 
-    public LoginUserDto(String nickname, String password) {
+    public LoginUserDTO(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;
     }

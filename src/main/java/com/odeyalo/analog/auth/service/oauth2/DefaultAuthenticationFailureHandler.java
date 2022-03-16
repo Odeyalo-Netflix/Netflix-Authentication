@@ -32,10 +32,7 @@ public class DefaultAuthenticationFailureHandler extends SimpleUrlAuthentication
         targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("error", exception.getLocalizedMessage())
                 .build().toUriString();
-
-        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
-
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
-
+        this.httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
+        this.getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }

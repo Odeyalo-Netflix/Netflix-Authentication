@@ -33,6 +33,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         prePostEnabled = true)
 public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String EUREKA_ADMIN_ENTRYPOINT = "/";
+    private static final String EUREKA_ENTRYPOINT = "/eureka/**";
+    private static final String FAV_ICON_ENTRYPOINT = "/favicon.ico";
     private static final String AUTH_ENTRYPOINT = "/api/v1/auth";
     private static final String LOGIN_ENTRYPOINT = "/api/v1/login";
     private static final String OAUTH2_LOGIN_ENTRYPOINT = "/oauth2/callback/**";
@@ -70,7 +72,9 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                .antMatchers(EUREKA_ADMIN_ENTRYPOINT).hasRole("ADMIN")
+                .antMatchers(EUREKA_ADMIN_ENTRYPOINT,
+                        EUREKA_ENTRYPOINT,
+                        FAV_ICON_ENTRYPOINT).permitAll()
                 .antMatchers(AUTH_ENTRYPOINT,
                         LOGIN_ENTRYPOINT,
                         REFRESH_TOKEN_ENTRYPOINT,

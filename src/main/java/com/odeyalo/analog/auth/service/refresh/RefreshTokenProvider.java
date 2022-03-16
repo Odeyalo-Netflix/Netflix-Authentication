@@ -4,7 +4,7 @@ import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.exceptions.RefreshTokenException;
 
-public interface RefreshTokenHandler {
+public interface RefreshTokenProvider {
 
     RefreshToken createAndSaveToken(User user);
 

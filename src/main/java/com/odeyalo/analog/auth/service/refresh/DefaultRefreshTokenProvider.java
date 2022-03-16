@@ -11,13 +11,13 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 
 @Service
-public class DefaultRefreshTokenHandler implements RefreshTokenHandler {
+public class DefaultRefreshTokenProvider implements RefreshTokenProvider {
     private final RefreshTokenGenerator tokenGenerator;
     private final RefreshTokenRepository tokenRepository;
     @Value("${security.token.refresh.time.expiration}")
     private Integer time;
 
-    public DefaultRefreshTokenHandler(RefreshTokenGenerator tokenGenerator, RefreshTokenRepository tokenRepository) {
+    public DefaultRefreshTokenProvider(RefreshTokenGenerator tokenGenerator, RefreshTokenRepository tokenRepository) {
         this.tokenGenerator = tokenGenerator;
         this.tokenRepository = tokenRepository;
     }

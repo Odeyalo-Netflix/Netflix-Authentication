@@ -7,10 +7,12 @@ import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;
+import com.odeyalo.analog.auth.repository.CodeRepository;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenGenerator;
 import com.odeyalo.analog.auth.utils.TestUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -47,10 +49,12 @@ class AuthControllerTest {
     private PasswordEncoder encoder;
     @Autowired
     private RefreshTokenGenerator generator;
+    @Autowired
+    private CodeRepository codeRepository;
 
-    private static final String AUTH_ENTRYPOINT = "/api/v1/auth";
-    private static final String LOGIN_ENTRYPOINT = "/api/v1/login";
-    private static final String REFRESH_TOKEN_ENTRYPOINT = "/api/v1/refreshToken";
+    private static final String AUTH_ENTRYPOINT = "/api/v1/auth/register";
+    private static final String LOGIN_ENTRYPOINT = "/api/v1/auth/login";
+    private static final String REFRESH_TOKEN_ENTRYPOINT = "/api/v1/auth/refreshToken";
 
     private static final String USER_EMAIL = "email@gmail.com";
     private static final String USER_NICKNAME = "nickname";
@@ -62,6 +66,13 @@ class AuthControllerTest {
     private static final String EXISTED_USER_NICKNAME = "existed1337";
     private static final String EXISTED_USER_PASSWORD = "password123";
     private static final String NOT_EXISTED_REFRESH_TOKEN = "NOT_EXISTED";
+
+    @BeforeAll
+    public void beforeAll() {
+        this.tokenRepository.deleteAll();
+        this.codeRepository.deleteAll();
+        this.userRepository.deleteAll();
+    }
 
     @BeforeEach
     void setUp() {
@@ -81,12 +92,7 @@ class AuthControllerTest {
         this.mockMvc.perform(post(AUTH_ENTRYPOINT).content(value)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("success").isBoolean())
-                .andExpect(jsonPath("jwtToken").isString())
-                .andExpect(jsonPath("jwtToken").isNotEmpty())
-                .andExpect(jsonPath("refreshToken").isNotEmpty())
-                .andExpect(jsonPath("refreshToken").isString());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -213,6 +219,14 @@ class AuthControllerTest {
     @AfterEach
     void clear() {
         this.tokenRepository.deleteAll();
+        this.codeRepository.deleteAll();
+        this.userRepository.deleteAll();
+    }
+
+    @AfterAll
+    public void afterAll() {
+        this.tokenRepository.deleteAll();
+        this.codeRepository.deleteAll();
         this.userRepository.deleteAll();
     }
 

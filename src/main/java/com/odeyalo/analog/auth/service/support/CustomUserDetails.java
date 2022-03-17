@@ -16,7 +16,6 @@ import java.util.Map;
 public class CustomUserDetails implements OAuth2User, UserDetails {
     protected  User user;
     protected Map<String, Object> attributes;
-    private Logger logger = LoggerFactory.getLogger(CustomUserDetails.class);
 
     public CustomUserDetails() {}
 
@@ -24,11 +23,6 @@ public class CustomUserDetails implements OAuth2User, UserDetails {
         this.user = user;
     }
 
-    @PostConstruct
-    public void init() {
-        this.logger.info("{CLASS LOADER}");
-        this.logger.info("{}", this.getClass().getClassLoader());
-    }
 
     public static CustomUserDetails create(User user, Map<String, Object> attributes) {
         CustomUserDetails details = new CustomUserDetails(user);
@@ -67,7 +61,7 @@ public class CustomUserDetails implements OAuth2User, UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.user.isAccountActivated();
     }
 
     @Override
@@ -77,7 +71,7 @@ public class CustomUserDetails implements OAuth2User, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !this.user.isUserBanned();
     }
 
     public User getUser() {

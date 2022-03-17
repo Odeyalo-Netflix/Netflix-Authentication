@@ -42,8 +42,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> auth(@RequestBody RegisterUserDTO userDTO, HttpServletResponse response) throws AuthException, IOException {
-        JwtTokenResponseDTO jwtTokenResponseDTO = registerHandler.save(UserConverter.convertToUser(userDTO));
-//        response.sendRedirect("/api/v1/auth/verify/code");
+        this.registerHandler.save(UserConverter.convertToUser(userDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -36,13 +36,20 @@ public class GlobalExceptionHandlerController {
     }
 
     @ExceptionHandler(RefreshTokenException.class)
-    public ResponseEntity<?>  refreshTokenException(RefreshTokenException exception) {
+    public ResponseEntity<?> refreshTokenException(RefreshTokenException exception) {
         return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<?> validationException(ValidationException exception) {
         return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CodeVerificationException.class)
+    public ResponseEntity<?> codeVerificationException(CodeVerificationException exception) {
+        return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     private ResponseEntity<?> extractedExceptionHandler(String message, HttpStatus status) {
         return new ResponseEntity<>(new ExceptionOccurredDTO(message, status.toString()), status);
     }

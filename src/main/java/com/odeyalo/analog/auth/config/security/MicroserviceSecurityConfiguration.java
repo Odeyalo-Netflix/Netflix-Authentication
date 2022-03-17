@@ -35,8 +35,7 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
     private static final String EUREKA_ADMIN_ENTRYPOINT = "/";
     private static final String EUREKA_ENTRYPOINT = "/eureka/**";
     private static final String FAV_ICON_ENTRYPOINT = "/favicon.ico";
-    private static final String AUTH_ENTRYPOINT = "/api/v1/auth";
-    private static final String LOGIN_ENTRYPOINT = "/api/v1/login";
+    private static final String AUTH_ENTRYPOINT = "/api/v1/auth/**";
     private static final String OAUTH2_LOGIN_ENTRYPOINT = "/oauth2/callback/**";
     private static final String REFRESH_TOKEN_ENTRYPOINT = "/api/v1/refreshToken";
 
@@ -75,10 +74,7 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
                 .antMatchers(EUREKA_ADMIN_ENTRYPOINT,
                         EUREKA_ENTRYPOINT,
                         FAV_ICON_ENTRYPOINT).permitAll()
-                .antMatchers(AUTH_ENTRYPOINT,
-                        LOGIN_ENTRYPOINT,
-                        REFRESH_TOKEN_ENTRYPOINT,
-                        OAUTH2_LOGIN_ENTRYPOINT).permitAll()
+                .antMatchers(AUTH_ENTRYPOINT, OAUTH2_LOGIN_ENTRYPOINT).permitAll()
                 .anyRequest().authenticated()
                     .and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)

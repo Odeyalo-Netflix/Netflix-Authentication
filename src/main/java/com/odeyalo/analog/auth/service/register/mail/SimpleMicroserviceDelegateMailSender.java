@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Delegate mail sending to microservice
+ */
 @Component
 public class SimpleMicroserviceDelegateMailSender implements MailSender {
     private final RestTemplate restTemplate;

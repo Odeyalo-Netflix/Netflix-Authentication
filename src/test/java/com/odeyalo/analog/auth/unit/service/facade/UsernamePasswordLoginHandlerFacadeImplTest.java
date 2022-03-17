@@ -6,7 +6,7 @@ import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.UserNotExistException;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
-import com.odeyalo.analog.auth.service.facade.UsernamePasswordLoginHandlerFacadeImpl;
+import com.odeyalo.analog.auth.service.facade.login.UsernamePasswordLoginHandlerFacadeImpl;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,7 +7,7 @@ import com.odeyalo.analog.auth.exceptions.EmailExistException;
 import com.odeyalo.analog.auth.exceptions.NicknameExistException;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
-import com.odeyalo.analog.auth.service.facade.UsernamePasswordRegisterHandlerFacadeImpl;
+import com.odeyalo.analog.auth.service.facade.register.UsernamePasswordRegisterHandlerFacadeImpl;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

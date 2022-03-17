@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.service.facade;
+package com.odeyalo.analog.auth.service.facade.login;
 
 import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;

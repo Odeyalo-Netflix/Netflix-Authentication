@@ -1,13 +1,13 @@
 package com.odeyalo.analog.auth.service.support;
 
-import com.odeyalo.analog.auth.dto.LoginUserDto;
+import com.odeyalo.analog.auth.dto.LoginUserDTO;
 import com.odeyalo.analog.auth.dto.RegisterUserDTO;
 import com.odeyalo.analog.auth.entity.User;
 
 public class UserConverter {
 
     public static User convertToUser(RegisterUserDTO dto) {
-        return new User.UserBuilder()
+        return User.builder()
                 .nickname(dto.getNickname())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
@@ -18,14 +18,14 @@ public class UserConverter {
         return new RegisterUserDTO(user.getNickname(), user.getEmail(), user.getPassword());
     }
 
-    public static User convertToUser(LoginUserDto dto) {
-        return new User.UserBuilder()
+    public static User convertToUser(LoginUserDTO dto) {
+        return User.builder()
                 .nickname(dto.getNickname())
                 .password(dto.getPassword())
                 .build();
     }
 
-    public static LoginUserDto convertToLoginUserDto(User user) {
-        return new LoginUserDto(user.getNickname(), user.getPassword());
+    public static LoginUserDTO convertToLoginUserDto(User user) {
+        return new LoginUserDTO(user.getNickname(), user.getPassword());
     }
 }

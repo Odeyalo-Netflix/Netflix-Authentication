@@ -20,6 +20,7 @@ public class User {
     @Column(length = 3000)
     private String password;
     private boolean isUserBanned;
+    private boolean isAccountActivated;
     @Enumerated(value = EnumType.STRING)
     private AuthProvider authProvider;
     @Enumerated(value = EnumType.STRING)
@@ -76,9 +77,6 @@ public class User {
         this.roles = roles;
     }
 
-    public static UserBuilder builder() {
-        return new UserBuilder();
-    }
 
     public AuthProvider getAuthProvider() {
         return authProvider;
@@ -100,6 +98,19 @@ public class User {
         this.image = image;
     }
 
+    public static UserBuilder builder() {
+        return new UserBuilder();
+    }
+
+    public boolean isAccountActivated() {
+        return isAccountActivated;
+    }
+
+    public void setAccountActivated(boolean accountActivated) {
+        isAccountActivated = accountActivated;
+    }
+
+
     public static final class UserBuilder {
         private Integer id;
         private String email;
@@ -110,8 +121,7 @@ public class User {
         private final Set<Role> roles = new LinkedHashSet<>();
         private String image;
 
-        public UserBuilder() {
-        }
+        private UserBuilder() {}
 
 
         public UserBuilder id(Integer id) {

@@ -38,7 +38,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             if (jwtToken != null && this.provider.validateToken(jwtToken)) {
                 String nickname = this.provider.getNicknameFromJwtToken(jwtToken);
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(nickname);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {

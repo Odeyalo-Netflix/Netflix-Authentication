@@ -66,6 +66,10 @@ public class GlobalExceptionHandlerController {
     public ResponseEntity<?> ioException(IOException exception) {
         return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(FileNotPresentException.class)
+    public ResponseEntity<?> ioException(FileNotPresentException exception) {
+        return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
     private ResponseEntity<?> extractedExceptionHandler(String message, HttpStatus status) {
         return new ResponseEntity<>(new ExceptionOccurredDTO(message, status.toString()), status);

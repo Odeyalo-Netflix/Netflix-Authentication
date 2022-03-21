@@ -1,6 +1,7 @@
 package com.odeyalo.analog.auth.controllers;
 
 import com.google.zxing.WriterException;
+import com.odeyalo.analog.auth.exceptions.FileNotPresentException;
 import com.odeyalo.analog.auth.service.facade.qrcode.QrCodeGeneratorFacade;
 import com.odeyalo.analog.auth.service.facade.qrcode.parser.QrCodeParserHandlerFacade;
 import com.odeyalo.analog.auth.service.support.generatators.QrCodeGenerator;
@@ -37,6 +38,8 @@ public class QrCodeController {
 
     @GetMapping(value = "/verify", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> parse(MultipartFile file) throws Exception {
+        if(file == null)
+            throw new FileNotPresentException("File is required");
         this.parser.parseAndVerify(file);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandlerController {
@@ -48,6 +50,21 @@ public class GlobalExceptionHandlerController {
     @ExceptionHandler(CodeVerificationException.class)
     public ResponseEntity<?> codeVerificationException(CodeVerificationException exception) {
         return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(QrCodeLoginException.class)
+    public ResponseEntity<?> qrCodeLoginException(QrCodeLoginException exception) {
+        return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(QrCodeNotFoundException.class)
+    public ResponseEntity<?> qrCodeNotFoundException(QrCodeNotFoundException exception) {
+        return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<?> ioException(IOException exception) {
+        return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private ResponseEntity<?> extractedExceptionHandler(String message, HttpStatus status) {

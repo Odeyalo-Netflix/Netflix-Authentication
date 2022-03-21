@@ -7,12 +7,11 @@ import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;
-import com.odeyalo.analog.auth.repository.CodeRepository;
+import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenGenerator;
 import com.odeyalo.analog.auth.utils.TestUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -50,7 +49,7 @@ class AuthControllerTest {
     @Autowired
     private RefreshTokenGenerator generator;
     @Autowired
-    private CodeRepository codeRepository;
+    private VerificationCodeRepository verificationCodeRepository;
 
     private static final String AUTH_ENTRYPOINT = "/api/v1/auth/register";
     private static final String LOGIN_ENTRYPOINT = "/api/v1/auth/login";
@@ -70,7 +69,7 @@ class AuthControllerTest {
     @BeforeAll
     public void beforeAll() {
         this.tokenRepository.deleteAll();
-        this.codeRepository.deleteAll();
+        this.verificationCodeRepository.deleteAll();
         this.userRepository.deleteAll();
     }
 
@@ -219,14 +218,14 @@ class AuthControllerTest {
     @AfterEach
     void clear() {
         this.tokenRepository.deleteAll();
-        this.codeRepository.deleteAll();
+        this.verificationCodeRepository.deleteAll();
         this.userRepository.deleteAll();
     }
 
     @AfterAll
     public void afterAll() {
         this.tokenRepository.deleteAll();
-        this.codeRepository.deleteAll();
+        this.verificationCodeRepository.deleteAll();
         this.userRepository.deleteAll();
     }
 

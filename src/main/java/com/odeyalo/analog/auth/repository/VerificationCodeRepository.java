@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CodeRepository extends JpaRepository<VerificationCode, Integer> {
+public interface VerificationCodeRepository extends JpaRepository<VerificationCode, Integer> {
 
     Optional<VerificationCode> findCodeByCodeValue(String code);
 

@@ -29,13 +29,10 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/api/v1/qrcode")
 public class QrCodeController {
-    private final QrCodeLoginHandlerFacade qrCodeLoginHandler;
     private final QrCodeGeneratorFacade qrCodeGenerator;
     private final QrCodeParserHandlerFacade parser;
 
-    public QrCodeController(QrCodeLoginHandlerFacade qrCodeLoginHandler,
-                            QrCodeGeneratorFacade qrCodeGenerator, QrCodeParserHandlerFacade parser) {
-        this.qrCodeLoginHandler = qrCodeLoginHandler;
+    public QrCodeController(QrCodeGeneratorFacade qrCodeGenerator, QrCodeParserHandlerFacade parser) {
         this.qrCodeGenerator = qrCodeGenerator;
         this.parser = parser;
     }

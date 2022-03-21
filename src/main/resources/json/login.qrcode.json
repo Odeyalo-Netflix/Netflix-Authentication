@@ -1,0 +1,8 @@
+{
+  "messageType": "SUCCESS",
+  "tokens": {
+    "jwtToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvZGV5YWxvIiwibmlja25hbWUiOiJvZGV5YWxvIiwiaWQiOjEwLCJleHAiOjE2NDc4NTg4MjMsInVzZXJuYW1lIjoib2RleWFsbyJ9.dc9MqL3XCF9UStW14qGjlX1JZG3rkcN11mHdJSswzxHM-Tv7Y4YQ-b87BnT8SMjgnS--uf-Hg6Df3Yb39ECVEw",
+    "refreshToken": "08fed979-7fdd-4ee6-8bed-8b268c3b7678",
+    "success": true
+  }
+}

@@ -8,6 +8,7 @@ import com.odeyalo.analog.auth.entity.QrCode;
 import com.odeyalo.analog.auth.repository.QrCodeRepository;
 import com.odeyalo.analog.auth.service.support.generatators.CodeGenerator;
 import com.odeyalo.analog.auth.service.support.generatators.QrCodeGenerator;
+import com.odeyalo.analog.auth.service.support.generatators.SimpleQrCodeGenerator;
 import io.swagger.v3.core.util.ObjectMapperFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -45,7 +46,7 @@ public class JsonQrCodeGeneratorFacade implements QrCodeGeneratorFacade {
                 .qrCodeValue(value)
                 .build();
         this.qrCodeRepository.save(qrCode);
-        return this.qrCodeGenerator.generateQrCode(width, height, value);
+        return this.qrCodeGenerator.generateQrCode(width, height, value, SimpleQrCodeGenerator.DEFAULT_FILE_PATH);
     }
 
     private String buildData(String clientId, String url, String time) throws JsonProcessingException {

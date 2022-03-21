@@ -2,8 +2,9 @@ package com.odeyalo.analog.auth.service.support.verification;
 
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.VerificationCode;
-import com.odeyalo.analog.auth.repository.CodeRepository;
+import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
 import com.odeyalo.analog.auth.service.support.generatators.CodeGenerator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -11,11 +12,12 @@ import java.util.Optional;
 
 @Component
 public class EmailCodeVerificationManager implements CodeVerificationManager {
-    private final CodeRepository codeRepository;
+    private final VerificationCodeRepository verificationCodeRepository;
     private final CodeGenerator codeGenerator;
 
-    public EmailCodeVerificationManager(CodeRepository codeRepository, CodeGenerator codeGenerator) {
-        this.codeRepository = codeRepository;
+    public EmailCodeVerificationManager(VerificationCodeRepository verificationCodeRepository,
+                                        @Qualifier("digitCodeGenerator") CodeGenerator codeGenerator) {
+        this.verificationCodeRepository = verificationCodeRepository;
         this.codeGenerator = codeGenerator;
     }
 
@@ -28,27 +30,27 @@ public class EmailCodeVerificationManager implements CodeVerificationManager {
                 .isActivated(false)
                 .expired(LocalDateTime.now().plusMinutes(5))
                 .build();
-        return this.codeRepository.save(verificationCode);
+        return this.verificationCodeRepository.save(verificationCode);
     }
 
     @Override
     public Optional<VerificationCode> getVerificationCodeByCodeValue(String codeValue) {
-        return this.codeRepository.findCodeByCodeValue(codeValue);
+        return this.verificationCodeRepository.findCodeByCodeValue(codeValue);
     }
 
     @Override
     public boolean verifyCode(String code) {
-        Optional<VerificationCode> codeOptional = this.codeRepository.findCodeByCodeValue(code);
+        Optional<VerificationCode> codeOptional = this.verificationCodeRepository.findCodeByCodeValue(code);
         return codeOptional.isPresent();
     }
 
     @Override
     public void deleteCode(VerificationCode verificationCode) {
-        this.codeRepository.delete(verificationCode);
+        this.verificationCodeRepository.delete(verificationCode);
     }
 
     @Override
     public void deleteCode(String codeValue) {
-        this.codeRepository.deleteByCodeValue(codeValue);
+        this.verificationCodeRepository.deleteByCodeValue(codeValue);
     }
 }

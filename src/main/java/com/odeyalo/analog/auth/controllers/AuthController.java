@@ -14,11 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.message.AuthException;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
@@ -40,27 +40,27 @@ public class AuthController {
         this.verificationHandler = verificationHandler;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> auth(@RequestBody RegisterUserDTO userDTO, HttpServletResponse response) throws AuthException, IOException {
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> auth(@RequestBody RegisterUserDTO userDTO) throws AuthException, IOException {
         this.registerHandler.save(UserConverter.convertToUser(userDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login(@RequestBody LoginUserDTO userDto) {
         JwtTokenResponseDTO jwtTokenResponseDTO = this.loginHandler.login(UserConverter.convertToUser(userDto));
         return new ResponseEntity<>(jwtTokenResponseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/verify/code")
-    public ResponseEntity<?> codeVerify(@RequestParam String code) {
-        JwtTokenResponseDTO dto = this.verificationHandler.verifyCode(code);
+    @PostMapping(value = "/refreshToken", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> refresh(@RequestBody RefreshTokenRequest tokenRequest) {
+        RefreshTokenResponseDTO dto = this.jwtWithRefreshTokenResponseDTOBuilder.generateResponseDTO(tokenRequest.getRefreshToken());
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PostMapping("/refreshToken")
-    public ResponseEntity<?> refresh(@RequestBody RefreshTokenRequest tokenRequest) {
-        RefreshTokenResponseDTO dto = this.jwtWithRefreshTokenResponseDTOBuilder.generateResponseDTO(tokenRequest.getRefreshToken());
+    @GetMapping(value = "/verify/code", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> codeVerify(@RequestParam String code) {
+        JwtTokenResponseDTO dto = this.verificationHandler.verifyCode(code);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

@@ -36,4 +36,13 @@ public class QrCodeDTO {
     public void setTime(String time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "QrCodeDTO{" +
+                "clientId='" + clientId + '\'' +
+                ", data='" + data + '\'' +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }

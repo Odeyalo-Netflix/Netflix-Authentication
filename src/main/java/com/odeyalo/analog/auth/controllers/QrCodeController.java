@@ -1,21 +1,13 @@
 package com.odeyalo.analog.auth.controllers;
 
-import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
-import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
-import com.odeyalo.analog.auth.dto.response.QrCodeDTO;
-import com.odeyalo.analog.auth.entity.QrCode;
 import com.odeyalo.analog.auth.service.facade.qrcode.QrCodeGeneratorFacade;
-import com.odeyalo.analog.auth.service.facade.qrcode.QrCodeLoginHandlerFacade;
 import com.odeyalo.analog.auth.service.facade.qrcode.parser.QrCodeParserHandlerFacade;
-import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.service.support.generatators.QrCodeGenerator;
-import com.odeyalo.analog.auth.service.support.parser.QrCodeParser;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

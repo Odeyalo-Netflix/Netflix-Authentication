@@ -16,17 +16,17 @@ import java.util.UUID;
 
 @Component
 public class SimpleQrCodeGenerator implements QrCodeGenerator {
-    private final static String DEFAULT_FILE_PATH = "C:\\Users\\thepr_2iz2cnv\\Desktop\\qrcodes\\";
-    private Logger logger = LoggerFactory.getLogger(SimpleQrCodeGenerator.class);
+    public final static String DEFAULT_FILE_PATH = "C:\\Users\\thepr_2iz2cnv\\Desktop\\qrcodes\\";
+    private final Logger logger = LoggerFactory.getLogger(SimpleQrCodeGenerator.class);
 
     @Override
-    public String generateQrCode(Integer width, Integer height, String text) throws IOException, WriterException {
+    public String generateQrCode(Integer width, Integer height, String text, String path) throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
-        String pathToCode = DEFAULT_FILE_PATH + UUID.randomUUID().toString() + ".png";
-        Path path = FileSystems.getDefault().getPath(pathToCode);
-        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-        this.logger.info("Generated qrcode, saved to path: {}", path.getFileName().toString());
+        String pathToCode = path + UUID.randomUUID().toString() + ".png";
+        Path pathToGeneratedQRCode = FileSystems.getDefault().getPath(pathToCode);
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", pathToGeneratedQRCode);
+        this.logger.info("Generated qrcode, saved to path: {}", pathToGeneratedQRCode.getFileName().toString());
         return pathToCode;
     }
 }

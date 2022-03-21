@@ -18,5 +18,5 @@ public interface QrCodeGenerator {
      * @throws WriterException
      * @throws IOException
      */
-    String generateQrCode(Integer width, Integer height, String data) throws WriterException, IOException;
+    String generateQrCode(Integer width, Integer height, String data, String path) throws WriterException, IOException;
 }

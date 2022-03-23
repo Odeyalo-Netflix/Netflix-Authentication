@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.unit.service.register;
+package com.odeyalo.analog.auth.integration.service.register;
 
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;

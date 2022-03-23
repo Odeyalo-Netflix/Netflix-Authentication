@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.unit.service.refresh;
+package com.odeyalo.analog.auth.integration.service.refresh;
 
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;

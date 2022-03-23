@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.unit.service.facade;
+package com.odeyalo.analog.auth.integration.service.facade;
 
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.entity.User;

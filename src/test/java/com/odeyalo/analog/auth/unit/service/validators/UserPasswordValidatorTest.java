@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserPasswordValidatorTest {
     private static final String CORRECT_PASSWORD = "password";
     private static final String LESS_THAN_8_CHARACTERS_PASSWORD = "123";
-    private static final String MORE_THAN_50_CHARACTERS_PASSWORD = "THIS_PASSWORD_IS_LARGE_THAN_50_CHARACTERS_AND_THIS_PASSWORD_IS_NOT_CORRECT";
+    private static final String MORE_THAN_50_CHARACTERS_PASSWORD = "THIS_PASSWORD_IS_LARGE_THAN_50_CHARACTERS_AND_THIS_PASSWORD_IS_INCORRECT";
 
     private final UserPasswordValidator validator = new UserPasswordValidator();
 

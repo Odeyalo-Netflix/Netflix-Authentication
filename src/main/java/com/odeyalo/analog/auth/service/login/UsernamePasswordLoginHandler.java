@@ -17,21 +17,16 @@ public class UsernamePasswordLoginHandler implements LoginHandler {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final Logger logger = LoggerFactory.getLogger(UsernamePasswordLoginHandler.class);
-    private final RequestUserDTOValidator validator;
 
-    public UsernamePasswordLoginHandler(UserRepository userRepository,
-                                        PasswordEncoder passwordEncoder,
-                                        RequestUserDTOValidator validator) {
+    public UsernamePasswordLoginHandler(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.validator = validator;
     }
 
     @Override
     public User login(User user) throws LoginException {
-        this.validator.validate(user.getEmail(), user.getNickname(), user.getPassword());
         Optional<User> optional = this.userRepository.findUserByNickname(user.getNickname());
-        if (!optional.isPresent() || !passwordEncoder.matches(user.getPassword(), user.getPassword())) {
+        if (!optional.isPresent() || !passwordEncoder.matches(user.getPassword(), optional.get().getPassword())) {
             this.logger.info("Error in auth process: Wrong nickname or password");
             throw new UserNotExistException("Wrong nickname or password");
         }

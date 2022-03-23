@@ -24,24 +24,20 @@ public class UsernamePasswordRegisterHandler implements RegisterHandler {
     private final Checker userEmailChecker;
     private final Checker userNicknameChecker;
     private final PasswordEncoder encoder;
-    private final RequestUserDTOValidator validator;
     private final Logger logger = LoggerFactory.getLogger(UsernamePasswordRegisterHandler.class);
 
     public UsernamePasswordRegisterHandler(UserRepository userRepository,
                                            Checker userEmailChecker,
                                            Checker userNicknameChecker,
-                                           PasswordEncoder encoder,
-                                           RequestUserDTOValidator validator) {
+                                           PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.userEmailChecker = userEmailChecker;
         this.userNicknameChecker = userNicknameChecker;
         this.encoder = encoder;
-        this.validator = validator;
     }
 
     @Override
     public User register(User user) throws AuthException {
-        this.validator.validate(user.getEmail(), user.getNickname(), user.getPassword());
         if (this.userEmailChecker.check(user.getEmail())) {
             this.logger.error(format("User with email: %s already exist", user.getEmail()));
             throw new EmailExistException(format("User with email: %s already exist", user.getEmail()));
@@ -52,6 +48,7 @@ public class UsernamePasswordRegisterHandler implements RegisterHandler {
         }
         user.setPassword(this.encoder.encode(user.getPassword()));
         user.setAuthProvider(AuthProvider.LOCAL);
+        user.setImage("https://i1.sndcdn.com/avatars-ehmlKIYByI87eXnU-U8iJXg-t500x500.jpg");
         user.setRoles(Collections.singleton(Role.USER));
         return this.userRepository.save(user);
     }

@@ -10,6 +10,7 @@ import com.odeyalo.analog.auth.service.facade.JwtWithRefreshTokenResponseDTOBuil
 import com.odeyalo.analog.auth.service.facade.login.UsernamePasswordLoginHandlerFacade;
 import com.odeyalo.analog.auth.service.facade.register.UsernamePasswordRegisterHandlerFacade;
 import com.odeyalo.analog.auth.service.support.UserConverter;
+import com.odeyalo.analog.auth.service.validators.RequestUserDTOValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,19 +30,21 @@ public class AuthController {
     private final UsernamePasswordLoginHandlerFacade loginHandler;
     private final JwtWithRefreshTokenResponseDTOBuilder jwtWithRefreshTokenResponseDTOBuilder;
     private final EmailCodeVerificationHandlerFacade verificationHandler;
-
+    private final RequestUserDTOValidator validator;
     public AuthController(@Qualifier("emailVerificationUsernamePasswordRegisterHandlerFacade") UsernamePasswordRegisterHandlerFacade registerHandler,
                           UsernamePasswordLoginHandlerFacade loginHandler,
                           JwtWithRefreshTokenResponseDTOBuilder jwtWithRefreshTokenResponseDTOBuilder,
-                          EmailCodeVerificationHandlerFacade verificationHandler) {
+                          EmailCodeVerificationHandlerFacade verificationHandler, RequestUserDTOValidator validator) {
         this.registerHandler = registerHandler;
         this.loginHandler = loginHandler;
         this.jwtWithRefreshTokenResponseDTOBuilder = jwtWithRefreshTokenResponseDTOBuilder;
         this.verificationHandler = verificationHandler;
+        this.validator = validator;
     }
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> auth(@RequestBody RegisterUserDTO userDTO) throws AuthException, IOException {
+        this.validator.validate(userDTO.getEmail(), userDTO.getNickname(), userDTO.getPassword());
         this.registerHandler.save(UserConverter.convertToUser(userDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -5,6 +5,7 @@ import com.odeyalo.analog.auth.entity.enums.Role;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -110,6 +111,33 @@ public class User {
         isAccountActivated = accountActivated;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return isUserBanned == user.isUserBanned && isAccountActivated == user.isAccountActivated && id.equals(user.id) && email.equals(user.email) && nickname.equals(user.nickname) && password.equals(user.password) && authProvider == user.authProvider && roles.equals(user.roles) && image.equals(user.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, nickname, password, isUserBanned, isAccountActivated, authProvider, roles, image);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                ", isUserBanned=" + isUserBanned +
+                ", isAccountActivated=" + isAccountActivated +
+                ", authProvider=" + authProvider +
+                ", roles=" + roles +
+                ", image='" + image + '\'' +
+                '}';
+    }
 
     public static final class UserBuilder {
         private Integer id;

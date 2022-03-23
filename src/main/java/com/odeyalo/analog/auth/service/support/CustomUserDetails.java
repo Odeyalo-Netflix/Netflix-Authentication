@@ -1,23 +1,21 @@
 package com.odeyalo.analog.auth.service.support;
 
 import com.odeyalo.analog.auth.entity.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.Map;
 
 @Component
 public class CustomUserDetails implements OAuth2User, UserDetails {
-    protected  User user;
+    protected User user;
     protected Map<String, Object> attributes;
 
-    public CustomUserDetails() {}
+    public CustomUserDetails() {
+    }
 
     public CustomUserDetails(User user) {
         this.user = user;

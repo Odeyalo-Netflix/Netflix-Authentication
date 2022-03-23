@@ -20,8 +20,7 @@ public class JwtTokenProvider {
     @Value("${security.jwt.time.expiration}")
     private Integer JWT_TOKEN_EXPIRATION_TIME;
 
-    public JwtTokenProvider() {
-    }
+    public JwtTokenProvider() {}
 
     public String generateJwtToken(final UserDetails details) {
         Map<String, Object> claims = new HashMap<>();
@@ -65,11 +64,15 @@ public class JwtTokenProvider {
     }
 
     public Object getBody(final String token) {
-        return Jwts.parser().parse(token).getBody();
+        return Jwts.parser().setSigningKey(JWT_SECRET).parse(token).getBody();
     }
 
     public Claims getClaims(final String token) {
-        return Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody();
+        try {
+            return Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        }
     }
 
     public boolean isTokenExpired(final String token) {

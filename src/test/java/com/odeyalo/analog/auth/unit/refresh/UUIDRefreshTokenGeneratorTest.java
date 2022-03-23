@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UUIDRefreshTokenGeneratorTest {
-
     private final UUIDRefreshTokenGenerator generator = new UUIDRefreshTokenGenerator();
-
 
     @Test
     void generate() {

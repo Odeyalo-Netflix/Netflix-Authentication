@@ -148,7 +148,7 @@ public class User {
         private AuthProvider authProvider;
         private final Set<Role> roles = new LinkedHashSet<>();
         private String image;
-
+        private boolean activated;
         private UserBuilder() {}
 
 
@@ -185,7 +185,10 @@ public class User {
             this.image = image;
             return this;
         }
-
+        public UserBuilder activated(boolean activated) {
+            this.activated = activated;
+            return this;
+        }
         public UserBuilder role(Role role) {
             this.roles.add(role);
             return this;
@@ -201,6 +204,7 @@ public class User {
             user.setAuthProvider(authProvider);
             user.setImage(image);
             user.setRoles(roles);
+            user.setAccountActivated(activated);
             return user;
         }
     }

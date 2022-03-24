@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.integration.service.login;
+package com.odeyalo.analog.auth.integration.service.facade.login;
 
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;

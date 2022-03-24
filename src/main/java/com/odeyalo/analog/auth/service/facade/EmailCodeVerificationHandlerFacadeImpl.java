@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * Verify user code and if code is correct generate JwtTokenRefreshDTO, active user
+ * Verify user code and if code is correct generate JwtTokenRefreshDTO, activate user
  */
 @Component
 public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerificationHandlerFacade {
@@ -37,7 +37,7 @@ public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerifica
         VerificationCode code = codeOptional.orElseThrow(() -> new CodeVerificationException("Presented code is wrong"));
         User user = code.getUser();
         this.deleteUsedCode(code);
-        this.activeUser(user);
+        this.activateUser(user);
         String jwtToken = this.jwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);
         return new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken());
@@ -47,7 +47,7 @@ public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerifica
         this.verificationManager.deleteCode(code);
     }
 
-    private void activeUser(User user) {
+    private void activateUser(User user) {
         user.setAccountActivated(true);
         this.userRepository.save(user);
     }

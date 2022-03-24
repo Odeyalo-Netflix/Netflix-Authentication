@@ -6,6 +6,7 @@ import com.odeyalo.analog.auth.dto.RegisterUserDTO;
 import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
+import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
@@ -79,7 +80,8 @@ class AuthControllerTest {
 
     @BeforeEach
     void setUp() {
-        User user = this.userRepository.save(TestUtils.buildUser(EXISTED_USER_EMAIL, EXISTED_USER_NICKNAME, encoder.encode(EXISTED_USER_PASSWORD), false, Role.USER));
+        User entity = TestUtils.buildUser(1, EXISTED_USER_EMAIL, EXISTED_USER_NICKNAME, encoder.encode(EXISTED_USER_PASSWORD), false, AuthProvider.LOCAL, true, "", Role.USER);
+        User user = this.userRepository.save(entity);
         this.tokenRepository.save(RefreshToken.builder()
                 .refreshToken(this.generator.generate())
                 .user(user)

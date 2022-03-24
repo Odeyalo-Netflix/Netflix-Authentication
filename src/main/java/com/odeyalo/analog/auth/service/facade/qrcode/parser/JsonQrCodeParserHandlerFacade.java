@@ -21,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Verify qr code and sends jwt and refresh tokens to user using websockets
+ */
 @Component
 public class JsonQrCodeParserHandlerFacade implements QrCodeParserHandlerFacade {
     private final QrCodeParser parser;

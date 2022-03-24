@@ -59,7 +59,7 @@ class JsonQrCodeParserHandlerFacadeUnitTest {
 
     @BeforeAll
     void setup() {
-        User user = TestUtils.buildUser(1, "email@gmail.com", "nickname", "password", false, AuthProvider.LOCAL, "", Role.USER);
+        User user = TestUtils.buildUser(1, "email@gmail.com", "nickname", "password", false, AuthProvider.LOCAL,true, "", Role.USER);
         CustomUserDetails principal = new CustomUserDetails(user);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal, user.getPassword(), user.getRoles());
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);

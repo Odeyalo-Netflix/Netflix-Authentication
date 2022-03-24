@@ -47,7 +47,7 @@ class UsernamePasswordLoginHandlerUnitTest {
     @BeforeEach
     void setUp() {
         String encode = this.encoder.encode(CORRECT_USER_PASSWORD);
-        User user = TestUtils.buildUser(USER_ID, CORRECT_USER_EMAIL, CORRECT_USER_NICKNAME, encode, false, AuthProvider.LOCAL, "", Role.USER);
+        User user = TestUtils.buildUser(USER_ID, CORRECT_USER_EMAIL, CORRECT_USER_NICKNAME, encode, false, AuthProvider.LOCAL, true, "", Role.USER);
         Mockito.when(this.userRepository.findUserByNickname(WRONG_USER_NICKNAME)).thenReturn(Optional.empty());
         Mockito.when(this.userRepository.findUserByNickname(CORRECT_USER_NICKNAME)).thenReturn(Optional.of(user));
     }

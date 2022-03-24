@@ -2,6 +2,7 @@ package com.odeyalo.analog.auth.integration.service.facade;
 
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.entity.User;
+import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.UserNotExistException;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
@@ -39,7 +40,7 @@ class UsernamePasswordLoginHandlerFacadeImplTest {
 
     @BeforeEach
     void setUp() {
-        User user = TestUtils.buildUser(EXISTED_USER_EMAIL, EXISTED_USER_NICKNAME, encoder.encode(USER_PASSWORD), false, Role.USER);
+        User user = TestUtils.buildUser(1, EXISTED_USER_EMAIL, EXISTED_USER_NICKNAME, encoder.encode(USER_PASSWORD), false, AuthProvider.LOCAL, true, "", Role.USER);
         this.userRepository.save(user);
     }
 

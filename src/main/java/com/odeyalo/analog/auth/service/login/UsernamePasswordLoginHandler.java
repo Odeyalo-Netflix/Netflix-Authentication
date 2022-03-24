@@ -26,7 +26,7 @@ public class UsernamePasswordLoginHandler implements LoginHandler {
     @Override
     public User login(User user) throws LoginException {
         Optional<User> optional = this.userRepository.findUserByNickname(user.getNickname());
-        if (!optional.isPresent() || !passwordEncoder.matches(user.getPassword(), optional.get().getPassword())) {
+        if (!optional.isPresent() || !optional.get().isAccountActivated() || !passwordEncoder.matches(user.getPassword(), optional.get().getPassword())) {
             this.logger.info("Error in auth process: Wrong nickname or password");
             throw new UserNotExistException("Wrong nickname or password");
         }

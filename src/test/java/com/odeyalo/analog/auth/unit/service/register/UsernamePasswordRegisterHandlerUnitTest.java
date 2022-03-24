@@ -60,7 +60,7 @@ class UsernamePasswordRegisterHandlerUnitTest {
     @BeforeEach
     void beforeEach() {
         String encodedPassword = this.encoder.encode(EXISTED_USER_PASSWORD);
-        User existedUser = TestUtils.buildUser(1, EXISTED_USER_EMAIL, EXISTED_USER_NICKNAME, encodedPassword, false, AuthProvider.LOCAL, "", Role.USER);
+        User existedUser = TestUtils.buildUser(1, EXISTED_USER_EMAIL, EXISTED_USER_NICKNAME, encodedPassword, false, AuthProvider.LOCAL,true, "", Role.USER);
         doAnswer(mock -> {
             User user = (User) mock.getArguments()[0];
             user.setId(GENERATED_USER_ID);

@@ -65,7 +65,7 @@ class UsernamePasswordLoginHandlerFacadeImplUnitTest {
     @BeforeEach
     void setUp() {
         String encode = this.passwordEncoder.encode(CORRECT_USER_PASSWORD);
-        User user = TestUtils.buildUser(USER_ID, CORRECT_USER_EMAIL, CORRECT_USER_NICKNAME, encode, false, AuthProvider.LOCAL, "", Role.USER);
+        User user = TestUtils.buildUser(USER_ID, CORRECT_USER_EMAIL, CORRECT_USER_NICKNAME, encode, false, AuthProvider.LOCAL, true, "", Role.USER);
         Mockito.when(jwtTokenProvider.generateJwtToken(any(CustomUserDetails.class))).thenReturn(JWT_TOKEN_TEXT_VALUE);
         Mockito.when(refreshTokenProvider.createAndSaveToken(user)).thenReturn(RefreshToken.builder().refreshToken(REFRESH_TOKEN_TEXT_VALUE).user(user).id(1).build());
         Mockito.when(userRepository.findUserByNickname(WRONG_USER_NICKNAME)).thenReturn(Optional.empty());
@@ -73,7 +73,7 @@ class UsernamePasswordLoginHandlerFacadeImplUnitTest {
     }
 
     @Test
-    @DisplayName("Login existed user with correct data")
+    @DisplayName("Login existed activated user with correct data")
     void loginExistedUserWithCorrectNicknameAndPassword() {
         User dto = User.builder().nickname(CORRECT_USER_NICKNAME).password(CORRECT_USER_PASSWORD).build();
         JwtTokenResponseDTO tokenResponseDTO = this.loginHandlerFacade.login(dto);
@@ -90,11 +90,12 @@ class UsernamePasswordLoginHandlerFacadeImplUnitTest {
     }
 
     @Test
-    @DisplayName("Login  user with wrong nickname and password")
+    @DisplayName("Login user with wrong nickname and password")
     void loginUserWithWrongNicknameAndWrongPassword() {
         User dto = User.builder().nickname(WRONG_USER_NICKNAME).password(WRONG_USER_PASSWORD).build();
         assertThrows(UserNotExistException.class, () -> this.loginHandlerFacade.login(dto));
     }
+
     @Test
     @DisplayName("Login  user with wrong nickname and correct password")
     void loginExistedUserWithWrongNicknameAndCorrectPassword() {

@@ -4,6 +4,7 @@ import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
+import com.odeyalo.analog.auth.exceptions.LoginException;
 import com.odeyalo.analog.auth.service.login.LoginHandler;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
@@ -23,7 +24,7 @@ public class UsernamePasswordLoginHandlerFacadeImpl implements UsernamePasswordL
     }
 
     @Override
-    public JwtTokenResponseDTO login(User dto) {
+    public JwtTokenResponseDTO login(User dto) throws LoginException {
         User user = this.usernamePasswordLoginHandler.login(dto);
         String jwtToken = this.provider.generateJwtToken(new CustomUserDetails(user));
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);

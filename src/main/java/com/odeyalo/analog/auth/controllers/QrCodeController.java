@@ -9,10 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -36,7 +33,7 @@ public class QrCodeController {
         return IOUtils.toByteArray(Files.newInputStream(Paths.get(qrCode)));
     }
 
-    @GetMapping(value = "/verify", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/verify", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> parse(MultipartFile file) throws Exception {
         if(file == null)
             throw new FileNotPresentException("File is required");

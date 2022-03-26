@@ -1,5 +1,8 @@
 package com.odeyalo.analog.auth.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Date;
@@ -11,6 +14,7 @@ public class RefreshToken {
     private Integer id;
     @OneToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
     @Column(unique = true)
     private String refreshToken;

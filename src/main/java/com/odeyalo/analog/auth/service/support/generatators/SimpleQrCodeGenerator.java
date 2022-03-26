@@ -7,6 +7,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -16,11 +17,12 @@ import java.util.UUID;
 
 @Component
 public class SimpleQrCodeGenerator implements QrCodeGenerator {
-    public final static String DEFAULT_FILE_PATH = "C:\\Users\\thepr_2iz2cnv\\Desktop\\qrcodes\\";
+    public static String DEFAULT_FILE_PATH;
     private final Logger logger = LoggerFactory.getLogger(SimpleQrCodeGenerator.class);
 
     @Override
     public String generateQrCode(Integer width, Integer height, String text, String path) throws WriterException, IOException {
+        System.out.println("path: " + path);
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
         String pathToCode = path + UUID.randomUUID().toString() + ".png";
@@ -28,5 +30,9 @@ public class SimpleQrCodeGenerator implements QrCodeGenerator {
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", pathToGeneratedQRCode);
         this.logger.info("Generated qrcode, saved to path: {}", pathToGeneratedQRCode.getFileName().toString());
         return pathToCode;
+    }
+    @Value("${app.qrcode.path}")
+    private void setDefaultFilePath(String value) {
+        SimpleQrCodeGenerator.DEFAULT_FILE_PATH = value;
     }
 }

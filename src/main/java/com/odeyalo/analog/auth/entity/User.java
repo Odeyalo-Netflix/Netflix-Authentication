@@ -22,6 +22,8 @@ public class User {
     private String password;
     private boolean isUserBanned;
     private boolean isAccountActivated;
+    @Column(unique = true)
+    private String phoneNumber;
     @Enumerated(value = EnumType.STRING)
     private AuthProvider authProvider;
     @Enumerated(value = EnumType.STRING)
@@ -77,7 +79,6 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
 
     public AuthProvider getAuthProvider() {
         return authProvider;
@@ -139,6 +140,14 @@ public class User {
                 '}';
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public static final class UserBuilder {
         private Integer id;
         private String email;
@@ -149,6 +158,8 @@ public class User {
         private final Set<Role> roles = new LinkedHashSet<>();
         private String image;
         private boolean activated;
+        private String phoneNumber;
+
         private UserBuilder() {}
 
 
@@ -189,6 +200,10 @@ public class User {
             this.activated = activated;
             return this;
         }
+        public UserBuilder phoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
         public UserBuilder role(Role role) {
             this.roles.add(role);
             return this;
@@ -204,6 +219,7 @@ public class User {
             user.setAuthProvider(authProvider);
             user.setImage(image);
             user.setRoles(roles);
+            user.setPhoneNumber(phoneNumber);
             user.setAccountActivated(activated);
             return user;
         }

@@ -5,9 +5,9 @@ import com.odeyalo.analog.auth.entity.VerificationCode;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
-import com.odeyalo.analog.auth.service.facade.mail.VerificationCodeMailSenderFacadeImpl;
+import com.odeyalo.analog.auth.service.facade.mail.KafkaMessageBrokerVerificationCodeMailSenderFacade;
 import com.odeyalo.analog.auth.service.register.mail.MailSender;
-import com.odeyalo.analog.auth.service.register.mail.SimpleMicroserviceDelegateMailSender;
+import com.odeyalo.analog.auth.service.register.mail.HttpMicroserviceDelegateMailSender;
 import com.odeyalo.analog.auth.service.support.generatators.CodeGenerator;
 import com.odeyalo.analog.auth.service.support.generatators.DigitCodeGenerator;
 import com.odeyalo.analog.auth.service.support.verification.EmailCodeVerificationManager;
@@ -24,21 +24,21 @@ import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-class VerificationCodeMailSenderFacadeImplUnitTest {
+class KafkaMessageBrokerVerificationCodeMailSenderFacadeUnitTest {
     MailSender mailSender;
     VerificationCodeRepository verificationCodeRepository;
     CodeGenerator generator;
-    VerificationCodeMailSenderFacadeImpl verificationCodeMailSenderFacade;
+    KafkaMessageBrokerVerificationCodeMailSenderFacade verificationCodeMailSenderFacade;
 
     public static final Integer VERIFICATION_CODE_ID = 10;
     public static final String VERIFICATION_CODE_TEXT_VALUE = "123456";
 
     @BeforeAll
     void beforeAll() {
-        this.mailSender = Mockito.mock(SimpleMicroserviceDelegateMailSender.class);
+        this.mailSender = Mockito.mock(HttpMicroserviceDelegateMailSender.class);
         this.verificationCodeRepository = Mockito.mock(VerificationCodeRepository.class);
         this.generator = Mockito.mock(DigitCodeGenerator.class);
-        this.verificationCodeMailSenderFacade = new VerificationCodeMailSenderFacadeImpl(mailSender, new EmailCodeVerificationManager(verificationCodeRepository, generator));
+        this.verificationCodeMailSenderFacade = new KafkaMessageBrokerVerificationCodeMailSenderFacade(mailSender, new EmailCodeVerificationManager(verificationCodeRepository, generator));
     }
 
 

@@ -6,7 +6,6 @@ import com.odeyalo.analog.auth.dto.response.QrCodeDTO;
 import com.odeyalo.analog.auth.dto.response.QrCodeLoginSuccessMessageDTO;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
-import com.odeyalo.analog.auth.repository.QrCodeRepository;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.service.support.parser.QrCodeParser;

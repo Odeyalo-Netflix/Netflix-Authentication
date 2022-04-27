@@ -10,6 +10,7 @@ import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.service.support.verification.CodeVerificationManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerifica
     private final RefreshTokenProvider refreshTokenProvider;
     private final UserRepository userRepository;
 
-    public EmailCodeVerificationHandlerFacadeImpl(CodeVerificationManager verificationManager, JwtTokenProvider jwtTokenProvider, RefreshTokenProvider refreshTokenProvider, UserRepository userRepository) {
+    public EmailCodeVerificationHandlerFacadeImpl(@Qualifier("emailCodeVerificationManager") CodeVerificationManager verificationManager, JwtTokenProvider jwtTokenProvider, RefreshTokenProvider refreshTokenProvider, UserRepository userRepository) {
         this.verificationManager = verificationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.refreshTokenProvider = refreshTokenProvider;

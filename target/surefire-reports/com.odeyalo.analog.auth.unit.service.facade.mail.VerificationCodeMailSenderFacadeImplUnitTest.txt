@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.odeyalo.analog.auth.unit.service.facade.mail.VerificationCodeMailSenderFacadeImplUnitTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.079 s - in com.odeyalo.analog.auth.unit.service.facade.mail.VerificationCodeMailSenderFacadeImplUnitTest

@@ -7,7 +7,6 @@ import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenGenerator;
 import com.odeyalo.analog.auth.service.refresh.UUIDRefreshTokenGenerator;
-import com.odeyalo.analog.auth.unit.config.CoreTestConfiguration;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

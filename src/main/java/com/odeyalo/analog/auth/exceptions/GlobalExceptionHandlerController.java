@@ -70,6 +70,10 @@ public class GlobalExceptionHandlerController {
     public ResponseEntity<?> ioException(FileNotPresentException exception) {
         return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(IncorrectResetPasswordCodeException.class)
+    public ResponseEntity<?> IncorrectResetPasswordCodeException(IncorrectResetPasswordCodeException exception) {
+        return this.extractedExceptionHandler(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
     private ResponseEntity<?> extractedExceptionHandler(String message, HttpStatus status) {
         return new ResponseEntity<>(new ExceptionOccurredDTO(message, status.toString()), status);

@@ -12,7 +12,6 @@ public interface Oauth2RegisterHandler extends RegisterHandler {
 
     @Autowired
     default void addRegisterHandler(Oauth2RegisterHandlerFactory factory) {
-        System.out.println("register handler");
         factory.addRegisterHandler(this.getAuthProvider(), this);
     }
 }

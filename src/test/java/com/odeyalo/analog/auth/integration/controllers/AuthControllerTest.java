@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:application-test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AuthControllerTest {
-    @MockBean
+    @MockBean(name = "kafkaBrokerMicroserviceDelegateMailSender")
     private MailSender sender;
     @Autowired
     private MockMvc mockMvc;

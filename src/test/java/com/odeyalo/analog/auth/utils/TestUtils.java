@@ -28,7 +28,19 @@ public class TestUtils {
                 .role(role)
                 .build();
     }
-    public static User buildUser(Integer id, String email, String nickname, String password, boolean isBanned, AuthProvider provider, boolean activated, String image, Role role) {
+    public static User buildUser(String email, String nickname, String password, boolean isBanned, String phoneNumber, Role role) {
+        return User.builder()
+                .email(email)
+                .password(password)
+                .nickname(nickname)
+                .banned(isBanned)
+                .phoneNumber(phoneNumber)
+                .role(role)
+                .build();
+    }
+    public static User buildUser(Integer id, String email, String nickname,
+                                 String password, boolean isBanned,
+                                 AuthProvider provider, boolean activated, String image, Role role) {
         return User.builder()
                 .id(id)
                 .email(email)
@@ -41,6 +53,22 @@ public class TestUtils {
                 .image(image)
                 .build();
     }
+
+    public static User buildUser(String email, String nickname,
+                                 String password, boolean isBanned,
+                                 AuthProvider provider, boolean activated, String image, Role role) {
+        return User.builder()
+                .email(email)
+                .password(password)
+                .nickname(nickname)
+                .banned(isBanned)
+                .role(role)
+                .authProvider(provider)
+                .activated(activated)
+                .image(image)
+                .build();
+    }
+
     public static User buildGeneratedUser(Integer userId) {
         return User.builder()
                 .id(userId)

@@ -20,11 +20,14 @@ public class User {
     private String nickname;
     @Column(length = 3000)
     private String password;
+    @Column(name = "is_user_banned")
     private boolean isUserBanned;
+    @Column(name = "is_account_activated")
     private boolean isAccountActivated;
-    @Column(unique = true)
+    @Column(unique = true, name = "phone_number")
     private String phoneNumber;
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "auth_provider")
     private AuthProvider authProvider;
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)

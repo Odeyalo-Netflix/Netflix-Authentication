@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -27,13 +26,15 @@ class UserRepositoryTest {
     private UserRepository userRepository;
     private static final String EXISTED_USER_EMAIL = "user@gmail.com";
     private static final String EXISTED_USER_PASSWORD = "password1";
+    private static final String NEW_USER_PASSWORD = "newPassword";
     private static final String EXISTED_ADMIN_NICKNAME = "admin";
     private static final String EXISTED_ADMIN_PASSWORD = "password2";
+    private static final String USER_PHONE_NUMBER = "15417543010";
 
     @BeforeAll
     void setUp() {
         List<User> users = new ArrayList<>(3);
-        users.add(TestUtils.buildUser("user@gmail.com", "user", "password1", false, Role.USER));
+        users.add(TestUtils.buildUser("user@gmail.com", "user", "password1", false, USER_PHONE_NUMBER, Role.USER));
         users.add(TestUtils.buildUser("admin@gmail.com", "admin", "password2", false, Role.ADMIN));
         users.add(TestUtils.buildUser("moderator@gmail.com", "moderator", "password3", false, Role.MODERATOR));
         this.userRepository.saveAll(users);
@@ -89,7 +90,35 @@ class UserRepositoryTest {
         assertEquals(Role.USER, user.getRoles().toArray()[0]);
         assertFalse(user.isUserBanned());
     }
+    @Test
+    void findUserByPhoneNumber() {
+        Optional<User> userOptional = this.userRepository.findUserByPhoneNumber(USER_PHONE_NUMBER);
+        assertThat(userOptional).isNotEmpty();
+        User user = userOptional.get();
+        assertEquals("user@gmail.com", user.getEmail());
+        assertEquals("user", user.getNickname());
+        assertEquals("password1", user.getPassword());
+        assertEquals(Role.USER, user.getRoles().toArray()[0]);
+        assertFalse(user.isUserBanned());
+    }
+    @Test
+    void updateUserPasswordByUser() {
+        User user = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
+        this.userRepository.updateUserPassword(user, NEW_USER_PASSWORD);
 
+        User newUser = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
+
+        assertNotEquals(user, newUser);
+    }
+    @Test
+    void updateUserPasswordByEmail() {
+        User user = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
+        this.userRepository.updateUserPassword(EXISTED_USER_EMAIL, NEW_USER_PASSWORD);
+
+        User newUser = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
+
+        assertNotEquals(user, newUser);
+    }
     @AfterAll
     void clear() {
         this.userRepository.deleteAll();

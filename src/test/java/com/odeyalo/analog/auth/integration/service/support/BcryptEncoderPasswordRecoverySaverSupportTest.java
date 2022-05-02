@@ -12,18 +12,15 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -62,19 +59,19 @@ class BcryptEncoderPasswordRecoverySaverSupportTest {
 
     @Test
     void updatePassword() {
-        System.out.println(bcryptEncoderPasswordRecoverySaverSupport);
+        // given
         Optional<User> userByEmail = this.userRepository.findUserByEmail(USER_EMAIL);
         assertTrue(userByEmail.isPresent());
         User user = userByEmail.get();
+
         this.bcryptEncoderPasswordRecoverySaverSupport.updatePassword(user, NEW_USER_PASSWORD);
+
         Optional<User> newUserOptional = this.userRepository.findUserByEmail(USER_EMAIL);
         assertTrue(newUserOptional.isPresent());
         User newUser = newUserOptional.get();
+        // then
         assertNotEquals(NEW_USER_PASSWORD, newUser.getPassword());
-        System.out.println("OLD: " + user.getPassword());
-        System.out.println("NEW: " + newUser.getPassword());
         assertNotEquals(user, newUser);
-        assertNotEquals(user.getPassword(), newUser.getPassword());
     }
 
     @Test
@@ -82,7 +79,9 @@ class BcryptEncoderPasswordRecoverySaverSupportTest {
         Optional<User> userByEmail = this.userRepository.findUserByEmail(USER_EMAIL);
         assertTrue(userByEmail.isPresent());
         User user = userByEmail.get();
+
         this.bcryptEncoderPasswordRecoverySaverSupport.updatePassword(USER_EMAIL, NEW_USER_PASSWORD);
+
         Optional<User> newUserOptional = this.userRepository.findUserByEmail(USER_EMAIL);
         assertTrue(newUserOptional.isPresent());
         User newUser = newUserOptional.get();

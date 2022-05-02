@@ -1,7 +1,6 @@
 package com.odeyalo.analog.auth.service.support;
 
 import com.odeyalo.analog.auth.entity.User;
-import com.odeyalo.analog.auth.exceptions.IncorrectResetPasswordCodeException;
 import com.odeyalo.analog.auth.exceptions.UserNotExistException;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,8 +21,7 @@ public class BcryptEncoderPasswordRecoverySaverSupport implements PasswordRecove
         if (user == null)
             throw new UserNotExistException("User not exist.");
         String encodedPassword = this.passwordEncoder.encode(rawPassword);
-        user.setPassword(encodedPassword);
-        this.userRepository.save(user);
+        this.userRepository.updateUserPassword(user, encodedPassword);
     }
 
     @Override

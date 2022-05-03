@@ -1,3 +1,0 @@
-DELETE FROM refresh_token WHERE TRUE;
-DELETE FROM user_roles WHERE TRUE;
-DELETE FROM users WHERE TRUE;

@@ -9,9 +9,10 @@ import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.service.support.parser.QrCodeParser;
+import com.odeyalo.analog.auth.service.support.ws.WebSocketMessageChannelSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -26,18 +27,19 @@ import java.io.InputStream;
 @Component
 public class JsonQrCodeParserHandlerFacade implements QrCodeParserHandlerFacade {
     private final QrCodeParser parser;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final WebSocketMessageChannelSender sender;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenProvider refreshTokenProvider;
 
     private final Logger logger = LoggerFactory.getLogger(JsonQrCodeParserHandlerFacade.class);
+    private static final String QR_CODE_ON_SUCCESS_LOGIN_DESTINATION = "/topic/messages/qrcode/login/";
 
     public JsonQrCodeParserHandlerFacade(QrCodeParser parser,
-                                         SimpMessagingTemplate messagingTemplate,
+                                         WebSocketMessageChannelSender sender,
                                          JwtTokenProvider jwtTokenProvider,
                                          RefreshTokenProvider refreshTokenProvider) {
         this.parser = parser;
-        this.messagingTemplate = messagingTemplate;
+        this.sender = sender;
         this.jwtTokenProvider = jwtTokenProvider;
         this.refreshTokenProvider = refreshTokenProvider;
     }
@@ -46,15 +48,22 @@ public class JsonQrCodeParserHandlerFacade implements QrCodeParserHandlerFacade 
     public void parseAndVerify(InputStream stream) throws IOException {
         QrCodeDTO qrCodeDTO = this.parser.parseQrCode(stream);
         String clientId = qrCodeDTO.getClientId();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
+        CustomUserDetails details = this.getCustomDetails();
         User user = details.getUser();
+        GenericMessage<QrCodeLoginSuccessMessageDTO> message = getOnSuccessMessageDto(details, user);
+        this.sender.sendMessage(QR_CODE_ON_SUCCESS_LOGIN_DESTINATION + clientId, message);
+        this.logger.info("Successful send message to client: " + clientId);
+    }
+
+    private CustomUserDetails getCustomDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (CustomUserDetails) authentication.getPrincipal();
+    }
+
+    private GenericMessage<QrCodeLoginSuccessMessageDTO> getOnSuccessMessageDto(CustomUserDetails details, User user) {
         String jwtToken = this.jwtTokenProvider.generateJwtToken(details);
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);
-        this.messagingTemplate.convertAndSend("/topic/messages/qrcode/login/" + clientId,
-                new QrCodeLoginSuccessMessageDTO(
-                        new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken())));
-        this.logger.info("Successful send message to client: " + clientId);
+        return new GenericMessage<>(new QrCodeLoginSuccessMessageDTO(new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken())));
     }
 
     @Override

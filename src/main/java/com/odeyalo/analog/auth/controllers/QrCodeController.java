@@ -6,6 +6,7 @@ import com.odeyalo.analog.auth.service.facade.qrcode.QrCodeGeneratorFacade;
 import com.odeyalo.analog.auth.service.facade.qrcode.parser.QrCodeParserHandlerFacade;
 import com.odeyalo.analog.auth.service.support.generatators.QrCodeGenerator;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,8 @@ public class QrCodeController {
     private final QrCodeGeneratorFacade qrCodeGenerator;
     private final QrCodeParserHandlerFacade parser;
 
-    public QrCodeController(QrCodeGeneratorFacade qrCodeGenerator, QrCodeParserHandlerFacade parser) {
+    public QrCodeController(QrCodeGeneratorFacade qrCodeGenerator,
+                            @Qualifier("jsonQrCodeParserHandlerFacade") QrCodeParserHandlerFacade parser) {
         this.qrCodeGenerator = qrCodeGenerator;
         this.parser = parser;
     }

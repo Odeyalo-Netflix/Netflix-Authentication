@@ -11,7 +11,9 @@ import com.odeyalo.analog.auth.service.support.generatators.QrCodeGenerator;
 import com.odeyalo.analog.auth.service.support.generatators.SimpleQrCodeGenerator;
 import io.swagger.v3.core.util.ObjectMapperFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -25,6 +27,9 @@ public class JsonQrCodeGeneratorFacade implements QrCodeGeneratorFacade {
     private final CodeGenerator codeGenerator;
     private final QrCodeRepository qrCodeRepository;
     private final ObjectMapper mapper = ObjectMapperFactory.buildStrictGenericObjectMapper();
+    private static final String CODE_REQUEST_PARAM = "?code=";
+    @Value("${qr.code.verify.url}")
+    private String QR_CODE_VERIFY_URL;
 
     public JsonQrCodeGeneratorFacade(QrCodeGenerator qrCodeGenerator,
                                      @Qualifier("qrIdCodeGenerator") CodeGenerator codeGenerator, QrCodeRepository qrCodeRepository) {
@@ -34,9 +39,10 @@ public class JsonQrCodeGeneratorFacade implements QrCodeGeneratorFacade {
     }
 
     @Override
+    @Transactional
     public String generateQrCode(String clientId, Integer width, Integer height) throws IOException, WriterException {
         String code = this.codeGenerator.code(20);
-        String redirectUrl = "http://localhost:8761/api/v1/qrcode/verify?code=" + code;
+        String redirectUrl = QR_CODE_VERIFY_URL + CODE_REQUEST_PARAM + code;
         String time = LocalDateTime.now().toString();
         String value = this.buildData(clientId, redirectUrl, time);
         QrCode qrCode = QrCode.builder()
@@ -45,6 +51,7 @@ public class JsonQrCodeGeneratorFacade implements QrCodeGeneratorFacade {
                 .isActivated(false)
                 .qrCodeValue(value)
                 .build();
+        this.qrCodeRepository.deleteByClientId(clientId);
         this.qrCodeRepository.save(qrCode);
         return this.qrCodeGenerator.generateQrCode(width, height, value, SimpleQrCodeGenerator.DEFAULT_FILE_PATH);
     }

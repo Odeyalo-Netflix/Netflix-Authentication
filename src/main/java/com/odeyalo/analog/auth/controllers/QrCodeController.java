@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/v1/qrcode")
+@CrossOrigin("*")
 public class QrCodeController {
     private final QrCodeGeneratorFacade qrCodeGenerator;
     private final QrCodeParserHandlerFacade parser;

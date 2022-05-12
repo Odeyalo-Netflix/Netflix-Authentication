@@ -110,7 +110,6 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
                 .antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
-
     @Bean
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();

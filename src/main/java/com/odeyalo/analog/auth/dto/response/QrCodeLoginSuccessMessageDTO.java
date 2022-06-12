@@ -21,4 +21,12 @@ public class QrCodeLoginSuccessMessageDTO {
     public void setTokens(JwtTokenResponseDTO tokens) {
         this.tokens = tokens;
     }
+
+    @Override
+    public String toString() {
+        return "QrCodeLoginSuccessMessageDTO{" +
+                "messageType=" + messageType +
+                ", tokens=" + tokens +
+                '}';
+    }
 }

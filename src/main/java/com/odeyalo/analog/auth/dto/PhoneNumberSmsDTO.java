@@ -5,6 +5,7 @@ public class PhoneNumberSmsDTO {
     private String body;
 
     public PhoneNumberSmsDTO() {}
+
     public PhoneNumberSmsDTO(String phoneNumber, String body) {
         this.phoneNumber = phoneNumber;
         this.body = body;

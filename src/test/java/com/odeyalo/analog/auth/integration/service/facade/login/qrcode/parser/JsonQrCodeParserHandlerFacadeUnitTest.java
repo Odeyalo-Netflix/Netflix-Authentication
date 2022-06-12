@@ -11,6 +11,7 @@ import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.service.support.parser.JsonQrCodeParser;
 import com.odeyalo.analog.auth.service.support.parser.QrCodeParser;
+import com.odeyalo.analog.auth.service.support.ws.WebSocketMessageChannelSender;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,9 +48,10 @@ class JsonQrCodeParserHandlerFacadeUnitTest {
     JwtTokenProvider jwtTokenProvider;
     @Mock
     RefreshTokenProvider refreshTokenProvider;
+    @Mock
+    WebSocketMessageChannelSender sender;
     @InjectMocks
     JsonQrCodeParserHandlerFacade parserFacade;
-
     public static final String WEB_SOCKET_CLIENT_ID = "123";
     public static final String CURRENT_PATH = Paths.get(".").toAbsolutePath().normalize().toString();
     public static final String QR_CODE_IMAGE = CURRENT_PATH + "\\src\\test\\resources\\login\\test.qrcode.png";

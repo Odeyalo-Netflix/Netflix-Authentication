@@ -11,4 +11,5 @@ public interface QrCodeRepository extends JpaRepository<QrCode, Integer> {
 
     Optional<QrCode> findByQrCodeValue(String value);
 
+    void deleteByClientId(String clientId);
 }

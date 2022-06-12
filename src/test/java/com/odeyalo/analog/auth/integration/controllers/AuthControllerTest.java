@@ -1,16 +1,19 @@
 package com.odeyalo.analog.auth.integration.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.odeyalo.analog.auth.dto.EmailRecoveryPasswordDTO;
 import com.odeyalo.analog.auth.dto.LoginUserDTO;
+import com.odeyalo.analog.auth.dto.PasswordRecoveryDTO;
 import com.odeyalo.analog.auth.dto.RegisterUserDTO;
 import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
+import com.odeyalo.analog.auth.entity.VerificationCode;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
-import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
+import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenGenerator;
 import com.odeyalo.analog.auth.service.register.mail.MailSender;
 import com.odeyalo.analog.auth.utils.TestUtils;
@@ -26,7 +29,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -59,6 +64,10 @@ class AuthControllerTest {
     private static final String AUTH_ENTRYPOINT = "/api/v1/auth/register";
     private static final String LOGIN_ENTRYPOINT = "/api/v1/auth/login";
     private static final String REFRESH_TOKEN_ENTRYPOINT = "/api/v1/auth/refreshToken";
+    private static final String EMAIL_PASSWORD_RECOVERY_ENTRYPOINT = "/api/v1/auth/password/recovery/email";
+    private static final String EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT = "/api/v1/auth/password/recovery/email/code";
+    private static final String PHONE_NUMBER_PASSWORD_RECOVERY_ENTRYPOINT = "/api/v1/auth/password/recovery/phone/number";
+    private static final String PHONE_NUMBER_PASSWORD_RECOVERY_CODE_ENTRYPOINT = "/api/v1/auth/password/recovery/phone/number/code";
 
     private static final String USER_EMAIL = "email@gmail.com";
     private static final String USER_NICKNAME = "nickname";
@@ -69,7 +78,11 @@ class AuthControllerTest {
     private static final String EXISTED_USER_EMAIL = "existed@gmail.com";
     private static final String EXISTED_USER_NICKNAME = "existed1337";
     private static final String EXISTED_USER_PASSWORD = "password123";
+    private static final String NOT_EXISTED_USER_EMAIL = "notExisted@gmail.com";
     private static final String NOT_EXISTED_REFRESH_TOKEN = "NOT_EXISTED";
+    private static final String NEW_USER_PASSWORD = "new_password";
+    private static final String CORRECT_VERIFICATION_CODE_VALUE = "123456";
+    private static final String WRONG_VERIFICATION_CODE_VALUE = "789412";
 
     @BeforeAll
     public void beforeAll() {
@@ -86,6 +99,12 @@ class AuthControllerTest {
                 .refreshToken(this.generator.generate())
                 .user(user)
                 .expireDate(Instant.now().plusSeconds(60))
+                .build());
+        this.verificationCodeRepository.save(VerificationCode.builder()
+                .user(user)
+                .codeValue(CORRECT_VERIFICATION_CODE_VALUE)
+                .expired(LocalDateTime.now().plusMinutes(5))
+                .isActivated(false)
                 .build());
     }
 
@@ -221,6 +240,104 @@ class AuthControllerTest {
                 .andExpect(jsonPath("refreshToken").isString());
     }
 
+    @Test
+    @DisplayName("Send reset password code to existed email and expect 200")
+    void sendResetPasswordToExistedEmail() throws Exception {
+        EmailRecoveryPasswordDTO dto = new EmailRecoveryPasswordDTO(EXISTED_USER_EMAIL);
+        String json = this.mapper.writeValueAsString(dto);
+        this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_ENTRYPOINT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk());
+    }
+//
+//    PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+//    String json = this.mapper.writeValueAsString(dto);
+//        this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_ENTRYPOINT)
+//                .param("code", CORRECT_VERIFICATION_CODE_VALUE)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(json))
+//            .andExpect(status().isBadRequest());
+
+    @Test
+    @DisplayName("Send reset password code to not existed email and expect 400")
+    void sendResetPasswordToNotExistedEmail() throws Exception {
+        EmailRecoveryPasswordDTO dto = new EmailRecoveryPasswordDTO(NOT_EXISTED_USER_EMAIL);
+        String json = this.mapper.writeValueAsString(dto);
+        this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_ENTRYPOINT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    @DisplayName("Verify correct verification code for reset password  and expect 200")
+    void verifyCorrectVerificationCodeForResetPasswordFromEmail() throws Exception {
+        PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+        String json = this.mapper.writeValueAsString(dto);
+        this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT)
+                .param("code", CORRECT_VERIFICATION_CODE_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk());
+        User user = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
+        assertNotEquals(USER_PASSWORD, user.getPassword());
+        assertFalse(encoder.matches(USER_PASSWORD, user.getPassword()));
+        assertTrue(encoder.matches(NEW_USER_PASSWORD, user.getPassword()));
+
+    }
+
+    @Test
+    @DisplayName("Verify wrong verification code for reset password and expect 400")
+    void verifyWrongVerificationCodeForResetPasswordFromEmail() throws Exception {
+        PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+        String json = this.mapper.writeValueAsString(dto);
+        this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT)
+                .param("code", WRONG_VERIFICATION_CODE_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+        User user = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
+        assertNotEquals(USER_PASSWORD, user.getPassword());
+        assertFalse(encoder.matches(NEW_USER_PASSWORD, user.getPassword()));
+        assertTrue(encoder.matches(EXISTED_USER_PASSWORD, user.getPassword()));
+    }
+
+    @Test
+    @DisplayName("Verify correct verification code from phone number for reset password and expect 400")
+    void verifyCorrectVerificationCodeForResetPasswordFromPhoneNumber() throws Exception {
+        PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+        String json = this.mapper.writeValueAsString(dto);
+        this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT)
+                .param("code", CORRECT_VERIFICATION_CODE_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk());
+        User user = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
+        assertNotEquals(USER_PASSWORD, user.getPassword());
+        assertTrue(encoder.matches(NEW_USER_PASSWORD, user.getPassword()));
+        assertFalse(encoder.matches(EXISTED_USER_PASSWORD, user.getPassword()));
+    }
+
+    @Test
+    @DisplayName("Verify correct verification code from phone number for reset password and expect 400")
+    void verifyWrongVerificationCodeForResetPasswordFromPhoneNumber() throws Exception {
+        PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+        String json = this.mapper.writeValueAsString(dto);
+        this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT)
+                .param("code", WRONG_VERIFICATION_CODE_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+        User user = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
+        assertNotEquals(USER_PASSWORD, user.getPassword());
+        assertFalse(encoder.matches(NEW_USER_PASSWORD, user.getPassword()));
+        assertTrue(encoder.matches(EXISTED_USER_PASSWORD, user.getPassword()));
+    }
+
     @AfterEach
     void clear() {
         this.tokenRepository.deleteAll();
@@ -234,5 +351,4 @@ class AuthControllerTest {
         this.verificationCodeRepository.deleteAll();
         this.userRepository.deleteAll();
     }
-
 }

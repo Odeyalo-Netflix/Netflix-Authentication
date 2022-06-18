@@ -1,0 +1,10 @@
+FROM maven:3.8.5-jdk-11-slim
+
+COPY . /app
+
+WORKDIR /app
+
+RUN ls
+
+CMD ["mvn", "install"]
+

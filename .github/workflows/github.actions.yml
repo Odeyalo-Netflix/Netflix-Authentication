@@ -5,9 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-#      - name: Build docker compose
-#        run: docker-compose -f docker-compose.test.yml up --abort-on-container-exit
-      - uses: justJavaProgrammer/ci-telegram-bot-sender@v1.2
+      - name: Build docker compose
+        run: docker-compose -f docker-compose.test.yml up --abort-on-container-exit
+      - uses: justJavaProgrammer/ci-telegram-bot-sender@v1.3
         with:
-          repository-name: Aboba
+          repository-name: Netflix-backend
 

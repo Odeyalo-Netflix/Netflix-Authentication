@@ -5,7 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: current directory
       - name: Build docker images
         run: docker build -t auth-microservice-image -f .github/Dockerfile.test .
       - name: Build docker compose

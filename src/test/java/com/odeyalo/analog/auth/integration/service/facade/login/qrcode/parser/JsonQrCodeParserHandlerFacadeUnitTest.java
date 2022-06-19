@@ -28,6 +28,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -54,8 +55,28 @@ class JsonQrCodeParserHandlerFacadeUnitTest {
     JsonQrCodeParserHandlerFacade parserFacade;
     public static final String WEB_SOCKET_CLIENT_ID = "123";
     public static final String CURRENT_PATH = Paths.get(".").toAbsolutePath().normalize().toString();
-    public static final String QR_CODE_IMAGE = CURRENT_PATH + "\\src\\test\\resources\\login\\test.qrcode.png";
-    public static final String IMAGE_WITHOUT_QR_CODE = CURRENT_PATH + "\\src\\test\\resources\\login\\test.no_qrcode.jpg";
+    public static final String QR_CODE_IMAGE = new StringBuilder(CURRENT_PATH)
+            .append(File.separator)
+            .append("src")
+            .append(File.separator)
+            .append("test")
+            .append(File.separator)
+            .append("resources")
+            .append(File.separator)
+            .append("login")
+            .append(File.separator)
+            .append("test.qrcode.png").toString();
+    public static final String IMAGE_WITHOUT_QR_CODE = new StringBuilder(CURRENT_PATH)
+            .append(File.separator)
+            .append("src")
+            .append(File.separator)
+            .append("test")
+            .append(File.separator)
+            .append("resources")
+            .append(File.separator)
+            .append("login")
+            .append(File.separator)
+            .append("test.no_qrcode.jpg").toString();
     public static final String WEB_SOCKET_MESSAGE_DELIVERY_ENDPOINT = "/topic/messages/qrcode/login/" + WEB_SOCKET_CLIENT_ID;
     public static final String REFRESH_TOKEN_TEXT_VALUE = "REFRESH_TOKEN_TEXT_VALUE";
 

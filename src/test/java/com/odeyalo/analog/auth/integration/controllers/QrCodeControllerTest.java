@@ -38,8 +38,28 @@ class QrCodeControllerTest {
     private static final String QR_CODE_CONTROLLER_VERIFY_ENDPOINT = "/api/v1/qrcode/verify";
     private static final String CLIENT_ID = "DM-HSJCLaNc";
     private static final String CURRENT_PATH = Paths.get(".").toAbsolutePath().normalize().toString();
-    private static final String IMAGE_WITH_QR_CODE = CURRENT_PATH + "\\src\\test\\resources\\login\\test.qrcode.png";
-    private static final String IMAGE_WITHOUT_QR_CODE = CURRENT_PATH + "\\src\\test\\resources\\login\\test.no_qrcode.jpg";
+    private static final String IMAGE_WITH_QR_CODE = new StringBuilder(CURRENT_PATH)
+            .append(File.separator)
+            .append("src")
+            .append(File.separator)
+            .append("test")
+            .append(File.separator)
+            .append("resources")
+            .append(File.separator)
+            .append("login")
+            .append(File.separator)
+            .append("test.qrcode.png").toString();
+    private static final String IMAGE_WITHOUT_QR_CODE = new StringBuilder(CURRENT_PATH)
+            .append(File.separator)
+            .append("src")
+            .append(File.separator)
+            .append("test")
+            .append(File.separator)
+            .append("resources")
+            .append(File.separator)
+            .append("login")
+            .append(File.separator)
+            .append("test.no_qrcode.jpg").toString();
     private static final String USER_EMAIL_TEXT_VALUE = "email@gmail.com";
     private static final String USER_NICKNAME_TEXT_VALUE = "NICKNAME";
     @Autowired

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -15,8 +16,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonQrCodeParserTest {
     private static final String CURRENT_PATH = Paths.get(".").toAbsolutePath().normalize().toString();
-    private static final String QR_CODE_IMAGE = CURRENT_PATH + "\\src\\test\\resources\\login\\test.qrcode.png";
-    private static final String IMAGE_WITHOUT_QR_CODE = CURRENT_PATH + "\\src\\test\\resources\\login\\test.no_qrcode.jpg";
+    private static final String QR_CODE_IMAGE = new StringBuilder(CURRENT_PATH)
+            .append(File.separator)
+            .append("src")
+            .append(File.separator)
+            .append("test")
+            .append(File.separator)
+            .append("resources")
+            .append(File.separator)
+            .append("login")
+            .append(File.separator)
+            .append("test.qrcode.png").toString();
+    private static final String IMAGE_WITHOUT_QR_CODE = new StringBuilder(CURRENT_PATH)
+            .append(File.separator)
+            .append("src")
+            .append(File.separator)
+            .append("test")
+            .append(File.separator)
+            .append("resources")
+            .append(File.separator)
+            .append("login")
+            .append(File.separator)
+            .append("test.no_qrcode.jpg").toString();
     private final String EXPECTED_URL = "http://localhost:8761/api/v1/qrcode/verify?code=6ccdfe04-adbe-46d6-9c86-c067d2c05ba9";
     private final String EXPECTED_TIME = "2022-03-21T12:13:35.821";
     private final String EXPECTED_CLIENT_ID = "123";

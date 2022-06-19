@@ -1,5 +1,6 @@
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM maven:3.8.5-jdk-11-slim
+
+WORKDIR auth-microservice
+COPY . .
+
+ENTRYPOINT ["mvn", "spring-boot:run"]

@@ -1,5 +1,4 @@
 name: file-storage
-<<<<<<< HEAD
 on:
   push:
     branches:
@@ -9,22 +8,11 @@ on:
     branches:
       - master
       - dev
-=======
-on: [push, pull_request]
->>>>>>> dev
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-<<<<<<< HEAD
       - uses: actions/checkout@v3
       - name: Build docker compose
         run: docker-compose -f docker-compose.test.yml up --abort-on-container-exit
-
-=======
-      - uses: actions/checkout@v2
-      - name: Build docker images
-        run: docker build -t auth-microservice-image -f .github/Dockerfile.test .
-      - name: Build docker compose
-        run: docker-compose -f ${GITHUB_WORKSPACE}/.github/docker-compose.test.yml up --abort-on-container-exit
->>>>>>> dev

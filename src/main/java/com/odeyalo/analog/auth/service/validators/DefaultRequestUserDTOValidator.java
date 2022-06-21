@@ -24,7 +24,7 @@ public class DefaultRequestUserDTOValidator implements RequestUserDTOValidator {
     public ValidationResult validate(String email, String nickname, String password) throws ValidationException {
         if (!this.nicknameValidator.validate(nickname)) {
             this.logger.warn("Nickname must be more than 6 and less than 12 chars, nickname: {}", nickname);
-            return new ValidationResult("Nickname must be more than 6 and less than 12 chars, nickname", false);
+            return new ValidationResult("Nickname must be more than 6 and less than 12 chars", false);
         }
         if (!this.emailValidator.validate(email)) {
             this.logger.error("Wrong email: {}", email);

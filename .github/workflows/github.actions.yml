@@ -1,4 +1,4 @@
-name: file-storage
+name: auth-microservice
 on:
   push:
     branches:

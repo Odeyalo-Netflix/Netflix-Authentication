@@ -7,6 +7,7 @@ import com.odeyalo.analog.auth.dto.RegisterUserDTO;
 import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.dto.response.RefreshTokenResponseDTO;
+import com.odeyalo.analog.auth.exceptions.ValidationException;
 import com.odeyalo.analog.auth.service.facade.EmailCodeVerificationHandlerFacade;
 import com.odeyalo.analog.auth.service.facade.JwtWithRefreshTokenResponseDTOBuilder;
 import com.odeyalo.analog.auth.service.facade.login.UsernamePasswordLoginHandlerFacade;
@@ -15,6 +16,7 @@ import com.odeyalo.analog.auth.service.recovery.PasswordRecoveryManagerFactory;
 import com.odeyalo.analog.auth.service.recovery.PasswordRecoveryType;
 import com.odeyalo.analog.auth.service.support.UserConverter;
 import com.odeyalo.analog.auth.service.validators.RequestUserDTOValidator;
+import com.odeyalo.analog.auth.service.validators.ValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,7 +53,10 @@ public class AuthController {
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> auth(@RequestBody RegisterUserDTO userDTO) throws AuthException, IOException {
-        this.validator.validate(userDTO.getEmail(), userDTO.getNickname(), userDTO.getPassword());
+        ValidationResult validationResult = this.validator.validate(userDTO.getEmail(), userDTO.getNickname(), userDTO.getPassword());
+        if (!validationResult.isSuccess()) {
+            throw new ValidationException(validationResult.getMessage());
+        }
         this.registerHandler.save(UserConverter.convertToUser(userDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

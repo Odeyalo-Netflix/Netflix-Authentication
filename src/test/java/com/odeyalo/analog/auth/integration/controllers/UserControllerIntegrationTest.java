@@ -80,7 +80,7 @@ public class UserControllerIntegrationTest {
     public void testMeWithoutToken() throws Exception {
         this.mockMvc.perform(get(USER_CONTROLLER_ME_URL))
                 .andDo(print())
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @AfterEach

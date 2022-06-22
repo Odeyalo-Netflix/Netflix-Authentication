@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class CookieUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(CookieUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(CookieUtils.class);
 
     public static Optional<Cookie> getCookieByName(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
@@ -32,6 +32,7 @@ public class CookieUtils {
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
+
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
@@ -44,6 +45,7 @@ public class CookieUtils {
             }
         }
     }
+
     public static String serialize(Object object) {
         return Base64.getUrlEncoder().encodeToString(SerializationUtils.serialize(object));
     }

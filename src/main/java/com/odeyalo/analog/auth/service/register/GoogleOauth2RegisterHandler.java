@@ -31,6 +31,7 @@ public class GoogleOauth2RegisterHandler implements Oauth2RegisterHandler {
                 .nickname(info.getFirstName())
                 .banned(false)
                 .image(info.getImage())
+                .activated(true)
                 .build();
         return this.register(user);
     }

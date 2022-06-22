@@ -1,7 +1,7 @@
 const input = document.getElementById("input");
 const button = document.getElementById("button");
 
-const sock = new SockJS("http:localhost:8761/broadcast");
+const sock = new SockJS("http:localhost:8761/api/v1/broadcast");
 const stomp = Stomp.over(sock);
 
 

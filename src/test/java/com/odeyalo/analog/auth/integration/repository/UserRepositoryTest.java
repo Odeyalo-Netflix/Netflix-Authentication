@@ -90,7 +90,6 @@ class UserRepositoryTest {
         assertEquals(Role.USER, user.getRoles().toArray()[0]);
         assertFalse(user.isUserBanned());
     }
-
     @Test
     void findUserByPhoneNumber() {
         Optional<User> userOptional = this.userRepository.findUserByPhoneNumber(USER_PHONE_NUMBER);
@@ -102,7 +101,6 @@ class UserRepositoryTest {
         assertEquals(Role.USER, user.getRoles().toArray()[0]);
         assertFalse(user.isUserBanned());
     }
-
     @Test
     void updateUserPasswordByUser() {
         User user = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
@@ -112,7 +110,6 @@ class UserRepositoryTest {
 
         assertNotEquals(user, newUser);
     }
-
     @Test
     void updateUserPasswordByEmail() {
         User user = this.userRepository.findUserByEmail(EXISTED_USER_EMAIL).get();
@@ -122,9 +119,11 @@ class UserRepositoryTest {
 
         assertNotEquals(user, newUser);
     }
-
     @AfterAll
     void clear() {
         this.userRepository.deleteAll();
     }
+
+
+
 }

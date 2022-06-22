@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -25,7 +24,6 @@ public class PhoneNumberCodeVerificationManager implements CodeVerificationManag
     }
 
     @Override
-    @Transactional
     public VerificationCode generateAndSave(User user, Integer codeLength, Integer activeMinutes) {
         String code = this.codeGenerator.code(codeLength);
         VerificationCode verificationCode = VerificationCode.builder()
@@ -40,27 +38,27 @@ public class PhoneNumberCodeVerificationManager implements CodeVerificationManag
     }
 
     @Override
-    @Transactional
     public Optional<VerificationCode> getVerificationCodeByCodeValue(String codeValue) {
         return this.verificationCodeRepository.findCodeByCodeValue(codeValue);
     }
 
     @Override
-    @Transactional
     public boolean verifyCode(String code) {
         Optional<VerificationCode> codeByCodeValue = verificationCodeRepository.findCodeByCodeValue(code);
         return codeByCodeValue.isPresent() && codeByCodeValue.get().getExpired().isAfter(LocalDateTime.now());
     }
 
     @Override
-    @Transactional
     public void deleteCode(VerificationCode verificationCode) {
         this.verificationCodeRepository.delete(verificationCode);
     }
 
     @Override
-    @Transactional
     public void deleteCode(String codeValue) {
-        this.verificationCodeRepository.deleteByCodeValue(codeValue);
+        Optional<VerificationCode> verificationCodeOptional = this.verificationCodeRepository.findCodeByCodeValue(codeValue);
+        if (verificationCodeOptional.isPresent()) {
+            VerificationCode verificationCode = verificationCodeOptional.get();
+            this.deleteCode(verificationCode);
+        }
     }
 }

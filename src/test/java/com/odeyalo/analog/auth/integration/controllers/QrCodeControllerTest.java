@@ -34,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:application-test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class QrCodeControllerTest {
-    private static final String QR_CODE_CONTROLLER_GENERATE_ENDPOINT = "/api/v1/qrcode/generate";
-    private static final String QR_CODE_CONTROLLER_VERIFY_ENDPOINT = "/api/v1/qrcode/verify";
+    private static final String QR_CODE_CONTROLLER_GENERATE_ENDPOINT = "/qrcode/generate";
+    private static final String QR_CODE_CONTROLLER_VERIFY_ENDPOINT = "/qrcode/verify";
     private static final String CLIENT_ID = "DM-HSJCLaNc";
     private static final String CURRENT_PATH = Paths.get(".").toAbsolutePath().normalize().toString();
     private static final String IMAGE_WITH_QR_CODE = new StringBuilder(CURRENT_PATH)

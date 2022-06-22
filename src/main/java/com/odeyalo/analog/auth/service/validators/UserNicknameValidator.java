@@ -7,6 +7,6 @@ public class UserNicknameValidator implements Validator {
 
     @Override
     public boolean validate(String nickname) {
-        return ValidatorUtils.isLengthBetween(nickname, 6, 20);
+        return ValidatorUtils.lengthCheck(nickname, 6, 20);
     }
 }

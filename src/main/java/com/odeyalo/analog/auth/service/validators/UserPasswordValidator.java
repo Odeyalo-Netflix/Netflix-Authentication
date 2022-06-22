@@ -7,6 +7,6 @@ public class UserPasswordValidator implements Validator {
 
     @Override
     public boolean validate(String password) {
-        return ValidatorUtils.isLengthBetween(password, 8, 50);
+        return ValidatorUtils.lengthCheck(password, 8, 50);
     }
 }

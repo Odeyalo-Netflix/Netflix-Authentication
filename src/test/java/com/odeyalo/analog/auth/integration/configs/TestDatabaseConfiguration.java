@@ -62,4 +62,14 @@ public class TestDatabaseConfiguration {
         props.put("hibernate.implicit_naming_strategy", SpringImplicitNamingStrategy.class.getName());
         return props;
     }
+
+//    @Bean
+//    public ImplicitNamingStrategy implicitNamingStrategy() {
+//        return new ImplicitNamingStrategyJpaCompliantImpl();
+//    }
+//
+//    @Bean
+//    public PhysicalNamingStrategy physicalNamingStrategy() {
+//        return new PhysicalNamingStrategyStandardImpl();
+//    }
 }

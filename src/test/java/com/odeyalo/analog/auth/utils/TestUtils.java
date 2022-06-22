@@ -83,21 +83,6 @@ public class TestUtils {
                 .image(image)
                 .build();
     }
-    public static User buildUser(String email, String nickname,
-                                 String password, boolean isBanned,
-                                 AuthProvider provider, boolean activated, String image, Set<Role> roles) {
-        User user = User.builder()
-                .email(email)
-                .password(password)
-                .nickname(nickname)
-                .banned(isBanned)
-                .authProvider(provider)
-                .activated(activated)
-                .image(image)
-                .build();
-        user.setRoles(roles);
-        return user;
-    }
 
     public static User buildGeneratedUser(Integer userId) {
         return User.builder()
@@ -113,13 +98,12 @@ public class TestUtils {
     }
 
     public static VerificationCode buildVerificationCode(String codeValue, User user, Integer id) {
-        VerificationCode build = VerificationCode.builder()
+        return VerificationCode.builder()
+                .id(id)
                 .codeValue(codeValue)
                 .user(user)
                 .expired(LocalDateTime.now().plusMinutes(3))
                 .isActivated(false)
                 .build();
-        build.setId(id);
-        return build;
     }
 }

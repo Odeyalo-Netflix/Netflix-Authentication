@@ -29,7 +29,7 @@ import javax.security.auth.message.AuthException;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/auth")
 public class AuthController {
     private final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final UsernamePasswordRegisterHandlerFacade registerHandler;

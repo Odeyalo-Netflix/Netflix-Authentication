@@ -61,13 +61,13 @@ class AuthControllerTest {
     @Autowired
     private VerificationCodeRepository verificationCodeRepository;
 
-    private static final String AUTH_ENTRYPOINT = "/api/v1/auth/register";
-    private static final String LOGIN_ENTRYPOINT = "/api/v1/auth/login";
-    private static final String REFRESH_TOKEN_ENTRYPOINT = "/api/v1/auth/refreshToken";
-    private static final String EMAIL_PASSWORD_RECOVERY_ENTRYPOINT = "/api/v1/auth/password/recovery/email";
-    private static final String EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT = "/api/v1/auth/password/recovery/email/code";
-    private static final String PHONE_NUMBER_PASSWORD_RECOVERY_ENTRYPOINT = "/api/v1/auth/password/recovery/phone/number";
-    private static final String PHONE_NUMBER_PASSWORD_RECOVERY_CODE_ENTRYPOINT = "/api/v1/auth/password/recovery/phone/number/code";
+    private static final String AUTH_ENTRYPOINT = "/auth/register";
+    private static final String LOGIN_ENTRYPOINT = "/auth/login";
+    private static final String REFRESH_TOKEN_ENTRYPOINT = "/auth/refreshToken";
+    private static final String EMAIL_PASSWORD_RECOVERY_ENTRYPOINT = "/auth/password/recovery/email";
+    private static final String EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT = "/auth/password/recovery/email/code";
+    private static final String PHONE_NUMBER_PASSWORD_RECOVERY_ENTRYPOINT = "/auth/password/recovery/phone/number";
+    private static final String PHONE_NUMBER_PASSWORD_RECOVERY_CODE_ENTRYPOINT = "/auth/password/recovery/phone/number/code";
 
     private static final String USER_EMAIL = "email@gmail.com";
     private static final String USER_NICKNAME = "nickname";

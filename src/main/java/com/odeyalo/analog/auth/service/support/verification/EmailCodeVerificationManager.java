@@ -6,8 +6,9 @@ import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
 import com.odeyalo.analog.auth.service.support.generatators.CodeGenerator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 

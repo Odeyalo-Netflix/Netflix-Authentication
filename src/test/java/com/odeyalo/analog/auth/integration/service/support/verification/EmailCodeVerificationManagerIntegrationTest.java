@@ -72,9 +72,10 @@ class EmailCodeVerificationManagerIntegrationTest {
     @BeforeEach
     void setup() {
         String password = this.passwordEncoder.encode(USER_RAW_PASSWORD);
-        this.expectedUser = TestUtils.buildUser(USER_EMAIL, USER_NICKNAME, password, USER_BANNED, USER_AUTH_PROVIDER, USER_ACTIVATED , USER_IMAGE, USER_ROLES);
+        User user = TestUtils.buildUser(USER_EMAIL, USER_NICKNAME, password, USER_BANNED, USER_AUTH_PROVIDER, USER_ACTIVATED , USER_IMAGE, USER_ROLES);
+        this.expectedUser = this.userRepository.save(user);
         String verificationCodeUserPassword = this.passwordEncoder.encode(VERIFICATION_CODE_MOCK_USER_RAW_PASSWORD);
-        this.mockVerificationCodeUser = TestUtils.buildUser(
+        User mockUser = TestUtils.buildUser(
                 VERIFICATION_CODE_MOCK_USER_EMAIL,
                 VERIFICATION_CODE_MOCK_USER_NICKNAME,
                 verificationCodeUserPassword,
@@ -84,6 +85,7 @@ class EmailCodeVerificationManagerIntegrationTest {
                 VERIFICATION_CODE_MOCK_USER_IMAGE,
                 VERIFICATION_CODE_MOCK_USER_ROLE
         );
+        this.mockVerificationCodeUser = this.userRepository.save(mockUser);
         VerificationCode code = VerificationCode.builder()
                 .codeValue(EXISTED_CODE_VALUE)
                 .isActivated(false)

@@ -12,7 +12,7 @@ public class VerificationCode {
     private LocalDateTime expired;
     private boolean isActivated;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private User user;
 
     public Integer getId() {
@@ -68,10 +68,6 @@ public class VerificationCode {
         private User user;
 
         private CodeBuilder() {
-        }
-
-        public static CodeBuilder aCode() {
-            return new CodeBuilder();
         }
 
         public CodeBuilder id(Integer id) {

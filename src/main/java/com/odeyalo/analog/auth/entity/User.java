@@ -31,6 +31,7 @@ public class User {
     private AuthProvider authProvider;
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
+    @JoinTable(name = "user_roles")
     private Set<Role> roles;
     private String image;
 

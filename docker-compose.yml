@@ -1,20 +1,5 @@
 version: '2.2'
 services:
-  file-storage:
-    ports:
-      - "9000:9000"
-    build:
-      context: .
-    container_name: file-storage
-    depends_on:
-      db:
-        condition: service_healthy
-    volumes:
-      - "./maven-rep:/root/.m2"
-      - "D:/videos:/odeyalo/dev/microservices/filestorage/"
-    env_file:
-      local.env
-
   auth-microservice:
     ports:
       - "8761:8761"

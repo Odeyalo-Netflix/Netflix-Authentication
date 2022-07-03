@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.service.oauth2;
+package com.odeyalo.analog.auth.service.oauth2.client;
 
 import com.odeyalo.analog.auth.service.oauth2.utils.CookieUtils;
 import org.springframework.security.core.AuthenticationException;
@@ -6,13 +6,12 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.odeyalo.analog.auth.service.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.odeyalo.analog.auth.service.oauth2.client.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Service
 public class DefaultAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {

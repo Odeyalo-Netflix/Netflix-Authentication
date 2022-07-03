@@ -4,7 +4,7 @@ import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.repository.UserRepository;
-import com.odeyalo.analog.auth.service.oauth2.support.info.Oauth2UserInfo;
+import com.odeyalo.analog.auth.service.oauth2.client.support.info.Oauth2UserInfo;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.message.AuthException;

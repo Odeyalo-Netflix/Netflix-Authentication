@@ -2,10 +2,10 @@ package com.odeyalo.analog.auth.config.security;
 
 import com.odeyalo.analog.auth.config.security.filter.JwtTokenFilter;
 import com.odeyalo.analog.auth.config.security.jwt.JwtTokenAuthenticationEntrypoint;
-import com.odeyalo.analog.auth.service.oauth2.CustomOauth2UserService;
-import com.odeyalo.analog.auth.service.oauth2.DefaultAuthenticationFailureHandler;
-import com.odeyalo.analog.auth.service.oauth2.DefaultAuthenticationSuccessHandler;
-import com.odeyalo.analog.auth.service.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.odeyalo.analog.auth.service.oauth2.client.CustomOauth2UserService;
+import com.odeyalo.analog.auth.service.oauth2.client.DefaultAuthenticationFailureHandler;
+import com.odeyalo.analog.auth.service.oauth2.client.DefaultAuthenticationSuccessHandler;
+import com.odeyalo.analog.auth.service.oauth2.client.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.odeyalo.analog.auth.service.support.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

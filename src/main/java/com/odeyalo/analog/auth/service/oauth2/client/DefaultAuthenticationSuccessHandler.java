@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.service.oauth2;
+package com.odeyalo.analog.auth.service.oauth2.client;
 
 import com.odeyalo.analog.auth.config.AppProperties;
 import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
-import static com.odeyalo.analog.auth.service.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.odeyalo.analog.auth.service.oauth2.client.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Component
 public class DefaultAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

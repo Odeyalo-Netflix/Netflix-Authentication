@@ -2,9 +2,9 @@ package com.odeyalo.analog.auth.unit.service.oauth2.support;
 
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.exceptions.NotSupportedOuath2Provider;
-import com.odeyalo.analog.auth.service.oauth2.support.OAuth2UserInfoFactory;
-import com.odeyalo.analog.auth.service.oauth2.support.info.GoogleOauth2UserInfo;
-import com.odeyalo.analog.auth.service.oauth2.support.info.Oauth2UserInfo;
+import com.odeyalo.analog.auth.service.oauth2.client.support.OAuth2UserInfoFactory;
+import com.odeyalo.analog.auth.service.oauth2.client.support.info.GoogleOauth2UserInfo;
+import com.odeyalo.analog.auth.service.oauth2.client.support.info.Oauth2UserInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

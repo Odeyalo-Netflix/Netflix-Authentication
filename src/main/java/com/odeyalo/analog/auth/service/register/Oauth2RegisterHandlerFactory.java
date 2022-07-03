@@ -1,7 +1,7 @@
 package com.odeyalo.analog.auth.service.register;
 
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
-import com.odeyalo.analog.auth.service.oauth2.support.info.Oauth2UserInfo;
+import com.odeyalo.analog.auth.service.oauth2.client.support.info.Oauth2UserInfo;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

@@ -1,9 +1,9 @@
-package com.odeyalo.analog.auth.service.oauth2;
+package com.odeyalo.analog.auth.service.oauth2.client;
 
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.repository.UserRepository;
-import com.odeyalo.analog.auth.service.oauth2.support.OAuth2UserInfoFactory;
-import com.odeyalo.analog.auth.service.oauth2.support.info.Oauth2UserInfo;
+import com.odeyalo.analog.auth.service.oauth2.client.support.OAuth2UserInfoFactory;
+import com.odeyalo.analog.auth.service.oauth2.client.support.info.Oauth2UserInfo;
 import com.odeyalo.analog.auth.service.register.Oauth2RegisterHandlerFactory;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import org.apache.commons.lang.StringUtils;

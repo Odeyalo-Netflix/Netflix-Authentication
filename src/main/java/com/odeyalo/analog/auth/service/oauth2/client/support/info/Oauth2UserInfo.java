@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.service.oauth2.support.info;
+package com.odeyalo.analog.auth.service.oauth2.client.support.info;
 
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 

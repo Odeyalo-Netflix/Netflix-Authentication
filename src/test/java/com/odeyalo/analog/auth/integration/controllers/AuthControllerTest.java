@@ -1,9 +1,9 @@
 package com.odeyalo.analog.auth.integration.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odeyalo.analog.auth.dto.EmailRecoveryPasswordDTO;
+import com.odeyalo.analog.auth.dto.EmailMethodPasswordRecoveryDTO;
 import com.odeyalo.analog.auth.dto.LoginUserDTO;
-import com.odeyalo.analog.auth.dto.PasswordRecoveryDTO;
+import com.odeyalo.analog.auth.dto.NewPasswordDTO;
 import com.odeyalo.analog.auth.dto.RegisterUserDTO;
 import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.entity.RefreshToken;
@@ -243,26 +243,18 @@ class AuthControllerTest {
     @Test
     @DisplayName("Send reset password code to existed email and expect 200")
     void sendResetPasswordToExistedEmail() throws Exception {
-        EmailRecoveryPasswordDTO dto = new EmailRecoveryPasswordDTO(EXISTED_USER_EMAIL);
+        EmailMethodPasswordRecoveryDTO dto = new EmailMethodPasswordRecoveryDTO(EXISTED_USER_EMAIL);
         String json = this.mapper.writeValueAsString(dto);
         this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_ENTRYPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk());
     }
-//
-//    PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
-//    String json = this.mapper.writeValueAsString(dto);
-//        this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_ENTRYPOINT)
-//                .param("code", CORRECT_VERIFICATION_CODE_VALUE)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(json))
-//            .andExpect(status().isBadRequest());
 
     @Test
     @DisplayName("Send reset password code to not existed email and expect 400")
     void sendResetPasswordToNotExistedEmail() throws Exception {
-        EmailRecoveryPasswordDTO dto = new EmailRecoveryPasswordDTO(NOT_EXISTED_USER_EMAIL);
+        EmailMethodPasswordRecoveryDTO dto = new EmailMethodPasswordRecoveryDTO(NOT_EXISTED_USER_EMAIL);
         String json = this.mapper.writeValueAsString(dto);
         this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_ENTRYPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -272,7 +264,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("Verify correct verification code for reset password  and expect 200")
     void verifyCorrectVerificationCodeForResetPasswordFromEmail() throws Exception {
-        PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+        NewPasswordDTO dto = new NewPasswordDTO(NEW_USER_PASSWORD);
         String json = this.mapper.writeValueAsString(dto);
         this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT)
                 .param("code", CORRECT_VERIFICATION_CODE_VALUE)
@@ -290,7 +282,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("Verify wrong verification code for reset password and expect 400")
     void verifyWrongVerificationCodeForResetPasswordFromEmail() throws Exception {
-        PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+        NewPasswordDTO dto = new NewPasswordDTO(NEW_USER_PASSWORD);
         String json = this.mapper.writeValueAsString(dto);
         this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT)
                 .param("code", WRONG_VERIFICATION_CODE_VALUE)
@@ -307,7 +299,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("Verify correct verification code from phone number for reset password and expect 400")
     void verifyCorrectVerificationCodeForResetPasswordFromPhoneNumber() throws Exception {
-        PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+        NewPasswordDTO dto = new NewPasswordDTO(NEW_USER_PASSWORD);
         String json = this.mapper.writeValueAsString(dto);
         this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT)
                 .param("code", CORRECT_VERIFICATION_CODE_VALUE)
@@ -324,7 +316,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("Verify correct verification code from phone number for reset password and expect 400")
     void verifyWrongVerificationCodeForResetPasswordFromPhoneNumber() throws Exception {
-        PasswordRecoveryDTO dto = new PasswordRecoveryDTO(NEW_USER_PASSWORD);
+        NewPasswordDTO dto = new NewPasswordDTO(NEW_USER_PASSWORD);
         String json = this.mapper.writeValueAsString(dto);
         this.mockMvc.perform(post(EMAIL_PASSWORD_RECOVERY_CODE_ENTRYPOINT)
                 .param("code", WRONG_VERIFICATION_CODE_VALUE)

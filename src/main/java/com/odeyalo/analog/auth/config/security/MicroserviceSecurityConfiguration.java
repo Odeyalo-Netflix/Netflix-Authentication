@@ -7,12 +7,16 @@ import com.odeyalo.analog.auth.service.oauth2.client.DefaultAuthenticationFailur
 import com.odeyalo.analog.auth.service.oauth2.client.DefaultAuthenticationSuccessHandler;
 import com.odeyalo.analog.auth.service.oauth2.client.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.odeyalo.analog.auth.service.support.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 10)
 @EnableGlobalMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true,
@@ -37,7 +42,7 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
     private static final String FAV_ICON_ENTRYPOINT = "/favicon.ico";
     private static final String AUTH_ENTRYPOINT = "/auth/**";
     private static final String QRCODE_GENERATION_ENTRYPOINT = "/qrcode/generate";
-    private static final String OAUTH2_LOGIN_ENTRYPOINT = "/oauth2/callback/**";
+    private static final String OAUTH2_LOGIN_ENTRYPOINT = "/oauth2/**";
     private static final String REFRESH_TOKEN_ENTRYPOINT = "/refreshToken";
     private static final String QR_CODE_WEB_SOCKET_LOGIN_ENTRYPOINT = "/broadcast/**";
 
@@ -48,6 +53,8 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
     private final DefaultAuthenticationSuccessHandler successHandler;
     private final DefaultAuthenticationFailureHandler failureHandler;
     private final HttpCookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository;
+
+    @Autowired
     public MicroserviceSecurityConfiguration(JwtTokenFilter jwtTokenFilter,
                                              CustomUserDetailsService customUserDetailsService,
                                              CustomOauth2UserService oAuth2UserService,
@@ -75,8 +82,8 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
                 .authorizeRequests()
                 .antMatchers(EUREKA_ADMIN_ENTRYPOINT,
                         EUREKA_ENTRYPOINT,
-                        FAV_ICON_ENTRYPOINT).permitAll()
-                .antMatchers(AUTH_ENTRYPOINT,
+                        FAV_ICON_ENTRYPOINT,
+                        AUTH_ENTRYPOINT,
                         OAUTH2_LOGIN_ENTRYPOINT,
                         REFRESH_TOKEN_ENTRYPOINT,
                         QRCODE_GENERATION_ENTRYPOINT,
@@ -101,6 +108,7 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
                 .successHandler(successHandler)
                 .failureHandler(failureHandler);
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {

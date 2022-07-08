@@ -1,11 +1,11 @@
 package com.odeyalo.analog.auth.dto;
 
-public class PasswordRecoveryDTO {
+public class NewPasswordDTO {
     private String password;
 
-    public PasswordRecoveryDTO() {}
+    public NewPasswordDTO() {}
 
-    public PasswordRecoveryDTO(String password) {
+    public NewPasswordDTO(String password) {
         this.password = password;
     }
 

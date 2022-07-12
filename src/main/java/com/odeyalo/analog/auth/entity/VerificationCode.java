@@ -12,7 +12,7 @@ public class VerificationCode {
     private LocalDateTime expired;
     private boolean isActivated;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne
     private User user;
 
     public Integer getId() {

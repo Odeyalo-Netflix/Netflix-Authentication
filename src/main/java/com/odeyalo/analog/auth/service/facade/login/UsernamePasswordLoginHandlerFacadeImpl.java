@@ -8,6 +8,8 @@ import com.odeyalo.analog.auth.exceptions.LoginException;
 import com.odeyalo.analog.auth.service.login.LoginHandler;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +17,9 @@ public class UsernamePasswordLoginHandlerFacadeImpl implements UsernamePasswordL
     private final LoginHandler usernamePasswordLoginHandler;
     private final JwtTokenProvider provider;
     private final RefreshTokenProvider refreshTokenProvider;
-    public UsernamePasswordLoginHandlerFacadeImpl(LoginHandler usernamePasswordLoginHandler,
+
+    @Autowired
+    public UsernamePasswordLoginHandlerFacadeImpl(@Qualifier("usernamePasswordLoginHandler") LoginHandler usernamePasswordLoginHandler,
                                                   JwtTokenProvider provider,
                                                   RefreshTokenProvider refreshTokenProvider) {
         this.usernamePasswordLoginHandler = usernamePasswordLoginHandler;

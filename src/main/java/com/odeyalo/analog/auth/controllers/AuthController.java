@@ -88,13 +88,13 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/password/recovery/email")
+    @PostMapping(value = "/password/recovery/email", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> sendEmailRecoveryPasswordCode(@RequestBody EmailMethodPasswordRecoveryDTO dto) {
         this.passwordRecoveryManagerFactory.getManager(PasswordRecoveryType.EMAIL).sendResetPasswordCode(dto.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/password/recovery/email/code")
+    @PostMapping(value = "/password/recovery/email/code", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> resetPasswordUsingEmailCode(@RequestParam String code, @RequestBody NewPasswordDTO dto) {
         this.passwordRecoveryManagerFactory.getManager(PasswordRecoveryType.EMAIL).changePassword(code, dto.getPassword());
         return new ResponseEntity<>(HttpStatus.OK);

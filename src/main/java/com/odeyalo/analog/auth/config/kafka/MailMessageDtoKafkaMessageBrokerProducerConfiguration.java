@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.config.kafka;
 
-import com.odeyalo.analog.auth.dto.MailMessageDTO;
+import com.odeyalo.analog.auth.dto.EmailMessageDTO;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +12,12 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 @Configuration
 public class MailMessageDtoKafkaMessageBrokerProducerConfiguration extends JsonSerializerKafkaMessageBrokerProducerConfigurationSupport {
     @Bean
-    public KafkaTemplate<String, MailMessageDTO> mailMessageDTOKafkaTemplate(ProducerFactory<String, MailMessageDTO> factory) {
+    public KafkaTemplate<String, EmailMessageDTO> mailMessageDTOKafkaTemplate(ProducerFactory<String, EmailMessageDTO> factory) {
         return new KafkaTemplate<>(factory);
     }
 
     @Bean
-    public ProducerFactory<String, MailMessageDTO> mailMessageProducerFactory() {
+    public ProducerFactory<String, EmailMessageDTO> mailMessageProducerFactory() {
         return new DefaultKafkaProducerFactory<>(kafkaProducerConfig(), new StringSerializer(), new JsonSerializer<>());
     }
 }

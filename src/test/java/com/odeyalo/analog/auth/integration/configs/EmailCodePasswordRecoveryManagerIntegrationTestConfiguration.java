@@ -1,25 +1,18 @@
 package com.odeyalo.analog.auth.integration.configs;
 
-import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
-import com.odeyalo.analog.auth.service.facade.EmailCodeVerificationHandlerFacade;
 import com.odeyalo.analog.auth.service.facade.mail.KafkaMessageBrokerVerificationCodeMailSenderFacade;
 import com.odeyalo.analog.auth.service.facade.mail.VerificationCodeMailSenderFacade;
 import com.odeyalo.analog.auth.service.recovery.EmailCodePasswordRecoveryManager;
 import com.odeyalo.analog.auth.service.recovery.PasswordRecoveryManagerFactory;
-import com.odeyalo.analog.auth.service.register.mail.KafkaBrokerMicroserviceDelegateMailSender;
+import com.odeyalo.analog.auth.service.sender.mail.KafkaBrokerMicroserviceDelegateMailSender;
 import com.odeyalo.analog.auth.service.support.BcryptEncoderPasswordRecoverySaverSupport;
 import com.odeyalo.analog.auth.service.support.PasswordRecoverySaverSupport;
 import com.odeyalo.analog.auth.service.support.generatators.CodeGenerator;
 import com.odeyalo.analog.auth.service.support.generatators.DigitCodeGenerator;
 import com.odeyalo.analog.auth.service.support.verification.CodeVerificationManager;
 import com.odeyalo.analog.auth.service.support.verification.EmailCodeVerificationManager;
-import org.hibernate.boot.model.naming.ImplicitNamingStrategy;
-import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
-import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
-import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestConfiguration;

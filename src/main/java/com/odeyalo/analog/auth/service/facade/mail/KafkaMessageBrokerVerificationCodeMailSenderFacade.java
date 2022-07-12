@@ -2,7 +2,7 @@ package com.odeyalo.analog.auth.service.facade.mail;
 
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.VerificationCode;
-import com.odeyalo.analog.auth.service.register.mail.MailSender;
+import com.odeyalo.analog.auth.service.sender.mail.MailSender;
 import com.odeyalo.analog.auth.service.support.verification.CodeVerificationManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

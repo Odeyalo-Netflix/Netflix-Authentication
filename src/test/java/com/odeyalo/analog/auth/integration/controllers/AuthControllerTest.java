@@ -15,7 +15,7 @@ import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenGenerator;
-import com.odeyalo.analog.auth.service.register.mail.MailSender;
+import com.odeyalo.analog.auth.service.sender.mail.MailSender;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

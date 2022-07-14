@@ -29,7 +29,7 @@
 
     <servers>
         <server>
-            <id>github</id>
+            <id>odeyalo-feign-clients</id>
             <username>${env.USER_NAME}</username>
             <password>${env.ACCESS_TOKEN}</password>
         </server>

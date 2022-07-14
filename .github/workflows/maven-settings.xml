@@ -19,9 +19,6 @@
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
                 </repository>
             </repositories>
         </profile>
@@ -30,9 +27,8 @@
     <servers>
         <server>
             <id>odeyalo-feign-clients</id>
-            <username>${env.USERNAME}</username>
-            <password>${env.ACCESS_TOKEN}</password>
+            <username>justJavaProgrammer</username>
+            <password>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</password>
         </server>
     </servers>
-
 </settings>

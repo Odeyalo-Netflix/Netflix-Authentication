@@ -3,11 +3,11 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
     <activeProfiles>
-        <activeProfile>github</activeProfile>
+        <activeProfile>odeyalo-feign-clients</activeProfile>
     </activeProfiles>
     <profiles>
         <profile>
-            <id>github</id>
+            <id>odeyalo-feign-clients</id>
             <repositories>
                 <repository>
                     <id>central</id>
@@ -30,7 +30,7 @@
     <servers>
         <server>
             <id>odeyalo-feign-clients</id>
-            <username>${env.USER_NAME}</username>
+            <username>${env.USERNAME}</username>
             <password>${env.ACCESS_TOKEN}</password>
         </server>
     </servers>

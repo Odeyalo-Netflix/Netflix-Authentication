@@ -1,20 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
     <activeProfiles>
-        <activeProfile>odeyalo-feign-clients</activeProfile>
+        <activeProfile>github</activeProfile>
     </activeProfiles>
+
     <profiles>
         <profile>
-            <id>odeyalo-feign-clients</id>
+            <id>github</id>
             <repositories>
                 <repository>
-                    <id>central</id>
+                    <id>maven-central</id>
                     <url>https://repo1.maven.org/maven2</url>
                 </repository>
                 <repository>
-                    <id>odeyalo-feign-clients</id>
+                    <id>github</id>
                     <url>https://maven.pkg.github.com/Odeyalo-Netflix/Feign-Clients</url>
                     <snapshots>
                         <enabled>true</enabled>
@@ -26,9 +28,9 @@
 
     <servers>
         <server>
-            <id>odeyalo-feign-clients</id>
-            <username>justJavaProgrammer</username>
-            <password>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</password>
+            <id>github</id>
+            <username>${env.USER_NAME}</username>
+            <password>${env.ACCESS_TOKEN}</password>
         </server>
     </servers>
 </settings>

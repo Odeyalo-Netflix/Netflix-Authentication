@@ -17,8 +17,8 @@
 
     <repositories>
         <repository>
-            <id>odeyalo-feign-clients</id>
-            <url>https://maven.pkg.github.com/Odeyalo-Netflix/Feign-Clients</url>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Odeyalo-Netflix/Feign-Clients/mvn-repo/</url>
         </repository>
     </repositories>
 

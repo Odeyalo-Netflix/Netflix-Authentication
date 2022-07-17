@@ -12,6 +12,8 @@ services:
         condition: service_healthy
     volumes:
       - "./maven-rep:/root/.m2"
+    environment:
+      ACCESS_TOKEN: ${ACCESS_TOKEN}
     env_file:
       - test.env
 

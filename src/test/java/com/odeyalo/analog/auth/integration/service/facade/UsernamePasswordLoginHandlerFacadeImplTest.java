@@ -7,12 +7,14 @@ import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.UserNotExistException;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
+import com.odeyalo.analog.auth.service.events.EventHandlerManager;
 import com.odeyalo.analog.auth.service.facade.login.UsernamePasswordLoginHandlerFacadeImpl;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 
@@ -31,7 +33,8 @@ class UsernamePasswordLoginHandlerFacadeImplTest {
     private RefreshTokenRepository refreshTokenRepository;
     @Autowired
     private PasswordEncoder encoder;
-
+    @MockBean
+    private EventHandlerManager eventHandlerManager;
     private static final String NOT_EXISTED_USER_EMAIL = "notExisted@gmail.com";
     private static final String NOT_EXISTED_USER_NICKNAME = "notExistedNickname";
     private static final String EXISTED_USER_EMAIL = "existed@gmail.com";

@@ -1,9 +1,6 @@
 package com.odeyalo.analog.auth.controllers;
 
-import com.odeyalo.analog.auth.dto.EmailRecoveryPasswordDTO;
-import com.odeyalo.analog.auth.dto.LoginUserDTO;
-import com.odeyalo.analog.auth.dto.PasswordRecoveryDTO;
-import com.odeyalo.analog.auth.dto.RegisterUserDTO;
+import com.odeyalo.analog.auth.dto.*;
 import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.dto.response.RefreshTokenResponseDTO;
@@ -79,26 +76,26 @@ public class AuthController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/password/recovery/phone/number")
-    public ResponseEntity<?> sendPhoneNumberRecoveryPasswordCode(@RequestBody EmailRecoveryPasswordDTO dto) {
-        this.passwordRecoveryManagerFactory.getManager(PasswordRecoveryType.PHONE_NUMBER).sendResetPasswordCode(dto.getEmail());
+    @PostMapping(value = "/password/recovery/phone/number", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> sendPhoneNumberRecoveryPasswordCode(@RequestBody PhoneNumberMethodPasswordRecoveryDTO dto) {
+        this.passwordRecoveryManagerFactory.getManager(PasswordRecoveryType.PHONE_NUMBER).sendResetPasswordCode(dto.getPhoneNumber());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/password/recovery/phone/number/code")
-    public ResponseEntity<?> resetPhoneNumberCode(@RequestParam String code, @RequestBody PasswordRecoveryDTO dto) {
+    @PostMapping(value = "/password/recovery/phone/number/code", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> resetPasswordUsingPhoneNumberCode(@RequestParam String code, @RequestBody NewPasswordDTO dto) {
         this.passwordRecoveryManagerFactory.getManager(PasswordRecoveryType.PHONE_NUMBER).changePassword(code, dto.getPassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/password/recovery/email")
-    public ResponseEntity<?> sendEmailRecoveryPasswordCode(@RequestBody EmailRecoveryPasswordDTO dto) {
+    @PostMapping(value = "/password/recovery/email", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> sendEmailRecoveryPasswordCode(@RequestBody EmailMethodPasswordRecoveryDTO dto) {
         this.passwordRecoveryManagerFactory.getManager(PasswordRecoveryType.EMAIL).sendResetPasswordCode(dto.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/password/recovery/email/code")
-    public ResponseEntity<?> resetEmailCode(@RequestParam String code, @RequestBody PasswordRecoveryDTO dto) {
+    @PostMapping(value = "/password/recovery/email/code", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> resetPasswordUsingEmailCode(@RequestParam String code, @RequestBody NewPasswordDTO dto) {
         this.passwordRecoveryManagerFactory.getManager(PasswordRecoveryType.EMAIL).changePassword(code, dto.getPassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }

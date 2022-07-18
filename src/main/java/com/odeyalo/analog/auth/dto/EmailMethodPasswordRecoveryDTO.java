@@ -1,11 +1,11 @@
 package com.odeyalo.analog.auth.dto;
 
-public class EmailRecoveryPasswordDTO {
+public class EmailMethodPasswordRecoveryDTO {
     private String email;
 
-    public EmailRecoveryPasswordDTO() {}
+    public EmailMethodPasswordRecoveryDTO() {}
 
-    public EmailRecoveryPasswordDTO(String email) {
+    public EmailMethodPasswordRecoveryDTO(String email) {
         this.email = email;
     }
 

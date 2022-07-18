@@ -37,9 +37,12 @@ public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerifica
         Optional<VerificationCode> codeOptional = this.verificationManager.getVerificationCodeByCodeValue(codeValue);
         VerificationCode code = codeOptional.orElseThrow(() -> new CodeVerificationException("Presented code is wrong"));
         User user = code.getUser();
+        System.out.println(user);
         this.deleteUsedCode(code);
         this.activateUser(user);
+        System.out.println(user);
         String jwtToken = this.jwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
+        System.out.println(jwtToken);
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);
         return new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken());
     }
@@ -50,6 +53,5 @@ public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerifica
 
     private void activateUser(User user) {
         user.setAccountActivated(true);
-        this.userRepository.save(user);
     }
 }

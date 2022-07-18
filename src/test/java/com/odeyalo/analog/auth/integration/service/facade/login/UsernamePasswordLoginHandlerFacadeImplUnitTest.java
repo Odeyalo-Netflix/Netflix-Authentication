@@ -8,6 +8,7 @@ import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.UserNotExistException;
 import com.odeyalo.analog.auth.repository.UserRepository;
+import com.odeyalo.analog.auth.service.events.EventHandlerManager;
 import com.odeyalo.analog.auth.service.facade.login.UsernamePasswordLoginHandlerFacadeImpl;
 import com.odeyalo.analog.auth.service.login.UsernamePasswordLoginHandler;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
@@ -30,6 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(MockitoExtension.class)
 class UsernamePasswordLoginHandlerFacadeImplUnitTest {
     UserRepository userRepository;
+    EventHandlerManager eventHandlerManager;
     @Spy
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     JwtTokenProvider jwtTokenProvider;
@@ -55,9 +57,10 @@ class UsernamePasswordLoginHandlerFacadeImplUnitTest {
         this.refreshTokenProvider = Mockito.mock(RefreshTokenProvider.class);
         this.jwtTokenProvider = Mockito.mock(JwtTokenProvider.class);
         this.loginHandler = new UsernamePasswordLoginHandler(userRepository, passwordEncoder);
+        this.eventHandlerManager = Mockito.mock(EventHandlerManager.class);
         this.loginHandlerFacade = new UsernamePasswordLoginHandlerFacadeImpl(
-                loginHandler, jwtTokenProvider, refreshTokenProvider
-        );
+                loginHandler, jwtTokenProvider, refreshTokenProvider,
+                eventHandlerManager);
         ReflectionTestUtils.setField(jwtTokenProvider, "JWT_SECRET", JWT_TOKEN_TEST_SECRET_KEY, String.class);
         ReflectionTestUtils.setField(jwtTokenProvider, "JWT_TOKEN_EXPIRATION_TIME", JWT_TOKEN_TEST_EXPIRY_TIME, Integer.class);
     }

@@ -1,4 +1,8 @@
 # Netflix-backend
 
-Netflix backend using Spring
-Authenticate user, contains users, gateway service that redirect incoming request to another microservice using Spring Eureka
+##Netflix backend using Spring
+
+Authenticate and autorize user, contains users and user roles
+```
+
+```

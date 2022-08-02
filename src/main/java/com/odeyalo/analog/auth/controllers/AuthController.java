@@ -27,6 +27,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("*")
 public class AuthController {
     private final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final UsernamePasswordRegisterHandlerFacade registerHandler;

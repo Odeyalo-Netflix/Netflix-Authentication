@@ -2,10 +2,9 @@ version: '2.2'
 services:
   auth-microservice:
     ports:
-      - "8761:8761"
-    build:
-      context: .
-    container_name: auth-microservice
+      - "8090:8090"
+    image: auth-service
+    container_name: auth-microservice-container
     depends_on:
       db:
         condition: service_healthy

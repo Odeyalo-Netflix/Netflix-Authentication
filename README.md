@@ -4,7 +4,7 @@
 * [General info](#general-info)
 * [Technologies](#technologies-used)
 * [Setup](#setup)
-* 
+
 ## General info: 
 Authenticate and autorize user, contains users and user roles
 

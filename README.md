@@ -11,7 +11,7 @@ $ Postgresql
 $ Docker
 $ Apache Kafka
 ```
-
+[local.env](./local.env)
 
 ## Setup
   To run this microservice local you need:

@@ -17,7 +17,7 @@ $ Apache Kafka
   To run this microservice local you need:
   ```
   $ Clone this repo
-  $ Update [local.env](https://github.com/Odeyalo-Netflix/Netflix-Authentication/blob/dev/local.env) file. Add to this file your JWT_TOKEN_SECRET_KEY, GOOLGE_CLIENT_ID and GOOLGE_CLIENT_SECRET.
+  $ Update [local.env](./local.env) file. Add to this file your JWT_TOKEN_SECRET_KEY, GOOLGE_CLIENT_ID and GOOLGE_CLIENT_SECRET.
   $ docker-compose up -d
   ```
 After following these 3 steps you will have a working service, that you can easy send requests to localhost:8090.

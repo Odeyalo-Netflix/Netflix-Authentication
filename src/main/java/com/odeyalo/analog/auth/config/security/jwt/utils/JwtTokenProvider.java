@@ -27,6 +27,7 @@ public class JwtTokenProvider {
         CustomUserDetails customDetails = (CustomUserDetails) details;
         claims.put("id", customDetails.getUser().getId());
         claims.put("username", customDetails.getUsername());
+        claims.put("roles", customDetails.getUser().getRoles());
         claims.put("nickname", customDetails.getUser().getNickname());
         return this.doGenerateJwtToken(claims, details.getUsername());
     }

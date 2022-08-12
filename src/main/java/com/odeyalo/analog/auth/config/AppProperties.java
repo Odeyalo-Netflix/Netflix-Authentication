@@ -1,10 +1,16 @@
 package com.odeyalo.analog.auth.config;
 
 
+import com.odeyalo.analog.auth.config.security.jwt.utils.RsaTokenPairGenerator;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,5 +22,10 @@ public class AppProperties {
 
     public List<String> getAuthorizedRedirectUris() {
         return authorizedRedirectUris;
+    }
+
+    @Bean
+    public Pair<PublicKey, PrivateKey> publicKeyPrivateKeyPair(RsaTokenPairGenerator generator) throws NoSuchAlgorithmException {
+        return generator.getRsaTokens();
     }
 }

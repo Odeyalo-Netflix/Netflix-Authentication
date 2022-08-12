@@ -61,7 +61,7 @@ class UsernamePasswordLoginHandlerFacadeImplUnitTest {
         this.loginHandlerFacade = new UsernamePasswordLoginHandlerFacadeImpl(
                 loginHandler, secretKeyJwtTokenProvider, refreshTokenProvider,
                 eventHandlerManager);
-        ReflectionTestUtils.setField(secretKeyJwtTokenProvider, "JWT_SECRET", JWT_TOKEN_TEST_SECRET_KEY, String.class);
+        ReflectionTestUtils.setField(secretKeyJwtTokenProvider, "signingKey", JWT_TOKEN_TEST_SECRET_KEY.getBytes(), byte[].class);
         ReflectionTestUtils.setField(secretKeyJwtTokenProvider, "JWT_TOKEN_EXPIRATION_TIME", JWT_TOKEN_TEST_EXPIRY_TIME, Integer.class);
     }
 

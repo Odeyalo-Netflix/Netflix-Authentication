@@ -2,11 +2,13 @@ package com.odeyalo.analog.auth.config.security;
 
 import com.odeyalo.analog.auth.config.security.filter.JwtTokenFilter;
 import com.odeyalo.analog.auth.config.security.jwt.JwtTokenAuthenticationEntrypoint;
+import com.odeyalo.analog.auth.config.security.jwt.utils.RsaTokenPairGenerator;
 import com.odeyalo.analog.auth.service.oauth2.client.CustomOauth2UserService;
 import com.odeyalo.analog.auth.service.oauth2.client.DefaultAuthenticationFailureHandler;
 import com.odeyalo.analog.auth.service.oauth2.client.DefaultAuthenticationSuccessHandler;
 import com.odeyalo.analog.auth.service.oauth2.client.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.odeyalo.analog.auth.service.support.CustomUserDetailsService;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +18,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,6 +30,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 @Configuration
 @EnableWebSecurity
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 10)
@@ -37,7 +42,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         jsr250Enabled = true,
         prePostEnabled = true)
 public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private static final String AUTH_ENTRYPOINT = "/auth/**";
+        private static final String AUTH_ENTRYPOINT = "/auth/**";
+    private static final String ACTUATOR_ENTRYPOINT = "/actuator/**";
     private static final String QRCODE_GENERATION_ENTRYPOINT = "/qrcode/generate";
     private static final String OAUTH2_LOGIN_ENTRYPOINT = "/oauth2/**";
     private static final String REFRESH_TOKEN_ENTRYPOINT = "/refreshToken";
@@ -79,6 +85,7 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
                 .authorizeRequests()
                 .antMatchers(
                         AUTH_ENTRYPOINT,
+                        ACTUATOR_ENTRYPOINT,
                         OAUTH2_LOGIN_ENTRYPOINT,
                         REFRESH_TOKEN_ENTRYPOINT,
                         QRCODE_GENERATION_ENTRYPOINT,
@@ -139,5 +146,11 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
         provider.setUserDetailsService(this.customUserDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
+    }
+
+
+    @Bean
+    public Pair<PublicKey, PrivateKey> publicKeyPrivateKeyPair(RsaTokenPairGenerator generator) throws NoSuchAlgorithmException {
+        return generator.getRsaTokens();
     }
 }

@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.service.facade;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
 import com.odeyalo.analog.auth.dto.response.RefreshTokenResponseDTO;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
@@ -14,11 +14,11 @@ import java.util.Optional;
 @Service
 public class JwtWithRefreshTokenResponseDTOBuilderImpl implements JwtWithRefreshTokenResponseDTOBuilder {
     private final RefreshTokenRepository tokenRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final SecretKeyJwtTokenProvider secretKeyJwtTokenProvider;
 
-    public JwtWithRefreshTokenResponseDTOBuilderImpl(RefreshTokenRepository tokenRepository, JwtTokenProvider jwtTokenProvider) {
+    public JwtWithRefreshTokenResponseDTOBuilderImpl(RefreshTokenRepository tokenRepository, SecretKeyJwtTokenProvider secretKeyJwtTokenProvider) {
         this.tokenRepository = tokenRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.secretKeyJwtTokenProvider = secretKeyJwtTokenProvider;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class JwtWithRefreshTokenResponseDTOBuilderImpl implements JwtWithRefresh
         }
         RefreshToken refreshToken = tokenOptional.get();
         User user = refreshToken.getUser();
-        String jwtToken = this.jwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
+        String jwtToken = this.secretKeyJwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
         return new RefreshTokenResponseDTO(jwtToken, refreshToken.getRefreshToken());
     }
 }

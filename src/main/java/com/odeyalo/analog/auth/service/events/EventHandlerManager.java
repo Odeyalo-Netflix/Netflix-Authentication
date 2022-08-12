@@ -1,5 +1,6 @@
 package com.odeyalo.analog.auth.service.events;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class EventHandlerManager {
         this.events.remove(eventType);
     }
 
+    @Async
     public void notifySpecialEventHandlers(EventType eventType, Event event) {
         List<EventHandler> eventHandlers = this.events.get(eventType);
         for (EventHandler eventHandler : eventHandlers) {

@@ -1,9 +1,10 @@
 package com.odeyalo.analog.auth.config.security.filter;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import org.apache.http.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,13 +22,19 @@ import java.io.IOException;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
-    private final SecretKeyJwtTokenProvider provider;
+    private final JwtTokenProvider provider;
     private final Logger LOGGER = LoggerFactory.getLogger(JwtTokenFilter.class);
     private final UserDetailsService userDetailsService;
 
-    public JwtTokenFilter(SecretKeyJwtTokenProvider tokenProvider, @Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
+    @Autowired
+    public JwtTokenFilter(JwtTokenProvider tokenProvider, @Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
         this.provider = tokenProvider;
         this.userDetailsService = userDetailsService;
+    }
+
+    @PostConstruct
+    void init() {
+        this.LOGGER.info("Will be handle jwt token using: {} class", provider.getClass().getName());
     }
 
     @Override
@@ -36,7 +44,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         this.LOGGER.info("JWT TOKEN: {}, pathInfo: {}", jwtToken, pathInfo);
         try {
             if (jwtToken != null && this.provider.validateToken(jwtToken)) {
-                String nickname = this.provider.getNicknameFromJwtToken(jwtToken);
+                String nickname = this.provider.getNicknameFromToken(jwtToken);
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(nickname);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -46,7 +54,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
-
+        //todo fix JWT token is unsupported: The parsed JWT indicates it was signed with the HS256 signature algorithm, but the specified signing key of type sun.security.rsa.RSAPublicKeyImpl may not be used to validate HS256 signatures.  Because the specified signing key reflects a specific and expected algorithm, and the JWT does not reflect this algorithm, it is likely that the JWT was not expected and therefore should not be trusted.  Another possibility is that the parser was configured with the incorrect signing key, but this cannot be assumed for security reasons.
     private String getJwtToken(HttpServletRequest request) {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Bearer ")) {

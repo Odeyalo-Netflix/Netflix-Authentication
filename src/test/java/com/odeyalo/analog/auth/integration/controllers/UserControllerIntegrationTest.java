@@ -1,7 +1,7 @@
 package com.odeyalo.analog.auth.integration.controllers;
 
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserControllerIntegrationTest {
     @Autowired
-    private SecretKeyJwtTokenProvider secretKeyJwtTokenProvider;
+    private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -63,7 +63,7 @@ public class UserControllerIntegrationTest {
     @Test
     @DisplayName("Test method me")
     public void testMeWithToken() throws Exception {
-        String token = this.secretKeyJwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
+        String token = this.jwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
         this.mockMvc.perform(get(USER_CONTROLLER_ME_URL).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andDo(print())
                 .andExpect(jsonPath("image").isString())

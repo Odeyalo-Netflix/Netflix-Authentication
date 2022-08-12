@@ -1,7 +1,7 @@
 package com.odeyalo.analog.auth.service.oauth2.client;
 
 import com.odeyalo.analog.auth.config.AppProperties;
-import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.service.oauth2.utils.CookieUtils;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
@@ -26,13 +26,13 @@ import static com.odeyalo.analog.auth.service.oauth2.client.HttpCookieOAuth2Auth
 
 @Component
 public class DefaultAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private final SecretKeyJwtTokenProvider tokenProvider;
+    private final JwtTokenProvider tokenProvider;
     private final HttpCookieOAuth2AuthorizationRequestRepository cookieRepository;
     private final AppProperties appProperties;
     private final RefreshTokenProvider refreshTokenProvider;
     private final Logger logger = LoggerFactory.getLogger(DefaultAuthenticationSuccessHandler.class);
 
-    public DefaultAuthenticationSuccessHandler(SecretKeyJwtTokenProvider tokenProvider, HttpCookieOAuth2AuthorizationRequestRepository cookieRepository, AppProperties appProperties, RefreshTokenProvider refreshTokenProvider) {
+    public DefaultAuthenticationSuccessHandler(JwtTokenProvider tokenProvider, HttpCookieOAuth2AuthorizationRequestRepository cookieRepository, AppProperties appProperties, RefreshTokenProvider refreshTokenProvider) {
         this.tokenProvider = tokenProvider;
         this.cookieRepository = cookieRepository;
         this.appProperties = appProperties;

@@ -16,7 +16,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,7 +63,7 @@ class RsaTokenPairJwtTokenProviderTest {
 
     @Test
     void isNicknameFromTokenValid() {
-        String nickname = this.provider.getNicknameFromJwtToken(JWT_TOKEN);
+        String nickname = this.provider.getNicknameFromToken(JWT_TOKEN);
         assertNotNull(nickname);
         assertEquals(EXPECTED_JWT_USERNAME, nickname);
     }

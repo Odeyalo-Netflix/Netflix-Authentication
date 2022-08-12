@@ -58,4 +58,11 @@ public interface JwtTokenProvider {
      * @return - true if token expired, otherwise - false
      */
     boolean isTokenExpired(String token);
+
+    /**
+     * Returns user nickname
+     * @param token - token to check
+     * @return - user nickname from token
+     */
+    String getNicknameFromToken(String token);
 }

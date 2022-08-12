@@ -1,7 +1,6 @@
 package com.odeyalo.analog.auth.config.security.jwt.utils;
 
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -38,16 +37,11 @@ public class SecretKeyJwtTokenProvider extends AbstractJwtTokenProvider {
 
     @Override
     public boolean isTokenValid(final String token, final UserDetails details) {
-        return this.getNicknameFromJwtToken(token).equals(details.getUsername()) && !this.isTokenExpired(token);
+        return this.getNicknameFromToken(token).equals(details.getUsername()) && !this.isTokenExpired(token);
     }
 
     @Override
     public JwtParser getParser() {
         return jwtParser;
-    }
-
-    public String getNicknameFromJwtToken(String token) {
-        Claims claims = this.getClaims(token);
-        return (String) claims.get("nickname");
     }
 }

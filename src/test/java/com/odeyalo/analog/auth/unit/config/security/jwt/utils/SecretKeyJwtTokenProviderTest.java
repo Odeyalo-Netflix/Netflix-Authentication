@@ -51,7 +51,7 @@ class SecretKeyJwtTokenProviderTest {
 
     @Test
     void getNicknameFromJwtToken() {
-        String nickname = this.provider.getNicknameFromJwtToken(JWT_TOKEN);
+        String nickname = this.provider.getNicknameFromToken(JWT_TOKEN);
         assertNotNull(nickname);
         assertEquals(EXPECTED_JWT_USERNAME, nickname);
     }

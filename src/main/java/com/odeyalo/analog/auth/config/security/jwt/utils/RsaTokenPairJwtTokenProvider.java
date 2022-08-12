@@ -2,7 +2,6 @@ package com.odeyalo.analog.auth.config.security.jwt.utils;
 
 import com.odeyalo.analog.auth.exceptions.JwtParserConstructionException;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -62,7 +61,7 @@ public class RsaTokenPairJwtTokenProvider extends AbstractJwtTokenProvider {
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        return this.getNicknameFromJwtToken(token).equals(userDetails.getUsername()) && !this.isTokenExpired(token);
+        return this.getNicknameFromToken(token).equals(userDetails.getUsername()) && !this.isTokenExpired(token);
     }
 
     @Override
@@ -76,10 +75,5 @@ public class RsaTokenPairJwtTokenProvider extends AbstractJwtTokenProvider {
                 .setSubject(subject)
                 .signWith(algorithm, key)
                 .compact();
-    }
-
-    public String getNicknameFromJwtToken(String token) {
-        Claims claims = this.getClaims(token);
-        return (String) claims.get("nickname");
     }
 }

@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.service.facade;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
@@ -21,13 +21,13 @@ import java.util.Optional;
 @Component
 public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerificationHandlerFacade {
     private final CodeVerificationManager verificationManager;
-    private final SecretKeyJwtTokenProvider secretKeyJwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenProvider refreshTokenProvider;
     private final UserRepository userRepository;
 
-    public EmailCodeVerificationHandlerFacadeImpl(@Qualifier("emailCodeVerificationManager") CodeVerificationManager verificationManager, SecretKeyJwtTokenProvider secretKeyJwtTokenProvider, RefreshTokenProvider refreshTokenProvider, UserRepository userRepository) {
+    public EmailCodeVerificationHandlerFacadeImpl(@Qualifier("emailCodeVerificationManager") CodeVerificationManager verificationManager, JwtTokenProvider jwtTokenProvider, RefreshTokenProvider refreshTokenProvider, UserRepository userRepository) {
         this.verificationManager = verificationManager;
-        this.secretKeyJwtTokenProvider = secretKeyJwtTokenProvider;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.refreshTokenProvider = refreshTokenProvider;
         this.userRepository = userRepository;
     }
@@ -41,7 +41,7 @@ public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerifica
         this.deleteUsedCode(code);
         this.activateUser(user);
         System.out.println(user);
-        String jwtToken = this.secretKeyJwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
+        String jwtToken = this.jwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
         System.out.println(jwtToken);
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);
         return new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken());

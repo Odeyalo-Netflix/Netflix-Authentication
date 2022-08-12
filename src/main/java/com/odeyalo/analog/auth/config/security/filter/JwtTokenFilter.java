@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.config.security.filter;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
 import org.apache.http.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +20,11 @@ import java.io.IOException;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
-    private final JwtTokenProvider provider;
+    private final SecretKeyJwtTokenProvider provider;
     private final Logger LOGGER = LoggerFactory.getLogger(JwtTokenFilter.class);
     private final UserDetailsService userDetailsService;
 
-    public JwtTokenFilter(JwtTokenProvider tokenProvider, @Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
+    public JwtTokenFilter(SecretKeyJwtTokenProvider tokenProvider, @Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
         this.provider = tokenProvider;
         this.userDetailsService = userDetailsService;
     }

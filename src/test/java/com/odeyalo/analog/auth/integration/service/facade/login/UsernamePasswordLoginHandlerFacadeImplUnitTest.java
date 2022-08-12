@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.integration.service.facade.login;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
@@ -34,7 +34,7 @@ class UsernamePasswordLoginHandlerFacadeImplUnitTest {
     EventHandlerManager eventHandlerManager;
     @Spy
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    JwtTokenProvider jwtTokenProvider;
+    SecretKeyJwtTokenProvider secretKeyJwtTokenProvider;
     RefreshTokenProvider refreshTokenProvider;
     UsernamePasswordLoginHandler loginHandler;
     UsernamePasswordLoginHandlerFacadeImpl loginHandlerFacade;
@@ -55,21 +55,21 @@ class UsernamePasswordLoginHandlerFacadeImplUnitTest {
     void beforeAll() {
         this.userRepository = Mockito.mock(UserRepository.class);
         this.refreshTokenProvider = Mockito.mock(RefreshTokenProvider.class);
-        this.jwtTokenProvider = Mockito.mock(JwtTokenProvider.class);
+        this.secretKeyJwtTokenProvider = Mockito.mock(SecretKeyJwtTokenProvider.class);
         this.loginHandler = new UsernamePasswordLoginHandler(userRepository, passwordEncoder);
         this.eventHandlerManager = Mockito.mock(EventHandlerManager.class);
         this.loginHandlerFacade = new UsernamePasswordLoginHandlerFacadeImpl(
-                loginHandler, jwtTokenProvider, refreshTokenProvider,
+                loginHandler, secretKeyJwtTokenProvider, refreshTokenProvider,
                 eventHandlerManager);
-        ReflectionTestUtils.setField(jwtTokenProvider, "JWT_SECRET", JWT_TOKEN_TEST_SECRET_KEY, String.class);
-        ReflectionTestUtils.setField(jwtTokenProvider, "JWT_TOKEN_EXPIRATION_TIME", JWT_TOKEN_TEST_EXPIRY_TIME, Integer.class);
+        ReflectionTestUtils.setField(secretKeyJwtTokenProvider, "signingKey", JWT_TOKEN_TEST_SECRET_KEY.getBytes(), byte[].class);
+        ReflectionTestUtils.setField(secretKeyJwtTokenProvider, "JWT_TOKEN_EXPIRATION_TIME", JWT_TOKEN_TEST_EXPIRY_TIME, Integer.class);
     }
 
     @BeforeEach
     void setUp() {
         String encode = this.passwordEncoder.encode(CORRECT_USER_PASSWORD);
         User user = TestUtils.buildUser(USER_ID, CORRECT_USER_EMAIL, CORRECT_USER_NICKNAME, encode, false, AuthProvider.LOCAL, true, "", Role.USER);
-        Mockito.when(jwtTokenProvider.generateJwtToken(any(CustomUserDetails.class))).thenReturn(JWT_TOKEN_TEXT_VALUE);
+        Mockito.when(secretKeyJwtTokenProvider.generateJwtToken(any(CustomUserDetails.class))).thenReturn(JWT_TOKEN_TEXT_VALUE);
         Mockito.when(refreshTokenProvider.createAndSaveToken(user)).thenReturn(RefreshToken.builder().refreshToken(REFRESH_TOKEN_TEXT_VALUE).user(user).id(1).build());
         Mockito.when(userRepository.findUserByNickname(WRONG_USER_NICKNAME)).thenReturn(Optional.empty());
         Mockito.when(userRepository.findUserByNickname(CORRECT_USER_NICKNAME)).thenReturn(Optional.of(user));

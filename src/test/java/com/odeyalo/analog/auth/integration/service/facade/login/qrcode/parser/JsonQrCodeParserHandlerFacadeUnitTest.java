@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.integration.service.facade.login.qrcode.parser;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
@@ -46,7 +46,7 @@ class JsonQrCodeParserHandlerFacadeUnitTest {
     @Mock
     SimpMessagingTemplate template;
     @Mock
-    JwtTokenProvider jwtTokenProvider;
+    SecretKeyJwtTokenProvider secretKeyJwtTokenProvider;
     @Mock
     RefreshTokenProvider refreshTokenProvider;
     @Mock

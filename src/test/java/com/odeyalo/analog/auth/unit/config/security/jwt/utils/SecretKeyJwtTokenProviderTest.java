@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.unit.config.security.jwt.utils;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import io.jsonwebtoken.Claims;
@@ -13,19 +13,18 @@ import org.springframework.test.util.ReflectionTestUtils;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JwtTokenProviderTest {
-    JwtTokenProvider provider = new JwtTokenProvider();
+class SecretKeyJwtTokenProviderTest {
+    SecretKeyJwtTokenProvider provider = new SecretKeyJwtTokenProvider("secret");
     private CustomUserDetails details;
     private String JWT_TOKEN;
     private static final String INVALID_JWT_TOKEN = "INVALID_JWT_TOKEN";
     private static final String EXPECTED_JWT_USERNAME = "generated123";
     private static final String EXPECTED_JWT_EMAIL = "generated@gmail.com";
     private static final String EXPIRED_JWT_TOKEN =
-            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZW5lcmF0ZWQxMjMiLCJuaWNrbmFtZSI6ImdlbmVyYXRlZDEyMyIsImlkIjoxLCJleHAiOjE2NDgwNjEzMzksInVzZXJuYW1lIjoiZ2VuZXJhdGVkMTIzIn0.GH3KgOWGvEeKEwBGCWuTwBOIKWCqUMEb7fw3JIMRMzfpMyXT03dJ37RkQrwwKdS2i0y88pMdtRv_LXrD3QR3uQ";
+            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnZW5lcmF0ZWQxMjMiLCJyb2xlcyI6WyJVU0VSIl0sIm5pY2tuYW1lIjoiZ2VuZXJhdGVkMTIzIiwiaWQiOjEsImV4cCI6MTY2MDIwNTkzMSwidXNlcm5hbWUiOiJnZW5lcmF0ZWQxMjMifQ.sLlM8vrBA_QTMJEVzJRoT9-xjMOdIhV4wkrIOz6L71RTxiPIqNfuryno_LQlqZM06-424dSWzmgG49YOdHX_dg";
 
     @BeforeAll
     void setUp() {
-        ReflectionTestUtils.setField(provider, "JWT_SECRET", "secret", String.class);
         ReflectionTestUtils.setField(provider, "JWT_TOKEN_EXPIRATION_TIME", 600, Integer.class);
         this.details = new CustomUserDetails(TestUtils.buildGeneratedUser(1));
         this.JWT_TOKEN = this.provider.generateJwtToken(this.details);

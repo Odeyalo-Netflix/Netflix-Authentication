@@ -44,7 +44,7 @@ public class EmailNotificationUserLoggedInEventHandler implements UserLoggedInEv
                         user.getNickname(), time, HttpServletRequestUtils.getIPAddress(), HttpServletRequestUtils.getBrowserName(), HttpServletRequestUtils.getOperatingSystemName()),
                 user.getEmail());
         this.mailSender.send(message);
-        this.logger.info("Successful delivered message to user: {}, with message: {}", user, message);
+        this.logger.info("Successful delivered message to user: {}, with message: {}", user.getNickname(), message);
     }
 
     @Override

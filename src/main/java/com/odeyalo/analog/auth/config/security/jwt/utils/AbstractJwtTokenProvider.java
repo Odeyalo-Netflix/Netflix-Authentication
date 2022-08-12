@@ -73,6 +73,12 @@ public abstract class AbstractJwtTokenProvider implements JwtTokenProvider {
         return tokenTime.before(new Date());
     }
 
+    @Override
+    public String getNicknameFromToken(String token) {
+        Claims claims = this.getClaims(token);
+        return (String) claims.get("nickname");
+    }
+
     /**
      *
      * @param claims - claims for jwt token

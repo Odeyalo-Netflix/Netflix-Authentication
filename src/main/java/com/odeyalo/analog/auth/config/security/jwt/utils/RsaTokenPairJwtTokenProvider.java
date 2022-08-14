@@ -2,6 +2,7 @@ package com.odeyalo.analog.auth.config.security.jwt.utils;
 
 import com.odeyalo.analog.auth.exceptions.JwtParserConstructionException;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
+import com.odeyalo.analog.auth.support.KeyGenerator;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,18 +31,19 @@ public class RsaTokenPairJwtTokenProvider extends AbstractJwtTokenProvider {
     private JwtParser parser;
     @Value("${security.jwt.time.expiration}")
     private Integer JWT_TOKEN_EXPIRATION_TIME;
+    private final KeyGenerator generator;
 
     @Autowired
-    public RsaTokenPairJwtTokenProvider(Pair<PublicKey, PrivateKey> keys) {
+    public RsaTokenPairJwtTokenProvider(Pair<PublicKey, PrivateKey> keys, KeyGenerator generator) {
         super(keys.getLeft().getEncoded());
         this.privateSigningKey = keys.getRight();
+        this.generator = generator;
     }
 
     @PostConstruct
     public void init() throws JwtParserConstructionException {
         try {
-            KeyFactory factory = KeyFactory.getInstance("RSA");
-            PublicKey key = factory.generatePublic(new X509EncodedKeySpec(signingKey));
+            PublicKey key = this.generator.generatePublicKey("RSA", signingKey);
             this.parser = Jwts.parser().setSigningKey(key);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             this.logger.error("Cannot construct jwt parser with given error: ", e);

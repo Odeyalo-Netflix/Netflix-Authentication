@@ -6,7 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Profile;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -25,6 +25,7 @@ public class AppProperties {
     }
 
     @Bean
+    @Profile("write")
     public Pair<PublicKey, PrivateKey> publicKeyPrivateKeyPair(RsaTokenPairGenerator generator) throws NoSuchAlgorithmException {
         return generator.getRsaTokens();
     }

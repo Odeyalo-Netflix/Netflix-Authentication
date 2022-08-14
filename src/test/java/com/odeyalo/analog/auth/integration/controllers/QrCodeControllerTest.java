@@ -1,7 +1,7 @@
 package com.odeyalo.analog.auth.integration.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.repository.UserRepository;
@@ -63,7 +63,7 @@ class QrCodeControllerTest {
     private static final String USER_EMAIL_TEXT_VALUE = "email@gmail.com";
     private static final String USER_NICKNAME_TEXT_VALUE = "NICKNAME";
     @Autowired
-    JwtTokenProvider jwtTokenProvider;
+    SecretKeyJwtTokenProvider secretKeyJwtTokenProvider;
     @Value("${app.qrcode.path}")
     String QR_CODE_PATH_DIRECTORY_PATH;
     @Autowired
@@ -142,7 +142,7 @@ class QrCodeControllerTest {
     }
 
     public String generateJwtToken(User user) {
-        return this.jwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
+        return this.secretKeyJwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
     }
 
     @AfterEach

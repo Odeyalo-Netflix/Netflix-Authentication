@@ -147,4 +147,10 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
+
+    @Bean
+    public Pair<PublicKey, PrivateKey> publicKeyPrivateKeyPair(RsaTokenPairGenerator generator) throws NoSuchAlgorithmException {
+        return generator.getRsaTokens();
+    }
 }

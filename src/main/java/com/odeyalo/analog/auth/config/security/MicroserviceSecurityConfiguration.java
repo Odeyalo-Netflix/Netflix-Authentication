@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -146,11 +147,5 @@ public class MicroserviceSecurityConfiguration extends WebSecurityConfigurerAdap
         provider.setUserDetailsService(this.customUserDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
-    }
-
-
-    @Bean
-    public Pair<PublicKey, PrivateKey> publicKeyPrivateKeyPair(RsaTokenPairGenerator generator) throws NoSuchAlgorithmException {
-        return generator.getRsaTokens();
     }
 }

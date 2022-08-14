@@ -3,6 +3,7 @@ package com.odeyalo.analog.auth.config.security.jwt.utils;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.JwtParserConstructionException;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
+import com.odeyalo.analog.auth.support.DefaultKeyGenerator;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.tuple.Pair;
@@ -38,7 +39,7 @@ class RsaTokenPairJwtTokenProviderTest {
     RsaTokenPairJwtTokenProviderTest() throws NoSuchAlgorithmException, JwtParserConstructionException {
         RsaTokenPairGenerator generator = new RsaTokenPairGeneratorImpl();
         Pair<PublicKey, PrivateKey> rsaTokens = generator.getRsaTokens();
-        this.provider = new RsaTokenPairJwtTokenProvider(rsaTokens);
+        this.provider = new RsaTokenPairJwtTokenProvider(rsaTokens, new DefaultKeyGenerator());
         this.provider.init();
     }
 

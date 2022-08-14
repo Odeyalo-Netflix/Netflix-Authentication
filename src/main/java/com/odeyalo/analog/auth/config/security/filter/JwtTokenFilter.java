@@ -54,7 +54,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
-        //todo fix JWT token is unsupported: The parsed JWT indicates it was signed with the HS256 signature algorithm, but the specified signing key of type sun.security.rsa.RSAPublicKeyImpl may not be used to validate HS256 signatures.  Because the specified signing key reflects a specific and expected algorithm, and the JWT does not reflect this algorithm, it is likely that the JWT was not expected and therefore should not be trusted.  Another possibility is that the parser was configured with the incorrect signing key, but this cannot be assumed for security reasons.
+
     private String getJwtToken(HttpServletRequest request) {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Bearer ")) {

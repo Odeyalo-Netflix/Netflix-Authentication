@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.service.facade.qrcode.parser;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.dto.response.QrCodeDTO;
 import com.odeyalo.analog.auth.dto.response.QrCodeLoginSuccessMessageDTO;
@@ -28,7 +28,7 @@ import java.io.InputStream;
 public class JsonQrCodeParserHandlerFacade implements QrCodeParserHandlerFacade {
     private final QrCodeParser parser;
     private final WebSocketMessageChannelSender sender;
-    private final SecretKeyJwtTokenProvider secretKeyJwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenProvider refreshTokenProvider;
 
     private final Logger logger = LoggerFactory.getLogger(JsonQrCodeParserHandlerFacade.class);
@@ -36,11 +36,11 @@ public class JsonQrCodeParserHandlerFacade implements QrCodeParserHandlerFacade 
 
     public JsonQrCodeParserHandlerFacade(QrCodeParser parser,
                                          WebSocketMessageChannelSender sender,
-                                         SecretKeyJwtTokenProvider secretKeyJwtTokenProvider,
+                                         JwtTokenProvider jwtTokenProvider,
                                          RefreshTokenProvider refreshTokenProvider) {
         this.parser = parser;
         this.sender = sender;
-        this.secretKeyJwtTokenProvider = secretKeyJwtTokenProvider;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.refreshTokenProvider = refreshTokenProvider;
     }
 
@@ -61,7 +61,7 @@ public class JsonQrCodeParserHandlerFacade implements QrCodeParserHandlerFacade 
     }
 
     private GenericMessage<QrCodeLoginSuccessMessageDTO> getOnSuccessMessageDto(CustomUserDetails details, User user) {
-        String jwtToken = this.secretKeyJwtTokenProvider.generateJwtToken(details);
+        String jwtToken = this.jwtTokenProvider.generateJwtToken(details);
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);
         return new GenericMessage<>(new QrCodeLoginSuccessMessageDTO(new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken())));
     }

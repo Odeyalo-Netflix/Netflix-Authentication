@@ -1,7 +1,7 @@
 package com.odeyalo.analog.auth.integration.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.repository.UserRepository;
@@ -9,6 +9,7 @@ import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -63,7 +64,8 @@ class QrCodeControllerTest {
     private static final String USER_EMAIL_TEXT_VALUE = "email@gmail.com";
     private static final String USER_NICKNAME_TEXT_VALUE = "NICKNAME";
     @Autowired
-    SecretKeyJwtTokenProvider secretKeyJwtTokenProvider;
+    @Qualifier("rsaTokenPairJwtTokenProvider")
+    JwtTokenProvider jwtTokenProvider;
     @Value("${app.qrcode.path}")
     String QR_CODE_PATH_DIRECTORY_PATH;
     @Autowired
@@ -142,7 +144,7 @@ class QrCodeControllerTest {
     }
 
     public String generateJwtToken(User user) {
-        return this.secretKeyJwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
+        return this.jwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
     }
 
     @AfterEach

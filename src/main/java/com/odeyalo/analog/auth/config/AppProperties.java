@@ -22,9 +22,4 @@ public class AppProperties {
     public List<String> getAuthorizedRedirectUris() {
         return authorizedRedirectUris;
     }
-
-    @Bean
-    public Pair<PublicKey, PrivateKey> publicKeyPrivateKeyPair(RsaTokenPairGenerator generator) throws NoSuchAlgorithmException {
-        return generator.getRsaTokens();
-    }
 }

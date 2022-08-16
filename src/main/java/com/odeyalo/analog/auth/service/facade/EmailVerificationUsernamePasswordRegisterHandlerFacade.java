@@ -26,6 +26,6 @@ public class EmailVerificationUsernamePasswordRegisterHandlerFacade implements U
     public JwtTokenResponseDTO save(User user) throws AuthException {
         this.registerHandler.register(user);
         this.mailSender.generateAndSend(user, CodeGenerator.DEFAULT_CODE_LENGTH);
-        return new JwtTokenResponseDTO(true, null, null);
+        return new JwtTokenResponseDTO(false, null, null);
     }
 }

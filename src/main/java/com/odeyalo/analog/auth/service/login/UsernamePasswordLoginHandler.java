@@ -4,7 +4,6 @@ import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.exceptions.LoginException;
 import com.odeyalo.analog.auth.exceptions.UserNotExistException;
 import com.odeyalo.analog.auth.repository.UserRepository;
-import com.odeyalo.analog.auth.service.validators.RequestUserDTOValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;

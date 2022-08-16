@@ -25,7 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (!optionalUser.isPresent())
             throw new UsernameNotFoundException(format("User with name: %s not found", username));
         User user = optionalUser.get();
-        user.setPassword(user.getPassword());
         return new CustomUserDetails(user);
     }
 }

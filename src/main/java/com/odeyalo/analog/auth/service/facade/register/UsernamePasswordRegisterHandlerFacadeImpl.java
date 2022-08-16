@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.service.facade.register;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
@@ -14,11 +14,11 @@ import javax.security.auth.message.AuthException;
 
 @Service
 public class UsernamePasswordRegisterHandlerFacadeImpl implements UsernamePasswordRegisterHandlerFacade {
-    private final SecretKeyJwtTokenProvider tokenProvider;
+    private final JwtTokenProvider tokenProvider;
     private final RegisterHandler registerHandler;
     private final RefreshTokenProvider refreshTokenProvider;
 
-    public UsernamePasswordRegisterHandlerFacadeImpl(SecretKeyJwtTokenProvider tokenProvider, @Qualifier("usernamePasswordRegisterHandler") RegisterHandler registerHandler, RefreshTokenProvider refreshTokenProvider) {
+    public UsernamePasswordRegisterHandlerFacadeImpl(JwtTokenProvider tokenProvider, @Qualifier("usernamePasswordRegisterHandler") RegisterHandler registerHandler, RefreshTokenProvider refreshTokenProvider) {
         this.tokenProvider = tokenProvider;
         this.registerHandler = registerHandler;
         this.refreshTokenProvider = refreshTokenProvider;

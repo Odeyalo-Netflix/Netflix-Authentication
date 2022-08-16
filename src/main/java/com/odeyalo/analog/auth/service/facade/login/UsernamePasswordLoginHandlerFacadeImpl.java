@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.service.facade.login;
 
-import com.odeyalo.analog.auth.config.security.jwt.utils.SecretKeyJwtTokenProvider;
+import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
@@ -20,13 +20,13 @@ import java.time.LocalDateTime;
 @Service
 public class UsernamePasswordLoginHandlerFacadeImpl implements UsernamePasswordLoginHandlerFacade {
     private final LoginHandler usernamePasswordLoginHandler;
-    private final SecretKeyJwtTokenProvider provider;
+    private final JwtTokenProvider provider;
     private final RefreshTokenProvider refreshTokenProvider;
     private final EventHandlerManager eventHandler;
 
     @Autowired
     public UsernamePasswordLoginHandlerFacadeImpl(@Qualifier("usernamePasswordLoginHandler") LoginHandler usernamePasswordLoginHandler,
-                                                  SecretKeyJwtTokenProvider provider,
+                                                  JwtTokenProvider provider,
                                                   RefreshTokenProvider refreshTokenProvider, EventHandlerManager eventHandler) {
         this.usernamePasswordLoginHandler = usernamePasswordLoginHandler;
         this.provider = provider;
@@ -39,7 +39,7 @@ public class UsernamePasswordLoginHandlerFacadeImpl implements UsernamePasswordL
         User user = this.usernamePasswordLoginHandler.login(dto);
         String jwtToken = this.provider.generateJwtToken(new CustomUserDetails(user));
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);
-        fireUserLoggedInEvent(user);
+//        fireUserLoggedInEvent(user);
         return new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken());
     }
 

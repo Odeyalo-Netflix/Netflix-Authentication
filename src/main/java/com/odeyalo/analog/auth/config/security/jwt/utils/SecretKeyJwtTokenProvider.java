@@ -16,7 +16,7 @@ import java.util.Map;
 public class SecretKeyJwtTokenProvider extends AbstractJwtTokenProvider {
     @Value("${security.jwt.time.expiration}")
     private Integer JWT_TOKEN_EXPIRATION_TIME;
-    private JwtParser jwtParser;
+    private final JwtParser jwtParser;
 
     @Autowired
     public SecretKeyJwtTokenProvider(@Value("${security.jwt.secret}") String signingKey) {

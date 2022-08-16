@@ -1,5 +1,6 @@
 package com.odeyalo.analog.auth.config;
 
+import com.odeyalo.analog.auth.config.security.jwt.utils.RsaTokenPairGenerator;
 import com.odeyalo.analog.auth.exceptions.KeyConstructionException;
 import com.odeyalo.analog.auth.support.*;
 import org.apache.commons.lang3.tuple.Pair;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
@@ -28,19 +30,29 @@ public class RsaTokenConfiguration {
     }
 
     @Bean
-    @Profile("write")
-    public RsaTokenPairFileWriter rsaTokenPairFileWriter() {
-        return new RsaTokenPairFileWriter();
-    }
-    @Bean
     @Profile("read")
     public PublicKeyFileReader publicKeyFileReader() {
         return new PublicKeyFileReader(keyGenerator());
     }
+
     @Bean
     @Profile("read")
     public PrivateKeyFileReader privateKeyFileReader() {
         return new PrivateKeyFileReader(keyGenerator());
+    }
+
+
+    @Bean
+    @Profile("write")
+    public Pair<PublicKey, PrivateKey> generateTokens(RsaTokenPairGenerator generator) throws NoSuchAlgorithmException {
+        return generator.getRsaTokens();
+    }
+
+
+    @Bean
+    @Profile("write")
+    public RsaTokenPairFileWriter rsaTokenPairFileWriter() {
+        return new RsaTokenPairFileWriter();
     }
 
     @Bean

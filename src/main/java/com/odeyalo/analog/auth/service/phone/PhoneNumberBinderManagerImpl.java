@@ -57,7 +57,6 @@ public class PhoneNumberBinderManagerImpl implements PhoneNumberBinderManager {
             throw new CodeVerificationException("The code is already expired. Please try another code");
         }
         User user = verificationCode.getUser();
-        user.setPhoneNumber(newPhoneNumber);
         this.phoneNumberBinder.bindUserPhone(user, newPhoneNumber);
     }
 

@@ -6,8 +6,8 @@ import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.exceptions.LoginException;
 import com.odeyalo.analog.auth.service.events.EventHandlerManager;
-import com.odeyalo.analog.auth.service.events.EventType;
-import com.odeyalo.analog.auth.service.events.UserLoggedInEvent;
+import com.odeyalo.analog.auth.service.events.login.AbstractUserLoggedInEventHandler;
+import com.odeyalo.analog.auth.service.events.login.UserLoggedInEvent;
 import com.odeyalo.analog.auth.service.login.LoginHandler;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
@@ -45,6 +45,6 @@ public class UsernamePasswordLoginHandlerFacadeImpl implements UsernamePasswordL
 
 
     private void fireUserLoggedInEvent(User user) {
-        this.eventHandler.notifySpecialEventHandlers(EventType.USER_LOGGED_IN, new UserLoggedInEvent(user, LocalDateTime.now()));
+        this.eventHandler.notifySpecialEventHandlers(AbstractUserLoggedInEventHandler.USER_LOGGED_IN_EVENT_VALUE, new UserLoggedInEvent(user, LocalDateTime.now()));
     }
 }

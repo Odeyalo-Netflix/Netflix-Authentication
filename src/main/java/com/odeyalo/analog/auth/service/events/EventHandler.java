@@ -6,7 +6,7 @@ public interface EventHandler {
 
     void handleEvent(Event event);
 
-    EventType getEventType();
+    String getEventType();
 
     @Autowired
     default void registerEventHandler(EventHandlerManager manager) {

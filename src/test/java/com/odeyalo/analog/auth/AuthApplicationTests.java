@@ -1,5 +1,6 @@
 package com.odeyalo.analog.auth;
 
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +11,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest
-@TestPropertySource("classpath:application-test.properties")
-class AuthApplicationTests {
+class AuthApplicationTests extends AbstractIntegrationTest {
     @Autowired
     Environment environment;
     private final Logger logger = LoggerFactory.getLogger(AuthApplicationTests.class);

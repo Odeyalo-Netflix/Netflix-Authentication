@@ -4,6 +4,7 @@ import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.EmailExistException;
 import com.odeyalo.analog.auth.exceptions.NicknameExistException;
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.register.UsernamePasswordRegisterHandler;
 import com.odeyalo.analog.auth.utils.TestUtils;
@@ -16,11 +17,7 @@ import org.springframework.test.context.TestPropertySource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UsernamePasswordRegisterHandlerTest {
+class UsernamePasswordRegisterHandlerTest extends AbstractIntegrationTest {
 
     @Autowired
     private UsernamePasswordRegisterHandler registerHandler;

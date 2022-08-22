@@ -11,6 +11,7 @@ import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.VerificationCode;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
@@ -37,12 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AuthControllerTest {
+class AuthControllerTest extends AbstractIntegrationTest {
     @MockBean(name = "kafkaBrokerMicroserviceDelegateMailSender")
     private MailSender sender;
     @Autowired

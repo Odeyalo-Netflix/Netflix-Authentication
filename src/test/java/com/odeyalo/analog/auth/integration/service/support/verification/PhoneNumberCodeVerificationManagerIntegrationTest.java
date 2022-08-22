@@ -4,6 +4,7 @@ import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.VerificationCode;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.repository.VerificationCodeRepository;
 import com.odeyalo.analog.auth.service.support.generatators.CodeGenerator;
@@ -26,12 +27,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-class PhoneNumberCodeVerificationManagerIntegrationTest {
+class PhoneNumberCodeVerificationManagerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     PhoneNumberCodeVerificationManager codeVerificationManager;
     @Autowired

@@ -1,6 +1,7 @@
 package com.odeyalo.analog.auth.integration.service.support;
 
 import com.odeyalo.analog.auth.entity.enums.Role;
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.support.UserNicknameChecker;
 import com.odeyalo.analog.auth.utils.TestUtils;
@@ -13,11 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest
-class UserNicknameCheckerTest {
+class UserNicknameCheckerTest extends AbstractIntegrationTest {
     @Autowired
     private UserNicknameChecker nicknameChecker;
     @Autowired

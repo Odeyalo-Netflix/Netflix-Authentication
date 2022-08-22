@@ -1,35 +1,30 @@
 package com.odeyalo.analog.auth.service.events;
 
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
+public interface EventHandlerManager {
+    /**
+     * Subscribe event handler to specific event type
+     * @param eventType - event type
+     * @param eventHandler - event handler
+     */
+    void subscribeToEvent(String eventType, EventHandler eventHandler);
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+    /**
+     * Unsubscribe all event handlers by event type
+     * @param eventType - unique event type
+     */
+    void unsubscribeAllFromEvent(String eventType);
 
-@Component
-public class EventHandlerManager {
-    private final Map<EventType, List<EventHandler>> events = new HashMap<>();
+    /**
+     * Unsubscribe specific event handler from event type
+     * @param eventType - event type
+     * @param eventHandler - event handler to unsub
+     */
+    void unsubscribeFromEvent(String eventType, EventHandler eventHandler);
 
-    public void subscribeToEvent(EventType eventType, EventHandler eventHandler) {
-        List<EventHandler> eventHandlers = events.get(eventType);
-        if(eventHandlers == null) {
-            eventHandlers = new ArrayList<>();
-            this.events.put(eventType, eventHandlers);
-        }
-        eventHandlers.add(eventHandler);
-    }
-
-    public void unsubscribeFromEvent(EventType eventType) {
-        this.events.remove(eventType);
-    }
-
-    @Async
-    public void notifySpecialEventHandlers(EventType eventType, Event event) {
-        List<EventHandler> eventHandlers = this.events.get(eventType);
-        for (EventHandler eventHandler : eventHandlers) {
-            eventHandler.handleEvent(event);
-        }
-    }
+    /**
+     * Notify all events that subscribed to specific event type
+     * @param eventType - unique event type
+     * @param event - event that need to event handler
+     */
+    void notifySpecialEventHandlers(String eventType, Event event);
 }

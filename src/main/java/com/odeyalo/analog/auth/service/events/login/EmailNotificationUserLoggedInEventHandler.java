@@ -1,35 +1,32 @@
-package com.odeyalo.analog.auth.service.events;
+package com.odeyalo.analog.auth.service.events.login;
 
 import com.odeyalo.analog.auth.entity.User;
+import com.odeyalo.analog.auth.service.events.Event;
 import com.odeyalo.analog.auth.service.sender.mail.GenericMailMessage;
 import com.odeyalo.analog.auth.service.sender.mail.MailSender;
 import com.odeyalo.analog.auth.service.support.HttpServletRequestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 /**
  * Send email notification when someone logged in user account
  */
 @Component
-public class EmailNotificationUserLoggedInEventHandler implements UserLoggedInEventHandler {
-    private final Logger logger = LoggerFactory.getLogger(EmailNotificationUserLoggedInEventHandler.class);
+public class EmailNotificationUserLoggedInEventHandler extends AbstractUserLoggedInEventHandler {
     private final MailSender mailSender;
 
+    @Autowired
     public EmailNotificationUserLoggedInEventHandler(@Qualifier("kafkaBrokerMicroserviceDelegateMailSender") MailSender mailSender) {
         this.mailSender = mailSender;
     }
 
     @Override
     public void handleEvent(Event event) {
-        if (!(event.getEventType() == EventType.USER_LOGGED_IN)) {
-            this.logger.error("Wrong event was received. Expected event: {}, event type that was received: {}", EventType.USER_LOGGED_IN, event.getEventType());
+        if (!(event.getEventType().equals(USER_LOGGED_IN_EVENT_VALUE))) {
+            this.logger.error("Wrong event was received. Expected event: {}, event type that was received: {}", USER_LOGGED_IN_EVENT_VALUE, event.getEventType());
             return;
         }
         if (!(event instanceof UserLoggedInEvent)) {
@@ -45,10 +42,5 @@ public class EmailNotificationUserLoggedInEventHandler implements UserLoggedInEv
                 user.getEmail());
         this.mailSender.send(message);
         this.logger.info("Successful delivered message to user: {}, with message: {}", user.getNickname(), message);
-    }
-
-    @Override
-    public EventType getEventType() {
-        return EventType.USER_LOGGED_IN;
     }
 }

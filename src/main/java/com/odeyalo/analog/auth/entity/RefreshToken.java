@@ -10,7 +10,7 @@ import java.time.Instant;
 @Table(name = "refresh_tokens")
 public class RefreshToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @OneToOne
     @JoinColumn(name = "user_id")

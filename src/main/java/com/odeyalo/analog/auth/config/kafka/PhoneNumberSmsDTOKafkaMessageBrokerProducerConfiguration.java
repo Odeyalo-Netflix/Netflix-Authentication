@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.config.kafka;
 
-import com.odeyalo.analog.auth.dto.PhoneNumberSmsDTO;
+import com.odeyalo.support.clients.dto.PhoneNumberSmsDTO;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

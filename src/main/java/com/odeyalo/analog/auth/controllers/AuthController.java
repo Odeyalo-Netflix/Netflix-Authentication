@@ -1,7 +1,6 @@
 package com.odeyalo.analog.auth.controllers;
 
-import com.odeyalo.analog.auth.dto.*;
-import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
+import com.odeyalo.analog.auth.dto.request.*;
 import com.odeyalo.analog.auth.dto.response.JwtTokenResponseDTO;
 import com.odeyalo.analog.auth.dto.response.RefreshTokenResponseDTO;
 import com.odeyalo.analog.auth.exceptions.ValidationException;

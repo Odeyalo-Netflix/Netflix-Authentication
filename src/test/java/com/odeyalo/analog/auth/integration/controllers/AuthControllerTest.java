@@ -1,10 +1,10 @@
 package com.odeyalo.analog.auth.integration.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odeyalo.analog.auth.dto.EmailMethodPasswordRecoveryDTO;
-import com.odeyalo.analog.auth.dto.LoginUserDTO;
-import com.odeyalo.analog.auth.dto.NewPasswordDTO;
-import com.odeyalo.analog.auth.dto.RegisterUserDTO;
+import com.odeyalo.analog.auth.dto.request.EmailMethodPasswordRecoveryDTO;
+import com.odeyalo.analog.auth.dto.request.LoginUserDTO;
+import com.odeyalo.analog.auth.dto.request.NewPasswordDTO;
+import com.odeyalo.analog.auth.dto.request.RegisterUserDTO;
 import com.odeyalo.analog.auth.dto.request.RefreshTokenRequest;
 import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
@@ -20,13 +20,10 @@ import com.odeyalo.analog.auth.service.sender.mail.MailSender;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;

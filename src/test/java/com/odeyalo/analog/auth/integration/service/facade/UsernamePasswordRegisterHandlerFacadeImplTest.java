@@ -8,12 +8,14 @@ import com.odeyalo.analog.auth.exceptions.NicknameExistException;
 import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
+import com.odeyalo.analog.auth.service.events.EventHandlerManager;
 import com.odeyalo.analog.auth.service.facade.register.UsernamePasswordRegisterHandlerFacadeImpl;
 import com.odeyalo.analog.auth.utils.TestUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 
 import javax.security.auth.message.AuthException;
@@ -21,6 +23,8 @@ import javax.security.auth.message.AuthException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UsernamePasswordRegisterHandlerFacadeImplTest extends AbstractIntegrationTest {
+    @MockBean
+    EventHandlerManager eventManager;
     @Autowired
     private UsernamePasswordRegisterHandlerFacadeImpl registerHandlerFacade;
     @Autowired

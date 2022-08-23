@@ -8,6 +8,13 @@ public interface EventHandler {
 
     String getEventType();
 
+    /**
+     * Checks event
+     * @param event - event to check
+     * @return - true if event is correct, otherwise - false
+     */
+    boolean checkIncomingEvent(Event event);
+
     @Autowired
     default void registerEventHandler(EventHandlerManager manager) {
         manager.subscribeToEvent(getEventType(), this);

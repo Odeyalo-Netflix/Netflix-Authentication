@@ -1,11 +1,16 @@
-package com.odeyalo.analog.auth.dto;
+package com.odeyalo.analog.auth.dto.request;
 
-public class LoginUserDTO {
+public class RegisterUserDTO {
+
     private String nickname;
+    private String email;
     private String password;
 
-    public LoginUserDTO(String nickname, String password) {
+    public RegisterUserDTO() {}
+
+    public RegisterUserDTO(String nickname, String email, String password) {
         this.nickname = nickname;
+        this.email = email;
         this.password = password;
     }
 
@@ -15,6 +20,14 @@ public class LoginUserDTO {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

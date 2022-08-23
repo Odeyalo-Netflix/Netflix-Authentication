@@ -1,4 +1,4 @@
-package com.odeyalo.analog.auth.dto;
+package com.odeyalo.analog.auth.dto.request;
 
 public class PhoneApplicationQrCodeScanAuthenticationDTO {
     private String from;

@@ -5,6 +5,7 @@ import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.UserNotExistException;
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.events.EventHandlerManager;
@@ -20,11 +21,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UsernamePasswordLoginHandlerFacadeImplTest {
+class UsernamePasswordLoginHandlerFacadeImplTest extends AbstractIntegrationTest {
     @Autowired
     private UsernamePasswordLoginHandlerFacadeImpl loginHandlerFacade;
     @Autowired

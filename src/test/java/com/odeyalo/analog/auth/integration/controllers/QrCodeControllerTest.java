@@ -4,20 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.utils.TestUtils;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
@@ -29,12 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class QrCodeControllerTest {
+class QrCodeControllerTest extends AbstractIntegrationTest {
     private static final String QR_CODE_CONTROLLER_GENERATE_ENDPOINT = "/qrcode/generate";
     private static final String QR_CODE_CONTROLLER_VERIFY_ENDPOINT = "/qrcode/verify";
     private static final String CLIENT_ID = "DM-HSJCLaNc";

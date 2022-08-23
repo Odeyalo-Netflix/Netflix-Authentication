@@ -4,6 +4,7 @@ import com.odeyalo.analog.auth.entity.RefreshToken;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.Role;
 import com.odeyalo.analog.auth.exceptions.RefreshTokenException;
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.RefreshTokenRepository;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.refresh.DefaultRefreshTokenProvider;
@@ -20,11 +21,7 @@ import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class DefaultRefreshTokenProviderTest {
+class DefaultRefreshTokenProviderTest extends AbstractIntegrationTest {
     @Autowired
     private DefaultRefreshTokenProvider refreshTokenHandler;
     @Autowired

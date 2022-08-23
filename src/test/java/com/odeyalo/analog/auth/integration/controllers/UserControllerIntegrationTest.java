@@ -5,6 +5,7 @@ import com.odeyalo.analog.auth.config.security.jwt.utils.JwtTokenProvider;
 import com.odeyalo.analog.auth.entity.User;
 import com.odeyalo.analog.auth.entity.enums.AuthProvider;
 import com.odeyalo.analog.auth.entity.enums.Role;
+import com.odeyalo.analog.auth.integration.AbstractIntegrationTest;
 import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import org.apache.http.HttpHeaders;
@@ -23,12 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:application-test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class UserControllerIntegrationTest {
+public class UserControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     @Qualifier("rsaTokenPairJwtTokenProvider")
     private JwtTokenProvider jwtTokenProvider;

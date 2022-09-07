@@ -8,13 +8,16 @@ import com.odeyalo.analog.auth.entity.VerificationCode;
 import com.odeyalo.analog.auth.exceptions.CodeVerificationException;
 import com.odeyalo.analog.auth.service.events.EventHandlerManager;
 import com.odeyalo.analog.auth.service.events.register.AbstractUserRegisteredEventHandler;
+import com.odeyalo.analog.auth.service.events.register.AbstractUserRegistrationConfirmedEventHandler;
 import com.odeyalo.analog.auth.service.events.register.UserRegisteredEvent;
+import com.odeyalo.analog.auth.service.events.register.UserRegistrationConfirmedEvent;
 import com.odeyalo.analog.auth.service.refresh.RefreshTokenProvider;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import com.odeyalo.analog.auth.service.support.verification.CodeVerificationManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -45,7 +48,7 @@ public class EmailCodeVerificationHandlerFacadeImpl implements EmailCodeVerifica
         this.activateUser(user);
         String jwtToken = this.jwtTokenProvider.generateJwtToken(new CustomUserDetails(user));
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);
-        this.eventHandlerManager.notifySpecialEventHandlers(AbstractUserRegisteredEventHandler.USER_REGISTERED_EVENT_VALUE, new UserRegisteredEvent(user));
+        this.eventHandlerManager.notifySpecialEventHandlers(AbstractUserRegistrationConfirmedEventHandler.USER_REGISTRATION_CONFIRMED_EVENT_VALUE, new UserRegistrationConfirmedEvent(user, LocalDateTime.now()));
         return new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken());
     }
 

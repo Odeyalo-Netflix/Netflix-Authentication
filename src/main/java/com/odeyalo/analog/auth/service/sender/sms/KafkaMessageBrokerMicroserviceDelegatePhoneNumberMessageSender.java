@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.service.sender.sms;
 
-import com.odeyalo.analog.auth.dto.PhoneNumberSmsDTO;
+import com.odeyalo.support.clients.dto.PhoneNumberSmsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

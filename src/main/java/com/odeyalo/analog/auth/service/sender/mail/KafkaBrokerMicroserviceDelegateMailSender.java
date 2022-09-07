@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.service.sender.mail;
 
-import com.odeyalo.analog.auth.dto.EmailMessageDTO;
+import com.odeyalo.support.clients.notification.dto.EmailMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,11 @@ public class KafkaBrokerMicroserviceDelegateMailSender implements MailSender {
 
     @Override
     public void send(GenericMailMessage message) {
-        ListenableFuture<SendResult<String, EmailMessageDTO>> result = this.mailSenderKafkaTemplate.send(KAFKA_BROKER_MAIL_SENDER_TOPIC_ENTRYPOINT, EmailMessageDTO.from(message));
+        ListenableFuture<SendResult<String, EmailMessageDTO>> result = this.mailSenderKafkaTemplate.send(KAFKA_BROKER_MAIL_SENDER_TOPIC_ENTRYPOINT,
+                new EmailMessageDTO(message.getTo(), message.getBody(), message.getBody()));
         result.addCallback(new SuccessCallback<SendResult<String, EmailMessageDTO>>() {
             private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
             @Override
             public void onSuccess(SendResult<String, EmailMessageDTO> result) {
                 this.logger.info("Success delivered message to topic {} with headers {}, value in message was: {}",
@@ -42,6 +44,7 @@ public class KafkaBrokerMicroserviceDelegateMailSender implements MailSender {
             }
         }, new FailureCallback() {
             private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
             @Override
             public void onFailure(Throwable ex) {
                 logger.error("Message delivered failed, exception message: {}, stacktrace: {}", ex.getMessage(), ex.fillInStackTrace());

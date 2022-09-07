@@ -1,6 +1,6 @@
 package com.odeyalo.analog.auth.controllers;
 
-import com.odeyalo.analog.auth.dto.ChangeUserPhoneNumberDTO;
+import com.odeyalo.analog.auth.dto.request.ChangeUserPhoneNumberDTO;
 import com.odeyalo.analog.auth.service.phone.PhoneNumberBinderManager;
 import com.odeyalo.analog.auth.service.support.CustomUserDetails;
 import org.slf4j.Logger;

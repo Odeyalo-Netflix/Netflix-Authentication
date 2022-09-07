@@ -1,7 +1,7 @@
 package com.odeyalo.analog.auth.service.support;
 
-import com.odeyalo.analog.auth.dto.LoginUserDTO;
-import com.odeyalo.analog.auth.dto.RegisterUserDTO;
+import com.odeyalo.analog.auth.dto.request.LoginUserDTO;
+import com.odeyalo.analog.auth.dto.request.RegisterUserDTO;
 import com.odeyalo.analog.auth.entity.User;
 
 public class UserConverter {

@@ -27,6 +27,7 @@ public class AsyncEventHandlerManager implements EventHandlerManager {
             this.events.put(eventType, eventHandlers);
         }
         eventHandlers.add(eventHandler);
+        this.logger.info("Added to event handlers: {} with event type: {}", eventHandler, eventType);
     }
 
     @Override

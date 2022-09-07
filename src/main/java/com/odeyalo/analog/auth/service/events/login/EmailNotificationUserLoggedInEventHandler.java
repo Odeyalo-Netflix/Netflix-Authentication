@@ -25,12 +25,8 @@ public class EmailNotificationUserLoggedInEventHandler extends AbstractUserLogge
 
     @Override
     public void handleEvent(Event event) {
-        if (!(event.getEventType().equals(USER_LOGGED_IN_EVENT_VALUE))) {
-            this.logger.error("Wrong event was received. Expected event: {}, event type that was received: {}", USER_LOGGED_IN_EVENT_VALUE, event.getEventType());
-            return;
-        }
-        if (!(event instanceof UserLoggedInEvent)) {
-            this.logger.error("Wrong event class was received. Excepted class: {}, received class: {}", UserLoggedInEvent.class.getName(), event.getClass().getName());
+        boolean isEventCorrect = checkIncomingEvent(event);
+        if (!isEventCorrect) {
             return;
         }
         UserLoggedInEvent userLoggedInEvent = (UserLoggedInEvent) event;

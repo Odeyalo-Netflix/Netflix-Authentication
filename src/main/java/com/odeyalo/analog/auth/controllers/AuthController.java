@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.message.AuthException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -55,7 +57,11 @@ public class AuthController {
             throw new ValidationException(validationResult.getMessage());
         }
         this.registerHandler.save(UserConverter.convertToUser(userDTO));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", HttpStatus.ACCEPTED);
+        body.put("description", "To complete authorization you need to confirm your email");
+        body.put("verificationCodePath", "/verify/code");
+        return ResponseEntity.accepted().body(body);
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)

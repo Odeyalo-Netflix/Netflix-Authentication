@@ -104,13 +104,13 @@ class AuthControllerTest extends AbstractIntegrationTest {
 
     @Test
     @DisplayName("auth with correct email and password and except201")
-    void authWithCorrectEmailAndPasswordAndExcept201() throws Exception {
+    void authWithCorrectEmailAndPasswordAndExcept202() throws Exception {
         RegisterUserDTO dto = new RegisterUserDTO(USER_NICKNAME, USER_EMAIL, USER_PASSWORD);
         String value = this.mapper.writeValueAsString(dto);
         this.mockMvc.perform(post(AUTH_ENTRYPOINT).content(value)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isAccepted());
     }
 
     @Test

@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+/**
+ * Sends a letter to user when user confirmed the email and was successfully registered
+ */
 @Service
-public class WelcomeEmailLetterSenderUserRegisteredEventHandler extends AbstractUserRegisteredEventHandler {
+public class WelcomeEmailLetterSenderUserRegistrationConfirmedEventHandler extends AbstractUserRegistrationConfirmedEventHandler {
     private final MailSender mailSender;
 
     @Autowired
-    public WelcomeEmailLetterSenderUserRegisteredEventHandler(@Qualifier("kafkaBrokerMicroserviceDelegateMailSender") MailSender mailSender) {
+    public WelcomeEmailLetterSenderUserRegistrationConfirmedEventHandler(@Qualifier("kafkaBrokerMicroserviceDelegateMailSender") MailSender mailSender) {
         this.mailSender = mailSender;
     }
 
@@ -22,7 +25,7 @@ public class WelcomeEmailLetterSenderUserRegisteredEventHandler extends Abstract
         if (!isEventCorrect) {
             return;
         }
-        User user = ((UserRegisteredEvent) event).getUser();
+        User user = ((UserRegistrationConfirmedEvent) event).getUser();
         this.mailSender.send("Hello, " + user.getNickname() + " We are so glad to see you on Netflix!", "Welcome to Netflix", user.getEmail());
     }
 }

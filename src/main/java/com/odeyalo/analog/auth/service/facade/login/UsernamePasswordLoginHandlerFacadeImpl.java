@@ -39,7 +39,7 @@ public class UsernamePasswordLoginHandlerFacadeImpl implements UsernamePasswordL
         User user = this.usernamePasswordLoginHandler.login(dto);
         String jwtToken = this.provider.generateJwtToken(new CustomUserDetails(user));
         RefreshToken refreshToken = this.refreshTokenProvider.createAndSaveToken(user);
-        fireUserLoggedInEvent(user);
+//        fireUserLoggedInEvent(user);
         return new JwtTokenResponseDTO(true, jwtToken, refreshToken.getRefreshToken());
     }
 

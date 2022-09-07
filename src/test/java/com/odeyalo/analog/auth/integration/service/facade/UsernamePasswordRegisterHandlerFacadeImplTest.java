@@ -11,12 +11,12 @@ import com.odeyalo.analog.auth.repository.UserRepository;
 import com.odeyalo.analog.auth.service.events.EventHandlerManager;
 import com.odeyalo.analog.auth.service.facade.register.UsernamePasswordRegisterHandlerFacadeImpl;
 import com.odeyalo.analog.auth.utils.TestUtils;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.TestPropertySource;
 
 import javax.security.auth.message.AuthException;
 

@@ -2,7 +2,6 @@ package com.odeyalo.analog.auth.service.events.register;
 
 import com.odeyalo.analog.auth.service.events.Event;
 import com.odeyalo.analog.auth.service.events.EventHandler;
-import com.odeyalo.analog.auth.service.events.login.UserLoggedInEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

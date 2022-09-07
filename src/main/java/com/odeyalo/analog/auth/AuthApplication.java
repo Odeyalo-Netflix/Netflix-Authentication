@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationPropertiesScan
 @EnableEurekaClient
 @EnableFeignClients(basePackages = "com.odeyalo.support.clients")
-@PropertySource("classpath:clients.default.properties")
+@PropertySource("classpath:clients.local.properties")
 public class AuthApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);

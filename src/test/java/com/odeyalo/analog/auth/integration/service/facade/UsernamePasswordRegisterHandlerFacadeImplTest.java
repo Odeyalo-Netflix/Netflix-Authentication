@@ -38,7 +38,7 @@ class UsernamePasswordRegisterHandlerFacadeImplTest extends AbstractIntegrationT
     private static final String EXISTED_USER_NICKNAME = "existedNickname";
 
     @BeforeEach
-    void  setUp() {
+    void setUp() {
         User user = TestUtils.buildUser(EXISTED_USER_EMAIL, EXISTED_USER_NICKNAME, USER_PASSWORD, false, Role.USER);
         this.userRepository.save(user);
     }
